@@ -1,0 +1,361 @@
+parcel,parcel_abbrev,hemisphere,parcel_order,network,network_abbrev,network_order,network_parcel_order,network_colour
+Primary Visual Cortex,V1,L,1,Primary Visual,VIS1,1,1,royalblue
+Medial Superior Temporal Area,MST,L,2,Secondary Visual,VIS2,2,70,slateblue
+Sixth Visual Area,V6,L,3,Secondary Visual,VIS2,2,71,slateblue
+Second Visual Area,V2,L,4,Secondary Visual,VIS2,2,72,slateblue
+Third Visual Area,V3,L,5,Secondary Visual,VIS2,2,73,slateblue
+Fourth Visual Area,V4,L,6,Secondary Visual,VIS2,2,74,slateblue
+Eighth Visual Area,V8,L,7,Secondary Visual,VIS2,2,75,slateblue
+Primary Motor Cortex,4,L,8,Somatomotor,SMN,3,153,paleturquoise
+Primary Sensory Cortex,3b,L,9,Somatomotor,SMN,3,154,paleturquoise
+Frontal Eye Fields,FEF,L,10,Cingulo-Opercular,CON,4,220,darkorchid
+Premotor Eye Field,PEF,L,11,Dorsal-Attention,DAN,5,315,limegreen
+Area 55b,55b,L,12,Language,LAN,6,362,lightseagreen
+Area V3A,V3A,L,13,Secondary Visual,VIS2,2,76,slateblue
+Retrosplenial Complex,RSC,L,14,Frontoparietal,FPN,7,399,yellow
+Parieto-Occipital Sulcus Area 2,POS2,L,15,Frontoparietal,FPN,7,400,yellow
+Seventh Visual Area,V7,L,16,Secondary Visual,VIS2,2,77,slateblue
+Intraparietal Sulcus Area 1,IPS1,L,17,Secondary Visual,VIS2,2,78,slateblue
+Fusiform Face Complex,FFC,L,18,Secondary Visual,VIS2,2,79,slateblue
+Area V3B,V3B,L,19,Secondary Visual,VIS2,2,80,slateblue
+Area Lateral Occipital 1,LO1,L,20,Secondary Visual,VIS2,2,81,slateblue
+Area Lateral Occipital 2,LO2,L,21,Secondary Visual,VIS2,2,82,slateblue
+Posterior Inferotemporal Complex,PIT,L,22,Secondary Visual,VIS2,2,83,slateblue
+Middle Temporal Area,MT,L,23,Secondary Visual,VIS2,2,84,slateblue
+Primary Auditory Cortex,A1,L,24,Auditory,AUD,8,497,orchid
+Perisylvian Language Area,PSL,L,25,Language,LAN,6,363,lightseagreen
+Superior Frontal Language Area,SFL,L,26,Language,LAN,6,364,lightseagreen
+Precuneus Visual Area,PCV,L,27,Posterior-Multimodal,PMM,10,652,peru
+Superior Temporal Visual Area,STV,L,28,Language,LAN,6,365,lightseagreen
+Medial Area 7P,7Pm,L,29,Frontoparietal,FPN,7,401,yellow
+Area 7m,7m,L,30,Default,DMN,9,543,red
+Parieto-Occipital Sulcus Area 1,POS1,L,31,Default,DMN,9,544,red
+Area 23d,23d,L,32,Default,DMN,9,545,red
+Area Ventral 23 a+b,v23ab,L,33,Default,DMN,9,546,red
+Area Dorsal 23 a+b,d23ab,L,34,Default,DMN,9,547,red
+Area 31p Ventral,31pv,L,35,Default,DMN,9,548,red
+Area 5m,5m,L,36,Somatomotor,SMN,3,155,paleturquoise
+Area 5m Ventral,5mv,L,37,Cingulo-Opercular,CON,4,221,darkorchid
+Area 23c,23c,L,38,Cingulo-Opercular,CON,4,222,darkorchid
+Area 5L,5L,L,39,Somatomotor,SMN,3,156,paleturquoise
+Dorsal Area 24d,24dd,L,40,Somatomotor,SMN,3,157,paleturquoise
+Ventral Area 24d,24dv,L,41,Somatomotor,SMN,3,158,paleturquoise
+Lateral Area 7A,7AL,L,42,Somatomotor,SMN,3,159,paleturquoise
+Supplementary and Cingulate Eye Field,SCEF,L,43,Cingulo-Opercular,CON,4,223,darkorchid
+Area 6m Anterior,6ma,L,44,Cingulo-Opercular,CON,4,224,darkorchid
+Medial Area 7A,7Am,L,45,Cingulo-Opercular,CON,4,225,darkorchid
+Lateral Area 7P,7PL,L,46,Dorsal-Attention,DAN,5,316,limegreen
+Area 7PC,7PC,L,47,Somatomotor,SMN,3,160,paleturquoise
+Area Lateral Intraparietal Ventral,LIPv,L,48,Secondary Visual,VIS2,2,85,slateblue
+Ventral Intraparietal Complex,VIP,L,49,Secondary Visual,VIS2,2,86,slateblue
+Medial Intraparietal Area,MIP,L,50,Dorsal-Attention,DAN,5,317,limegreen
+Area 1,1,L,51,Somatomotor,SMN,3,161,paleturquoise
+Area 2,2,L,52,Somatomotor,SMN,3,162,paleturquoise
+Area 3a,3a,L,53,Somatomotor,SMN,3,163,paleturquoise
+Dorsal Area 6,6d,L,54,Somatomotor,SMN,3,164,paleturquoise
+Area 6mp,6mp,L,55,Somatomotor,SMN,3,165,paleturquoise
+Ventral Area 6,6v,L,56,Somatomotor,SMN,3,166,paleturquoise
+Area Posterior 24 Prime,p24pr,L,57,Cingulo-Opercular,CON,4,226,darkorchid
+Area 33 Prime,33pr,L,58,Cingulo-Opercular,CON,4,227,darkorchid
+Anterior 24 Prime,a24pr,L,59,Cingulo-Opercular,CON,4,228,darkorchid
+Area p32 Prime,p32pr,L,60,Cingulo-Opercular,CON,4,229,darkorchid
+Area a24,a24,L,61,Default,DMN,9,549,red
+Area Dorsal 32,d32,L,62,Default,DMN,9,550,red
+Area 8BM,8BM,L,63,Frontoparietal,FPN,7,402,yellow
+Area p32,p32,L,64,Default,DMN,9,551,red
+Area 10r,10r,L,65,Default,DMN,9,552,red
+Area 47m,47m,L,66,Default,DMN,9,553,red
+Area 8Av,8Av,L,67,Default,DMN,9,554,red
+Area 8Ad,8Ad,L,68,Default,DMN,9,555,red
+Area 9 Middle,9m,L,69,Default,DMN,9,556,red
+Area 8B Lateral,8BL,L,70,Default,DMN,9,557,red
+Area 9 Posterior,9p,L,71,Default,DMN,9,558,red
+Area 10d,10d,L,72,Default,DMN,9,559,red
+Area 8C,8C,L,73,Frontoparietal,FPN,7,403,yellow
+Area 44,44,L,74,Language,LAN,6,366,lightseagreen
+Area 45,45,L,75,Language,LAN,6,367,lightseagreen
+Area 47l,47l,L,76,Default,DMN,9,560,red
+Area Anterior 47r,a47r,L,77,Frontoparietal,FPN,7,404,yellow
+Rostral Area 6,6r,L,78,Cingulo-Opercular,CON,4,230,darkorchid
+Area IFJa,IFJa,L,79,Language,LAN,6,368,lightseagreen
+Area IFJp,IFJp,L,80,Frontoparietal,FPN,7,405,yellow
+Area IFSp,IFSp,L,81,Language,LAN,6,369,lightseagreen
+Area IFSa,IFSa,L,82,Frontoparietal,FPN,7,406,yellow
+Area Posterior 9-46v,p9-46v,L,83,Frontoparietal,FPN,7,407,yellow
+Area 46,46,L,84,Cingulo-Opercular,CON,4,231,darkorchid
+Area Anterior 9-46v,a9-46v,L,85,Frontoparietal,FPN,7,408,yellow
+Area 9-46d,9-46d,L,86,Cingulo-Opercular,CON,4,232,darkorchid
+Area 9 Anterior,9a,L,87,Default,DMN,9,561,red
+Area 10v,10v,L,88,Default,DMN,9,562,red
+Area Anterior 10p,a10p,L,89,Frontoparietal,FPN,7,409,yellow
+Polar 10p,10pp,L,90,Default,DMN,9,563,red
+Area 11l,11l,L,91,Frontoparietal,FPN,7,410,yellow
+Area 13l,13l,L,92,Frontoparietal,FPN,7,411,yellow
+Orbital Frontal Complex,OFC,L,93,Default,DMN,9,564,red
+Area 47s,47s,L,94,Default,DMN,9,565,red
+Area Lateral Intraparietal Dorsal,LIPd,L,95,Dorsal-Attention,DAN,5,318,limegreen
+Area 6 Anterior,6a,L,96,Dorsal-Attention,DAN,5,319,limegreen
+Inferior 6-8 Transitional Area,i6-8,L,97,Frontoparietal,FPN,7,412,yellow
+Superior 6-8 Transitional Area,s6-8,L,98,Frontoparietal,FPN,7,413,yellow
+Area 43,43,L,99,Cingulo-Opercular,CON,4,233,darkorchid
+Area OP4/PV,OP4,L,100,Somatomotor,SMN,3,167,paleturquoise
+Area OP1/SII,OP1,L,101,Somatomotor,SMN,3,168,paleturquoise
+Area OP2-3/VS,OP2-3,L,102,Somatomotor,SMN,3,169,paleturquoise
+Area 52,52,L,103,Auditory,AUD,8,498,orchid
+Retroinsular Cortex,RI,L,104,Auditory,AUD,8,499,orchid
+Area PFcm,PFcm,L,105,Cingulo-Opercular,CON,4,234,darkorchid
+Posterior Insular Area 2,PoI2,L,106,Cingulo-Opercular,CON,4,235,darkorchid
+Area TA2,TA2,L,107,Auditory,AUD,8,500,orchid
+Frontal Opercular Area 4,FOP4,L,108,Cingulo-Opercular,CON,4,236,darkorchid
+Middle Insular Area,MI,L,109,Cingulo-Opercular,CON,4,237,darkorchid
+Pirform Cortex,Pir,L,110,Orbito-Affective,ORA,12,696,olivedrab
+Anterior Ventral Insular Area,AVI,L,111,Frontoparietal,FPN,7,414,yellow
+Anterior Agranular Insula Complex,AAIC,L,112,Orbito-Affective,ORA,12,697,olivedrab
+Frontal Opercular Area 1,FOP1,L,113,Cingulo-Opercular,CON,4,238,darkorchid
+Frontal Opercular Area 3,FOP3,L,114,Cingulo-Opercular,CON,4,239,darkorchid
+Frontal Opercular Area 2,FOP2,L,115,Somatomotor,SMN,3,170,paleturquoise
+Area PFt,PFt,L,116,Dorsal-Attention,DAN,5,320,limegreen
+Anterior Intraparietal Area,AIP,L,117,Dorsal-Attention,DAN,5,321,limegreen
+Entorhinal Cortex,EC,L,118,Default,DMN,9,566,red
+Presubiculum,PreS,L,119,Default,DMN,9,567,red
+Hippocampus,H,L,120,Default,DMN,9,568,red
+Prostriate Area,ProS,L,121,Primary Visual,VIS1,1,2,royalblue
+Perirhinal Ectorhinal Cortex,PeEc,L,122,Ventral-Multimodal,VMM,11,688,orange
+Area STGa,STGa,L,123,Language,LAN,6,370,lightseagreen
+Parabelt Complex,PBelt,L,124,Auditory,AUD,8,501,orchid
+Auditory 5 Complex,A5,L,125,Language,LAN,6,371,lightseagreen
+Parahippocampal Area 1,PHA1,L,126,Default,DMN,9,569,red
+Parahippocampal Area 3,PHA3,L,127,Dorsal-Attention,DAN,5,322,limegreen
+Area STSd Anterior,STSda,L,128,Language,LAN,6,372,lightseagreen
+Area STSd Posterior,STSdp,L,129,Language,LAN,6,373,lightseagreen
+Area STSv Posterior,STSvp,L,130,Default,DMN,9,570,red
+Area TG Dorsal,TGd,L,131,Default,DMN,9,571,red
+Area TE1 Anterior,TE1a,L,132,Default,DMN,9,572,red
+Area TE1 Posterior,TE1p,L,133,Frontoparietal,FPN,7,415,yellow
+Area TE2 Anterior,TE2a,L,134,Default,DMN,9,573,red
+Area TF,TF,L,135,Ventral-Multimodal,VMM,11,689,orange
+Area TE2 Posterior,TE2p,L,136,Dorsal-Attention,DAN,5,323,limegreen
+Area PHT,PHT,L,137,Dorsal-Attention,DAN,5,324,limegreen
+Area PH,PH,L,138,Secondary Visual,VIS2,2,87,slateblue
+Area Temporoparietooccipital Junction 1,TPOJ1,L,139,Language,LAN,6,374,lightseagreen
+Area Temporoparietooccipital Junction 2,TPOJ2,L,140,Posterior-Multimodal,PMM,10,653,peru
+Area Temporoparietooccipital Junction 3,TPOJ3,L,141,Posterior-Multimodal,PMM,10,654,peru
+Dorsal Transitional Visual Area,DVT,L,142,Primary Visual,VIS1,1,3,royalblue
+Area PGp,PGp,L,143,Dorsal-Attention,DAN,5,325,limegreen
+Area Intraparietal 2,IP2,L,144,Frontoparietal,FPN,7,416,yellow
+Area Intraparietal 1,IP1,L,145,Frontoparietal,FPN,7,417,yellow
+Area Intraparietal,IP0,L,146,Dorsal-Attention,DAN,5,326,limegreen
+Area PF Opercular,PFop,L,147,Cingulo-Opercular,CON,4,240,darkorchid
+Area PF Complex,PF,L,148,Cingulo-Opercular,CON,4,241,darkorchid
+Area PFm Complex,PFm,L,149,Frontoparietal,FPN,7,418,yellow
+Area PGi,PGi,L,150,Default,DMN,9,574,red
+Area PGs,PGs,L,151,Default,DMN,9,575,red
+Area V6A,V6A,L,152,Secondary Visual,VIS2,2,88,slateblue
+Ventromedial Visual Area 1,VMV1,L,153,Secondary Visual,VIS2,2,89,slateblue
+Ventromedial Visual Area 3,VMV3,L,154,Secondary Visual,VIS2,2,90,slateblue
+Parahippocampal Area 2,PHA2,L,155,Default,DMN,9,576,red
+Area V4t,V4t,L,156,Secondary Visual,VIS2,2,91,slateblue
+Area FST,FST,L,157,Secondary Visual,VIS2,2,92,slateblue
+Area V3CD,V3CD,L,158,Secondary Visual,VIS2,2,93,slateblue
+Area Lateral Occipital 3,LO3,L,159,Secondary Visual,VIS2,2,94,slateblue
+Ventromedial Visual Area 2,VMV2,L,160,Secondary Visual,VIS2,2,95,slateblue
+Area 31pd,31pd,L,161,Default,DMN,9,577,red
+Area 31a,31a,L,162,Default,DMN,9,578,red
+Ventral Visual Complex,VVC,L,163,Secondary Visual,VIS2,2,96,slateblue
+Area 25,25,L,164,Default,DMN,9,579,red
+Area s32,s32,L,165,Default,DMN,9,580,red
+Posterior OFC Complex,pOFC,L,166,Orbito-Affective,ORA,12,698,olivedrab
+Area Posterior Insular 1,PoI1,L,167,Cingulo-Opercular,CON,4,242,darkorchid
+Insular Granular Complex,Ig,L,168,Somatomotor,SMN,3,171,paleturquoise
+Area Frontal Opercular 5,FOP5,L,169,Cingulo-Opercular,CON,4,243,darkorchid
+Area Posterior 10p,p10p,L,170,Frontoparietal,FPN,7,419,yellow
+Area Posterior 47r,p47r,L,171,Frontoparietal,FPN,7,420,yellow
+Area TG Ventral,TGv,L,172,Language,LAN,6,375,lightseagreen
+Medial Belt Complex,MBelt,L,173,Auditory,AUD,8,502,orchid
+Lateral Belt Complex,LBelt,L,174,Auditory,AUD,8,503,orchid
+Auditory 4 Complex,A4,L,175,Auditory,AUD,8,504,orchid
+Area STSv Anterior,STSva,L,176,Default,DMN,9,581,red
+Area TE1 Middle,TE1m,L,177,Default,DMN,9,582,red
+Para-Insular Area,PI,L,178,Cingulo-Opercular,CON,4,244,darkorchid
+Area Anterior 32 Prime,a32pr,L,179,Cingulo-Opercular,CON,4,245,darkorchid
+Area Posterior 24,p24,L,180,Cingulo-Opercular,CON,4,246,darkorchid
+Primary Visual Cortex,V1,R,181,Primary Visual,VIS1,1,4,royalblue
+Medial Superior Temporal Area,MST,R,182,Secondary Visual,VIS2,2,97,slateblue
+Sixth Visual Area,V6,R,183,Secondary Visual,VIS2,2,98,slateblue
+Second Visual Area,V2,R,184,Secondary Visual,VIS2,2,99,slateblue
+Third Visual Area,V3,R,185,Secondary Visual,VIS2,2,100,slateblue
+Fourth Visual Area,V4,R,186,Secondary Visual,VIS2,2,101,slateblue
+Eighth Visual Area,V8,R,187,Secondary Visual,VIS2,2,102,slateblue
+Primary Motor Cortex,4,R,188,Somatomotor,SMN,3,172,paleturquoise
+Primary Sensory Cortex,3b,R,189,Somatomotor,SMN,3,173,paleturquoise
+Frontal Eye Fields,FEF,R,190,Cingulo-Opercular,CON,4,247,darkorchid
+Premotor Eye Field,PEF,R,191,Cingulo-Opercular,CON,4,248,darkorchid
+Area 55b,55b,R,192,Language,LAN,6,376,lightseagreen
+Area V3A,V3A,R,193,Secondary Visual,VIS2,2,103,slateblue
+Retrosplenial Complex,RSC,R,194,Frontoparietal,FPN,7,421,yellow
+Parieto-Occipital Sulcus Area 2,POS2,R,195,Frontoparietal,FPN,7,422,yellow
+Seventh Visual Area,V7,R,196,Secondary Visual,VIS2,2,104,slateblue
+Intraparietal Sulcus Area 1,IPS1,R,197,Secondary Visual,VIS2,2,105,slateblue
+Fusiform Face Complex,FFC,R,198,Secondary Visual,VIS2,2,106,slateblue
+Area V3B,V3B,R,199,Secondary Visual,VIS2,2,107,slateblue
+Area Lateral Occipital 1,LO1,R,200,Secondary Visual,VIS2,2,108,slateblue
+Area Lateral Occipital 2,LO2,R,201,Secondary Visual,VIS2,2,109,slateblue
+Posterior Inferotemporal Complex,PIT,R,202,Secondary Visual,VIS2,2,110,slateblue
+Middle Temporal Area,MT,R,203,Secondary Visual,VIS2,2,111,slateblue
+Primary Auditory Cortex,A1,R,204,Auditory,AUD,8,505,orchid
+Perisylvian Language Area,PSL,R,205,Cingulo-Opercular,CON,4,249,darkorchid
+Superior Frontal Language Area,SFL,R,206,Language,LAN,6,377,lightseagreen
+Precuneus Visual Area,PCV,R,207,Posterior-Multimodal,PMM,10,655,peru
+Superior Temporal Visual Area,STV,R,208,Posterior-Multimodal,PMM,10,656,peru
+Medial Area 7P,7Pm,R,209,Frontoparietal,FPN,7,423,yellow
+Area 7m,7m,R,210,Default,DMN,9,583,red
+Parieto-Occipital Sulcus Area 1,POS1,R,211,Default,DMN,9,584,red
+Area 23d,23d,R,212,Default,DMN,9,585,red
+Area Ventral 23 a+b,v23ab,R,213,Default,DMN,9,586,red
+Area Dorsal 23 a+b,d23ab,R,214,Default,DMN,9,587,red
+Area 31p Ventral,31pv,R,215,Default,DMN,9,588,red
+Area 5m,5m,R,216,Somatomotor,SMN,3,174,paleturquoise
+Area 5m Ventral,5mv,R,217,Cingulo-Opercular,CON,4,274,darkorchid
+Area 23c,23c,R,218,Cingulo-Opercular,CON,4,275,darkorchid
+Area 5L,5L,R,219,Somatomotor,SMN,3,175,paleturquoise
+Dorsal Area 24d,24dd,R,220,Somatomotor,SMN,3,176,paleturquoise
+Ventral Area 24d,24dv,R,221,Somatomotor,SMN,3,177,paleturquoise
+Lateral Area 7A,7AL,R,222,Somatomotor,SMN,3,178,paleturquoise
+Supplementary and Cingulate Eye Field,SCEF,R,223,Cingulo-Opercular,CON,4,250,darkorchid
+Area 6m Anterior,6ma,R,224,Cingulo-Opercular,CON,4,251,darkorchid
+Medial Area 7A,7Am,R,225,Cingulo-Opercular,CON,4,252,darkorchid
+Lateral Area 7P,7PL,R,226,Dorsal-Attention,DAN,5,327,limegreen
+Area 7PC,7PC,R,227,Somatomotor,SMN,3,179,paleturquoise
+Area Lateral Intraparietal Ventral,LIPv,R,228,Secondary Visual,VIS2,2,112,slateblue
+Ventral Intraparietal Complex,VIP,R,229,Secondary Visual,VIS2,2,113,slateblue
+Medial Intraparietal Area,MIP,R,230,Dorsal-Attention,DAN,5,328,limegreen
+Area 1,1,R,231,Somatomotor,SMN,3,180,paleturquoise
+Area 2,2,R,232,Somatomotor,SMN,3,181,paleturquoise
+Area 3a,3a,R,233,Somatomotor,SMN,3,182,paleturquoise
+Dorsal Area 6,6d,R,234,Somatomotor,SMN,3,183,paleturquoise
+Area 6mp,6mp,R,235,Somatomotor,SMN,3,184,paleturquoise
+Ventral Area 6,6v,R,236,Somatomotor,SMN,3,185,paleturquoise
+Area Posterior 24 Prime,p24pr,R,237,Cingulo-Opercular,CON,4,253,darkorchid
+Area 33 Prime,33pr,R,238,Frontoparietal,FPN,7,424,yellow
+Anterior 24 Prime,a24pr,R,239,Cingulo-Opercular,CON,4,254,darkorchid
+Area p32 Prime,p32pr,R,240,Cingulo-Opercular,CON,4,255,darkorchid
+Area a24,a24,R,241,Default,DMN,9,589,red
+Area Dorsal 32,d32,R,242,Frontoparietal,FPN,7,425,yellow
+Area 8BM,8BM,R,243,Frontoparietal,FPN,7,426,yellow
+Area p32,p32,R,244,Default,DMN,9,590,red
+Area 10r,10r,R,245,Default,DMN,9,591,red
+Area 47m,47m,R,246,Default,DMN,9,592,red
+Area 8Av,8Av,R,247,Default,DMN,9,593,red
+Area 8Ad,8Ad,R,248,Default,DMN,9,594,red
+Area 9 Middle,9m,R,249,Default,DMN,9,595,red
+Area 8B Lateral,8BL,R,250,Default,DMN,9,596,red
+Area 9 Posterior,9p,R,251,Default,DMN,9,597,red
+Area 10d,10d,R,252,Default,DMN,9,598,red
+Area 8C,8C,R,253,Frontoparietal,FPN,7,427,yellow
+Area 44,44,R,254,Frontoparietal,FPN,7,428,yellow
+Area 45,45,R,255,Language,LAN,6,378,lightseagreen
+Area 47l,47l,R,256,Default,DMN,9,599,red
+Area Anterior 47r,a47r,R,257,Frontoparietal,FPN,7,429,yellow
+Rostral Area 6,6r,R,258,Cingulo-Opercular,CON,4,256,darkorchid
+Area IFJa,IFJa,R,259,Language,LAN,6,379,lightseagreen
+Area IFJp,IFJp,R,260,Frontoparietal,FPN,7,430,yellow
+Area IFSp,IFSp,R,261,Frontoparietal,FPN,7,431,yellow
+Area IFSa,IFSa,R,262,Cingulo-Opercular,CON,4,257,darkorchid
+Area Posterior 9-46v,p9-46v,R,263,Frontoparietal,FPN,7,432,yellow
+Area 46,46,R,264,Cingulo-Opercular,CON,4,258,darkorchid
+Area Anterior 9-46v,a9-46v,R,265,Frontoparietal,FPN,7,433,yellow
+Area 9-46d,9-46d,R,266,Cingulo-Opercular,CON,4,259,darkorchid
+Area 9 Anterior,9a,R,267,Default,DMN,9,600,red
+Area 10v,10v,R,268,Default,DMN,9,601,red
+Area Anterior 10p,a10p,R,269,Frontoparietal,FPN,7,434,yellow
+Polar 10p,10pp,R,270,Default,DMN,9,602,red
+Area 11l,11l,R,271,Frontoparietal,FPN,7,435,yellow
+Area 13l,13l,R,272,Frontoparietal,FPN,7,436,yellow
+Orbital Frontal Complex,OFC,R,273,Frontoparietal,FPN,7,437,yellow
+Area 47s,47s,R,274,Default,DMN,9,603,red
+Area Lateral Intraparietal Dorsal,LIPd,R,275,Dorsal-Attention,DAN,5,329,limegreen
+Area 6 Anterior,6a,R,276,Dorsal-Attention,DAN,5,330,limegreen
+Inferior 6-8 Transitional Area,i6-8,R,277,Frontoparietal,FPN,7,438,yellow
+Superior 6-8 Transitional Area,s6-8,R,278,Frontoparietal,FPN,7,439,yellow
+Area 43,43,R,279,Cingulo-Opercular,CON,4,260,darkorchid
+Area OP4/PV,OP4,R,280,Somatomotor,SMN,3,186,paleturquoise
+Area OP1/SII,OP1,R,281,Somatomotor,SMN,3,187,paleturquoise
+Area OP2-3/VS,OP2-3,R,282,Somatomotor,SMN,3,188,paleturquoise
+Area 52,52,R,283,Auditory,AUD,8,506,orchid
+Retroinsular Cortex,RI,R,284,Somatomotor,SMN,3,189,paleturquoise
+Area PFcm,PFcm,R,285,Cingulo-Opercular,CON,4,261,darkorchid
+Posterior Insular Area 2,PoI2,R,286,Cingulo-Opercular,CON,4,262,darkorchid
+Area TA2,TA2,R,287,Auditory,AUD,8,507,orchid
+Frontal Opercular Area 4,FOP4,R,288,Cingulo-Opercular,CON,4,263,darkorchid
+Middle Insular Area,MI,R,289,Cingulo-Opercular,CON,4,264,darkorchid
+Pirform Cortex,Pir,R,290,Orbito-Affective,ORA,12,699,olivedrab
+Anterior Ventral Insular Area,AVI,R,291,Frontoparietal,FPN,7,440,yellow
+Anterior Agranular Insula Complex,AAIC,R,292,Orbito-Affective,ORA,12,700,olivedrab
+Frontal Opercular Area 1,FOP1,R,293,Cingulo-Opercular,CON,4,265,darkorchid
+Frontal Opercular Area 3,FOP3,R,294,Cingulo-Opercular,CON,4,266,darkorchid
+Frontal Opercular Area 2,FOP2,R,295,Somatomotor,SMN,3,190,paleturquoise
+Area PFt,PFt,R,296,Dorsal-Attention,DAN,5,331,limegreen
+Anterior Intraparietal Area,AIP,R,297,Dorsal-Attention,DAN,5,332,limegreen
+Entorhinal Cortex,EC,R,298,Default,DMN,9,604,red
+Presubiculum,PreS,R,299,Default,DMN,9,605,red
+Hippocampus,H,R,300,Default,DMN,9,606,red
+Prostriate Area,ProS,R,301,Primary Visual,VIS1,1,5,royalblue
+Perirhinal Ectorhinal Cortex,PeEc,R,302,Ventral-Multimodal,VMM,11,690,orange
+Area STGa,STGa,R,303,Language,LAN,6,380,lightseagreen
+Parabelt Complex,PBelt,R,304,Auditory,AUD,8,508,orchid
+Auditory 5 Complex,A5,R,305,Language,LAN,6,381,lightseagreen
+Parahippocampal Area 1,PHA1,R,306,Default,DMN,9,607,red
+Parahippocampal Area 3,PHA3,R,307,Dorsal-Attention,DAN,5,333,limegreen
+Area STSd Anterior,STSda,R,308,Default,DMN,9,608,red
+Area STSd Posterior,STSdp,R,309,Language,LAN,6,382,lightseagreen
+Area STSv Posterior,STSvp,R,310,Default,DMN,9,609,red
+Area TG Dorsal,TGd,R,311,Default,DMN,9,610,red
+Area TE1 Anterior,TE1a,R,312,Default,DMN,9,611,red
+Area TE1 Posterior,TE1p,R,313,Frontoparietal,FPN,7,441,yellow
+Area TE2 Anterior,TE2a,R,314,Default,DMN,9,612,red
+Area TF,TF,R,315,Ventral-Multimodal,VMM,11,691,orange
+Area TE2 Posterior,TE2p,R,316,Dorsal-Attention,DAN,5,334,limegreen
+Area PHT,PHT,R,317,Dorsal-Attention,DAN,5,335,limegreen
+Area PH,PH,R,318,Secondary Visual,VIS2,2,114,slateblue
+Area Temporoparietooccipital Junction 1,TPOJ1,R,319,Language,LAN,6,383,lightseagreen
+Area Temporoparietooccipital Junction 2,TPOJ2,R,320,Posterior-Multimodal,PMM,10,657,peru
+Area Temporoparietooccipital Junction 3,TPOJ3,R,321,Posterior-Multimodal,PMM,10,658,peru
+Dorsal Transitional Visual Area,DVT,R,322,Primary Visual,VIS1,1,6,royalblue
+Area PGp,PGp,R,323,Dorsal-Attention,DAN,5,336,limegreen
+Area Intraparietal 2,IP2,R,324,Frontoparietal,FPN,7,442,yellow
+Area Intraparietal 1,IP1,R,325,Frontoparietal,FPN,7,443,yellow
+Area Intraparietal,IP0,R,326,Dorsal-Attention,DAN,5,337,limegreen
+Area PF Opercular,PFop,R,327,Cingulo-Opercular,CON,4,267,darkorchid
+Area PF Complex,PF,R,328,Cingulo-Opercular,CON,4,268,darkorchid
+Area PFm Complex,PFm,R,329,Frontoparietal,FPN,7,444,yellow
+Area PGi,PGi,R,330,Default,DMN,9,613,red
+Area PGs,PGs,R,331,Default,DMN,9,614,red
+Area V6A,V6A,R,332,Secondary Visual,VIS2,2,115,slateblue
+Ventromedial Visual Area 1,VMV1,R,333,Secondary Visual,VIS2,2,116,slateblue
+Ventromedial Visual Area 3,VMV3,R,334,Secondary Visual,VIS2,2,117,slateblue
+Parahippocampal Area 2,PHA2,R,335,Default,DMN,9,615,red
+Area V4t,V4t,R,336,Secondary Visual,VIS2,2,118,slateblue
+Area FST,FST,R,337,Secondary Visual,VIS2,2,119,slateblue
+Area V3CD,V3CD,R,338,Secondary Visual,VIS2,2,120,slateblue
+Area Lateral Occipital 3,LO3,R,339,Secondary Visual,VIS2,2,121,slateblue
+Ventromedial Visual Area 2,VMV2,R,340,Secondary Visual,VIS2,2,122,slateblue
+Area 31pd,31pd,R,341,Default,DMN,9,616,red
+Area 31a,31a,R,342,Frontoparietal,FPN,7,445,yellow
+Ventral Visual Complex,VVC,R,343,Secondary Visual,VIS2,2,123,slateblue
+Area 25,25,R,344,Default,DMN,9,617,red
+Area s32,s32,R,345,Default,DMN,9,618,red
+Posterior OFC Complex,pOFC,R,346,Orbito-Affective,ORA,12,701,olivedrab
+Area Posterior Insular 1,PoI1,R,347,Cingulo-Opercular,CON,4,269,darkorchid
+Insular Granular Complex,Ig,R,348,Somatomotor,SMN,3,191,paleturquoise
+Area Frontal Opercular 5,FOP5,R,349,Cingulo-Opercular,CON,4,270,darkorchid
+Area Posterior 10p,p10p,R,350,Frontoparietal,FPN,7,446,yellow
+Area Posterior 47r,p47r,R,351,Frontoparietal,FPN,7,447,yellow
+Area TG Ventral,TGv,R,352,Language,LAN,6,384,lightseagreen
+Medial Belt Complex,MBelt,R,353,Auditory,AUD,8,509,orchid
+Lateral Belt Complex,LBelt,R,354,Auditory,AUD,8,510,orchid
+Auditory 4 Complex,A4,R,355,Auditory,AUD,8,511,orchid
+Area STSv Anterior,STSva,R,356,Default,DMN,9,619,red
+Area TE1 Middle,TE1m,R,357,Frontoparietal,FPN,7,448,yellow
+Para-Insular Area,PI,R,358,Cingulo-Opercular,CON,4,271,darkorchid
+Area Anterior 32 Prime,a32pr,R,359,Cingulo-Opercular,CON,4,272,darkorchid
+Area Posterior 24,p24,R,360,Cingulo-Opercular,CON,4,273,darkorchid

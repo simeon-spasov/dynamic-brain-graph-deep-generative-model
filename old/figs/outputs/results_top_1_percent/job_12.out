@@ -1,0 +1,1524 @@
+/cineca/prod/opt/libraries/numpy/1.19.4/python--3.8.2/lib/python3.8/site-packages/numpy-1.19.4-py3.8-linux-ppc64le.egg/numpy/core/_asarray.py:83: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return array(a, dtype, copy=False, order=order)
+BCE loss is  tensor(5461.4409, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(100.9959, device='cuda:0', grad_fn=<SumBackward0>)
+3.933830976486206
+BCE loss is  tensor(5900.1367, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(176.1053, device='cuda:0', grad_fn=<SumBackward0>)
+4.297201156616211
+BCE loss is  tensor(5818.0776, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(216.1411, device='cuda:0', grad_fn=<SumBackward0>)
+4.267481327056885
+BCE loss is  tensor(5689.9741, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(120.6529, device='cuda:0', grad_fn=<SumBackward0>)
+4.109354496002197
+BCE loss is  tensor(5410.9229, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(96.0129, device='cuda:0', grad_fn=<SumBackward0>)
+3.8945796489715576
+BCE loss is  tensor(5733.5386, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(179.1636, device='cuda:0', grad_fn=<SumBackward0>)
+4.181543350219727
+BCE loss is  tensor(5604.6040, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(133.5026, device='cuda:0', grad_fn=<SumBackward0>)
+4.0580668449401855
+BCE loss is  tensor(5661.0283, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(190.1947, device='cuda:0', grad_fn=<SumBackward0>)
+4.138064384460449
+BCE loss is  tensor(5577.1279, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(187.2181, device='cuda:0', grad_fn=<SumBackward0>)
+4.076623916625977
+BCE loss is  tensor(5697.9595, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.8783, device='cuda:0', grad_fn=<SumBackward0>)
+4.166787624359131
+BCE loss is  tensor(5873.9766, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(213.9927, device='cuda:0', grad_fn=<SumBackward0>)
+4.305494785308838
+BCE loss is  tensor(5400.7310, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(114.7386, device='cuda:0', grad_fn=<SumBackward0>)
+3.9006152153015137
+BCE loss is  tensor(6087.0371, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(243.6873, device='cuda:0', grad_fn=<SumBackward0>)
+4.477174282073975
+BCE loss is  tensor(5448.0864, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(121.3528, device='cuda:0', grad_fn=<SumBackward0>)
+3.9387831687927246
+BCE loss is  tensor(5563.1382, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(151.7792, device='cuda:0', grad_fn=<SumBackward0>)
+4.041667461395264
+BCE loss is  tensor(6192.6191, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(278.6562, device='cuda:0', grad_fn=<SumBackward0>)
+4.576573848724365
+BCE loss is  tensor(5713.4258, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(176.2598, device='cuda:0', grad_fn=<SumBackward0>)
+4.1652655601501465
+BCE loss is  tensor(5578.1885, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(117.9897, device='cuda:0', grad_fn=<SumBackward0>)
+4.028414726257324
+BCE loss is  tensor(5711.6729, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(190.6029, device='cuda:0', grad_fn=<SumBackward0>)
+4.174169540405273
+BCE loss is  tensor(5785.8037, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(176.9355, device='cuda:0', grad_fn=<SumBackward0>)
+4.216930389404297
+BCE loss is  tensor(5810.3574, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(260.6074, device='cuda:0', grad_fn=<SumBackward0>)
+4.293468952178955
+BCE loss is  tensor(5822.6587, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(175.7703, device='cuda:0', grad_fn=<SumBackward0>)
+4.242170810699463
+BCE loss is  tensor(5773.3711, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(259.0633, device='cuda:0', grad_fn=<SumBackward0>)
+4.266219615936279
+BCE loss is  tensor(5682.8032, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(223.5284, device='cuda:0', grad_fn=<SumBackward0>)
+4.177037715911865
+BCE loss is  tensor(5665.5942, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.6362, device='cuda:0', grad_fn=<SumBackward0>)
+4.12816858291626
+BCE loss is  tensor(5615.8594, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(136.3892, device='cuda:0', grad_fn=<SumBackward0>)
+4.068068504333496
+BCE loss is  tensor(5614.4238, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(188.1640, device='cuda:0', grad_fn=<SumBackward0>)
+4.103669166564941
+BCE loss is  tensor(5539.5527, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(102.3250, device='cuda:0', grad_fn=<SumBackward0>)
+3.9900126457214355
+BCE loss is  tensor(5875.3501, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(249.7955, device='cuda:0', grad_fn=<SumBackward0>)
+4.331786155700684
+BCE loss is  tensor(5477.5864, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(147.9647, device='cuda:0', grad_fn=<SumBackward0>)
+3.978466272354126
+BCE loss is  tensor(5710.8643, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(180.3650, device='cuda:0', grad_fn=<SumBackward0>)
+4.166357517242432
+BCE loss is  tensor(5772.8140, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(174.3835, device='cuda:0', grad_fn=<SumBackward0>)
+4.205938816070557
+BCE loss is  tensor(6243.8301, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(205.1956, device='cuda:0', grad_fn=<SumBackward0>)
+4.56083869934082
+BCE loss is  tensor(6076.6680, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(264.9723, device='cuda:0', grad_fn=<SumBackward0>)
+4.484894275665283
+BCE loss is  tensor(5594.8965, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(132.3103, device='cuda:0', grad_fn=<SumBackward0>)
+4.050358772277832
+BCE loss is  tensor(5721.8574, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(189.2518, device='cuda:0', grad_fn=<SumBackward0>)
+4.180417060852051
+BCE loss is  tensor(5815.2637, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(203.7002, device='cuda:0', grad_fn=<SumBackward0>)
+4.256692886352539
+BCE loss is  tensor(5829.3589, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(167.8688, device='cuda:0', grad_fn=<SumBackward0>)
+4.241320610046387
+BCE loss is  tensor(5508.3750, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(138.1727, device='cuda:0', grad_fn=<SumBackward0>)
+3.9933154582977295
+BCE loss is  tensor(5617.0996, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(162.1873, device='cuda:0', grad_fn=<SumBackward0>)
+4.087190628051758
+BCE loss is  tensor(5472.0537, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(91.7811, device='cuda:0', grad_fn=<SumBackward0>)
+3.9348196983337402
+BCE loss is  tensor(5792.6704, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(142.7778, device='cuda:0', grad_fn=<SumBackward0>)
+4.197629451751709
+BCE loss is  tensor(5652.2778, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(234.8059, device='cuda:0', grad_fn=<SumBackward0>)
+4.163425445556641
+BCE loss is  tensor(5653.5205, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(297.8878, device='cuda:0', grad_fn=<SumBackward0>)
+4.208916664123535
+BCE loss is  tensor(5816.2515, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(152.1838, device='cuda:0', grad_fn=<SumBackward0>)
+4.220958232879639
+BCE loss is  tensor(5745.7329, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(123.0167, device='cuda:0', grad_fn=<SumBackward0>)
+4.150459289550781
+BCE loss is  tensor(6049.5586, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(228.7300, device='cuda:0', grad_fn=<SumBackward0>)
+4.440091133117676
+BCE loss is  tensor(6096.6616, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(234.1738, device='cuda:0', grad_fn=<SumBackward0>)
+4.477252960205078
+BCE loss is  tensor(6046.0449, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(192.6602, device='cuda:0', grad_fn=<SumBackward0>)
+4.412096977233887
+BCE loss is  tensor(5714.9375, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(162.4415, device='cuda:0', grad_fn=<SumBackward0>)
+4.156562328338623
+BCE loss is  tensor(6005.7983, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(232.2885, device='cuda:0', grad_fn=<SumBackward0>)
+4.4116597175598145
+BCE loss is  tensor(5709.9600, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(197.8895, device='cuda:0', grad_fn=<SumBackward0>)
+4.178111553192139
+BCE loss is  tensor(5779.8057, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(183.4081, device='cuda:0', grad_fn=<SumBackward0>)
+4.217266082763672
+BCE loss is  tensor(5896.8047, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(191.0508, device='cuda:0', grad_fn=<SumBackward0>)
+4.305414199829102
+BCE loss is  tensor(5706.7666, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(136.2948, device='cuda:0', grad_fn=<SumBackward0>)
+4.132292747497559
+BCE loss is  tensor(5752.0015, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(168.1329, device='cuda:0', grad_fn=<SumBackward0>)
+4.1867995262146
+BCE loss is  tensor(5864.4785, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(244.0051, device='cuda:0', grad_fn=<SumBackward0>)
+4.320003032684326
+BCE loss is  tensor(5926.6699, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(237.6355, device='cuda:0', grad_fn=<SumBackward0>)
+4.359480857849121
+BCE loss is  tensor(5759.0635, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(169.3613, device='cuda:0', grad_fn=<SumBackward0>)
+4.192662715911865
+BCE loss is  tensor(5723.7939, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(199.3016, device='cuda:0', grad_fn=<SumBackward0>)
+4.188893795013428
+BCE loss is  tensor(5764.7061, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(158.3758, device='cuda:0', grad_fn=<SumBackward0>)
+4.188884258270264
+BCE loss is  tensor(5420.4204, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(130.6356, device='cuda:0', grad_fn=<SumBackward0>)
+3.9257824420928955
+BCE loss is  tensor(5683.4229, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(161.7259, device='cuda:0', grad_fn=<SumBackward0>)
+4.133768558502197
+BCE loss is  tensor(5448.8354, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(106.3691, device='cuda:0', grad_fn=<SumBackward0>)
+3.9287161827087402
+BCE loss is  tensor(5774.0088, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(251.4012, device='cuda:0', grad_fn=<SumBackward0>)
+4.261251926422119
+BCE loss is  tensor(5594.9771, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(122.4127, device='cuda:0', grad_fn=<SumBackward0>)
+4.043415546417236
+BCE loss is  tensor(5947.6123, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(213.7787, device='cuda:0', grad_fn=<SumBackward0>)
+4.357419490814209
+BCE loss is  tensor(5733.4150, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(205.2442, device='cuda:0', grad_fn=<SumBackward0>)
+4.1999006271362305
+BCE loss is  tensor(5832.0811, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(151.4052, device='cuda:0', grad_fn=<SumBackward0>)
+4.231602668762207
+BCE loss is  tensor(5670.6992, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(135.0303, device='cuda:0', grad_fn=<SumBackward0>)
+4.10589075088501
+BCE loss is  tensor(5875.4858, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.9592, device='cuda:0', grad_fn=<SumBackward0>)
+4.292393684387207
+BCE loss is  tensor(5763.4434, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(186.7297, device='cuda:0', grad_fn=<SumBackward0>)
+4.208043098449707
+BCE loss is  tensor(5614.1279, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(121.4369, device='cuda:0', grad_fn=<SumBackward0>)
+4.056269645690918
+BCE loss is  tensor(5805.1606, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(210.6376, device='cuda:0', grad_fn=<SumBackward0>)
+4.254454135894775
+BCE loss is  tensor(5505.0830, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(118.8208, device='cuda:0', grad_fn=<SumBackward0>)
+3.9773011207580566
+BCE loss is  tensor(5876.9922, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(231.1395, device='cuda:0', grad_fn=<SumBackward0>)
+4.319753646850586
+BCE loss is  tensor(5906.4355, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(238.8474, device='cuda:0', grad_fn=<SumBackward0>)
+4.346027374267578
+BCE loss is  tensor(5870.3965, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(182.7170, device='cuda:0', grad_fn=<SumBackward0>)
+4.280844211578369
+BCE loss is  tensor(5971.9648, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(210.0901, device='cuda:0', grad_fn=<SumBackward0>)
+4.37203311920166
+BCE loss is  tensor(5731.6934, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(190.9825, device='cuda:0', grad_fn=<SumBackward0>)
+4.188596725463867
+BCE loss is  tensor(6033.1357, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(213.1775, device='cuda:0', grad_fn=<SumBackward0>)
+4.417477607727051
+BCE loss is  tensor(5753.5420, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(181.4023, device='cuda:0', grad_fn=<SumBackward0>)
+4.197273254394531
+BCE loss is  tensor(5941.7217, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(217.2022, device='cuda:0', grad_fn=<SumBackward0>)
+4.355674743652344
+BCE loss is  tensor(5915.1895, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.1913, device='cuda:0', grad_fn=<SumBackward0>)
+4.319930076599121
+BCE loss is  tensor(5616.9375, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.7934, device='cuda:0', grad_fn=<SumBackward0>)
+4.090332984924316
+BCE loss is  tensor(5648.3242, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(176.0316, device='cuda:0', grad_fn=<SumBackward0>)
+4.119063854217529
+BCE loss is  tensor(5563.7295, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(124.7207, device='cuda:0', grad_fn=<SumBackward0>)
+4.02294921875
+BCE loss is  tensor(6228.2637, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(198.2628, device='cuda:0', grad_fn=<SumBackward0>)
+4.544926643371582
+BCE loss is  tensor(5499.3169, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(185.3130, device='cuda:0', grad_fn=<SumBackward0>)
+4.020247459411621
+BCE loss is  tensor(5734.2451, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(105.6422, device='cuda:0', grad_fn=<SumBackward0>)
+4.130047798156738
+BCE loss is  tensor(5732.6592, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(184.3856, device='cuda:0', grad_fn=<SumBackward0>)
+4.184614658355713
+BCE loss is  tensor(5835.9985, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(170.4096, device='cuda:0', grad_fn=<SumBackward0>)
+4.247813701629639
+BCE loss is  tensor(5648.6689, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.9772, device='cuda:0', grad_fn=<SumBackward0>)
+4.096638202667236
+BCE loss is  tensor(5819.0596, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(245.5441, device='cuda:0', grad_fn=<SumBackward0>)
+4.288969993591309
+BCE loss is  tensor(5516.5854, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(102.0364, device='cuda:0', grad_fn=<SumBackward0>)
+3.9735655784606934
+BCE loss is  tensor(5748.8457, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(184.6765, device='cuda:0', grad_fn=<SumBackward0>)
+4.196267604827881
+BCE loss is  tensor(5575.5586, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(146.0244, device='cuda:0', grad_fn=<SumBackward0>)
+4.04638147354126
+BCE loss is  tensor(6246.8115, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(309.8041, device='cuda:0', grad_fn=<SumBackward0>)
+4.636927604675293
+BCE loss is  tensor(5788.3340, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(186.2515, device='cuda:0', grad_fn=<SumBackward0>)
+4.225307941436768
+BCE loss is  tensor(5902.6704, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(249.5554, device='cuda:0', grad_fn=<SumBackward0>)
+4.350937366485596
+BCE loss is  tensor(5800.2905, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(189.3384, device='cuda:0', grad_fn=<SumBackward0>)
+4.235947132110596
+BCE loss is  tensor(5629.1191, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(130.2711, device='cuda:0', grad_fn=<SumBackward0>)
+4.073119163513184
+BCE loss is  tensor(5961.6621, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(227.9228, device='cuda:0', grad_fn=<SumBackward0>)
+4.377358436584473
+BCE loss is  tensor(5830.2656, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(172.6182, device='cuda:0', grad_fn=<SumBackward0>)
+4.245320796966553
+BCE loss is  tensor(5644.9209, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(243.7375, device='cuda:0', grad_fn=<SumBackward0>)
+4.164539337158203
+BCE loss is  tensor(5779.4858, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(212.6911, device='cuda:0', grad_fn=<SumBackward0>)
+4.237748622894287
+BCE loss is  tensor(5990.1064, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(240.6929, device='cuda:0', grad_fn=<SumBackward0>)
+4.406506061553955
+BCE loss is  tensor(5831.9917, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(226.6294, device='cuda:0', grad_fn=<SumBackward0>)
+4.284739017486572
+BCE loss is  tensor(5946.9741, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(192.2412, device='cuda:0', grad_fn=<SumBackward0>)
+4.341736316680908
+BCE loss is  tensor(5949.4854, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(202.2740, device='cuda:0', grad_fn=<SumBackward0>)
+4.350607872009277
+BCE loss is  tensor(5569.7832, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(94.4962, device='cuda:0', grad_fn=<SumBackward0>)
+4.005855083465576
+BCE loss is  tensor(6028.4785, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(267.7742, device='cuda:0', grad_fn=<SumBackward0>)
+4.452795505523682
+BCE loss is  tensor(6060.0342, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(201.6058, device='cuda:0', grad_fn=<SumBackward0>)
+4.428317070007324
+BCE loss is  tensor(6057.7305, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(177.9357, device='cuda:0', grad_fn=<SumBackward0>)
+4.409947872161865
+BCE loss is  tensor(6119.2666, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(201.8348, device='cuda:0', grad_fn=<SumBackward0>)
+4.4703688621521
+BCE loss is  tensor(5889.9829, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(253.0265, device='cuda:0', grad_fn=<SumBackward0>)
+4.344419479370117
+BCE loss is  tensor(5923.4541, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(155.1958, device='cuda:0', grad_fn=<SumBackward0>)
+4.298903942108154
+BCE loss is  tensor(5651.7788, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(107.6638, device='cuda:0', grad_fn=<SumBackward0>)
+4.073156356811523
+BCE loss is  tensor(5896.0620, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(172.8150, device='cuda:0', grad_fn=<SumBackward0>)
+4.2919921875
+BCE loss is  tensor(5663.7993, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(178.1598, device='cuda:0', grad_fn=<SumBackward0>)
+4.131512641906738
+BCE loss is  tensor(5615.4131, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(167.8110, device='cuda:0', grad_fn=<SumBackward0>)
+4.089974880218506
+BCE loss is  tensor(5892.2397, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(189.7309, device='cuda:0', grad_fn=<SumBackward0>)
+4.301252365112305
+BCE loss is  tensor(5790.3247, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(122.7669, device='cuda:0', grad_fn=<SumBackward0>)
+4.181818962097168
+BCE loss is  tensor(5731.1309, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.1428, device='cuda:0', grad_fn=<SumBackward0>)
+4.174168109893799
+BCE loss is  tensor(5857.1094, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(157.0033, device='cuda:0', grad_fn=<SumBackward0>)
+4.253262519836426
+BCE loss is  tensor(5389.6660, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(125.0440, device='cuda:0', grad_fn=<SumBackward0>)
+3.9000778198242188
+BCE loss is  tensor(5981.7617, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(243.8063, device='cuda:0', grad_fn=<SumBackward0>)
+4.402806282043457
+BCE loss is  tensor(5726.5005, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(275.3587, device='cuda:0', grad_fn=<SumBackward0>)
+4.244596481323242
+BCE loss is  tensor(5793.0830, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(232.7468, device='cuda:0', grad_fn=<SumBackward0>)
+4.26154899597168
+BCE loss is  tensor(5573.9619, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(213.6347, device='cuda:0', grad_fn=<SumBackward0>)
+4.093067169189453
+BCE loss is  tensor(5871.0830, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(297.8165, device='cuda:0', grad_fn=<SumBackward0>)
+4.362729549407959
+BCE loss is  tensor(6061.0371, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(212.3918, device='cuda:0', grad_fn=<SumBackward0>)
+4.436654090881348
+BCE loss is  tensor(5676.6362, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(182.4785, device='cuda:0', grad_fn=<SumBackward0>)
+4.143645763397217
+BCE loss is  tensor(5877.3340, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(173.6515, device='cuda:0', grad_fn=<SumBackward0>)
+4.27933931350708
+BCE loss is  tensor(5735.5781, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(119.1218, device='cuda:0', grad_fn=<SumBackward0>)
+4.140523433685303
+BCE loss is  tensor(5865.0400, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(201.8054, device='cuda:0', grad_fn=<SumBackward0>)
+4.290555477142334
+BCE loss is  tensor(5727.1094, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(173.8143, device='cuda:0', grad_fn=<SumBackward0>)
+4.173213481903076
+BCE loss is  tensor(5723.8691, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(181.0233, device='cuda:0', grad_fn=<SumBackward0>)
+4.17602014541626
+BCE loss is  tensor(5850.1543, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(185.3129, device='cuda:0', grad_fn=<SumBackward0>)
+4.268364429473877
+BCE loss is  tensor(6135.2212, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(243.2619, device='cuda:0', grad_fn=<SumBackward0>)
+4.510949611663818
+BCE loss is  tensor(5850.7017, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(234.9526, device='cuda:0', grad_fn=<SumBackward0>)
+4.303857326507568
+BCE loss is  tensor(5697.8794, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(165.8957, device='cuda:0', grad_fn=<SumBackward0>)
+4.146941184997559
+BCE loss is  tensor(5616.4434, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(145.3333, device='cuda:0', grad_fn=<SumBackward0>)
+4.0748066902160645
+BCE loss is  tensor(5824.5522, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(261.7944, device='cuda:0', grad_fn=<SumBackward0>)
+4.304347038269043
+BCE loss is  tensor(6051.0269, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(255.3939, device='cuda:0', grad_fn=<SumBackward0>)
+4.459986686706543
+BCE loss is  tensor(5600.2349, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(110.8231, device='cuda:0', grad_fn=<SumBackward0>)
+4.038938045501709
+BCE loss is  tensor(5822.8101, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(173.2356, device='cuda:0', grad_fn=<SumBackward0>)
+4.240485191345215
+BCE loss is  tensor(6057.8271, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(252.9756, device='cuda:0', grad_fn=<SumBackward0>)
+4.463085651397705
+BCE loss is  tensor(6085.5908, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(249.3760, device='cuda:0', grad_fn=<SumBackward0>)
+4.480174541473389
+BCE loss is  tensor(6236.7944, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(264.7746, device='cuda:0', grad_fn=<SumBackward0>)
+4.597997665405273
+BCE loss is  tensor(5822.1831, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(140.8727, device='cuda:0', grad_fn=<SumBackward0>)
+4.217154026031494
+BCE loss is  tensor(5746.5654, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(199.9527, device='cuda:0', grad_fn=<SumBackward0>)
+4.205458641052246
+BCE loss is  tensor(5636.6968, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(175.7881, device='cuda:0', grad_fn=<SumBackward0>)
+4.110668182373047
+BCE loss is  tensor(5781.8257, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(197.5716, device='cuda:0', grad_fn=<SumBackward0>)
+4.228711128234863
+BCE loss is  tensor(5670.3105, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.8577, device='cuda:0', grad_fn=<SumBackward0>)
+4.11185884475708
+BCE loss is  tensor(5801.1621, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(244.2707, device='cuda:0', grad_fn=<SumBackward0>)
+4.275412082672119
+BCE loss is  tensor(5522.4111, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(150.1280, device='cuda:0', grad_fn=<SumBackward0>)
+4.011696815490723
+BCE loss is  tensor(5541.4004, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(163.0935, device='cuda:0', grad_fn=<SumBackward0>)
+4.034295558929443
+BCE loss is  tensor(5546.5913, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(110.0295, device='cuda:0', grad_fn=<SumBackward0>)
+4.000439167022705
+BCE loss is  tensor(5441.1357, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(116.5411, device='cuda:0', grad_fn=<SumBackward0>)
+3.930464506149292
+BCE loss is  tensor(5751.3154, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(225.0475, device='cuda:0', grad_fn=<SumBackward0>)
+4.226564884185791
+BCE loss is  tensor(5636.1450, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(142.2424, device='cuda:0', grad_fn=<SumBackward0>)
+4.086554050445557
+BCE loss is  tensor(6144.0938, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(260.9671, device='cuda:0', grad_fn=<SumBackward0>)
+4.529746055603027
+BCE loss is  tensor(5880.8403, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.1115, device='cuda:0', grad_fn=<SumBackward0>)
+4.276486396789551
+BCE loss is  tensor(5352.0039, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(120.9655, device='cuda:0', grad_fn=<SumBackward0>)
+3.870558261871338
+BCE loss is  tensor(5627.7900, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(136.6167, device='cuda:0', grad_fn=<SumBackward0>)
+4.076666831970215
+BCE loss is  tensor(5741.6328, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(124.0711, device='cuda:0', grad_fn=<SumBackward0>)
+4.148305892944336
+BCE loss is  tensor(5918.1729, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(211.6719, device='cuda:0', grad_fn=<SumBackward0>)
+4.335109710693359
+BCE loss is  tensor(6038.9263, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(228.3179, device='cuda:0', grad_fn=<SumBackward0>)
+4.43228006362915
+BCE loss is  tensor(5667.7949, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(160.3955, device='cuda:0', grad_fn=<SumBackward0>)
+4.1217756271362305
+BCE loss is  tensor(6069.8267, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(229.0739, device='cuda:0', grad_fn=<SumBackward0>)
+4.454668045043945
+BCE loss is  tensor(5684.9932, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(149.0281, device='cuda:0', grad_fn=<SumBackward0>)
+4.125899314880371
+BCE loss is  tensor(5871.1738, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(200.0551, device='cuda:0', grad_fn=<SumBackward0>)
+4.293655872344971
+BCE loss is  tensor(5860.5396, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(177.3788, device='cuda:0', grad_fn=<SumBackward0>)
+4.2700982093811035
+BCE loss is  tensor(5943.0010, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.4153, device='cuda:0', grad_fn=<SumBackward0>)
+4.315711975097656
+BCE loss is  tensor(5859.4048, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(109.0615, device='cuda:0', grad_fn=<SumBackward0>)
+4.220980644226074
+BCE loss is  tensor(6025.9414, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(273.2719, device='cuda:0', grad_fn=<SumBackward0>)
+4.454889297485352
+BCE loss is  tensor(6014.7427, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(167.5040, device='cuda:0', grad_fn=<SumBackward0>)
+4.372169017791748
+BCE loss is  tensor(5977.5117, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(235.7685, device='cuda:0', grad_fn=<SumBackward0>)
+4.394116401672363
+BCE loss is  tensor(5958.1973, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(196.7876, device='cuda:0', grad_fn=<SumBackward0>)
+4.352889060974121
+BCE loss is  tensor(5988.0688, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(186.9630, device='cuda:0', grad_fn=<SumBackward0>)
+4.367066383361816
+BCE loss is  tensor(6150.4204, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(265.4693, device='cuda:0', grad_fn=<SumBackward0>)
+4.537404537200928
+BCE loss is  tensor(5843.3945, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(178.4786, device='cuda:0', grad_fn=<SumBackward0>)
+4.2587504386901855
+BCE loss is  tensor(5536.0049, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(132.1523, device='cuda:0', grad_fn=<SumBackward0>)
+4.0085978507995605
+BCE loss is  tensor(5698.7158, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.8354, device='cuda:0', grad_fn=<SumBackward0>)
+4.131931781768799
+BCE loss is  tensor(5964.8916, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(210.4407, device='cuda:0', grad_fn=<SumBackward0>)
+4.367278575897217
+BCE loss is  tensor(5933.4678, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(229.1508, device='cuda:0', grad_fn=<SumBackward0>)
+4.358287811279297
+BCE loss is  tensor(5615.1909, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(97.9310, device='cuda:0', grad_fn=<SumBackward0>)
+4.040397644042969
+BCE loss is  tensor(5982.2422, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(148.2432, device='cuda:0', grad_fn=<SumBackward0>)
+4.335562705993652
+BCE loss is  tensor(5656.7573, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(155.7472, device='cuda:0', grad_fn=<SumBackward0>)
+4.110682010650635
+BCE loss is  tensor(5534.0781, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(198.1831, device='cuda:0', grad_fn=<SumBackward0>)
+4.053933143615723
+BCE loss is  tensor(5934.0557, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(253.6287, device='cuda:0', grad_fn=<SumBackward0>)
+4.376014709472656
+BCE loss is  tensor(5585.3745, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(142.4022, device='cuda:0', grad_fn=<SumBackward0>)
+4.050761699676514
+BCE loss is  tensor(5991.3994, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(188.6743, device='cuda:0', grad_fn=<SumBackward0>)
+4.370632171630859
+BCE loss is  tensor(5957.9468, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(156.9963, device='cuda:0', grad_fn=<SumBackward0>)
+4.324570655822754
+BCE loss is  tensor(5667.1606, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(108.1071, device='cuda:0', grad_fn=<SumBackward0>)
+4.084347724914551
+BCE loss is  tensor(5651.1929, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.4703, device='cuda:0', grad_fn=<SumBackward0>)
+4.109379768371582
+BCE loss is  tensor(5949.2051, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(183.8243, device='cuda:0', grad_fn=<SumBackward0>)
+4.337361812591553
+BCE loss is  tensor(6020.9663, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(245.7423, device='cuda:0', grad_fn=<SumBackward0>)
+4.431901454925537
+BCE loss is  tensor(5638.2373, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.4932, device='cuda:0', grad_fn=<SumBackward0>)
+4.105184078216553
+BCE loss is  tensor(5655.8896, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(183.9278, device='cuda:0', grad_fn=<SumBackward0>)
+4.129998207092285
+BCE loss is  tensor(5535.7949, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(129.8000, device='cuda:0', grad_fn=<SumBackward0>)
+4.0067853927612305
+BCE loss is  tensor(5754.4370, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(172.8599, device='cuda:0', grad_fn=<SumBackward0>)
+4.191864967346191
+BCE loss is  tensor(5885.8477, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(157.7859, device='cuda:0', grad_fn=<SumBackward0>)
+4.274139881134033
+BCE loss is  tensor(5494.4980, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(136.7003, device='cuda:0', grad_fn=<SumBackward0>)
+3.9824600219726562
+BCE loss is  tensor(5964.6211, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(238.2165, device='cuda:0', grad_fn=<SumBackward0>)
+4.386731147766113
+BCE loss is  tensor(5966.4712, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(219.0610, device='cuda:0', grad_fn=<SumBackward0>)
+4.374492645263672
+BCE loss is  tensor(5608.5161, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(224.7026, device='cuda:0', grad_fn=<SumBackward0>)
+4.125331401824951
+BCE loss is  tensor(5501.1577, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(115.7600, device='cuda:0', grad_fn=<SumBackward0>)
+3.972360372543335
+BCE loss is  tensor(5700.0625, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(149.1090, device='cuda:0', grad_fn=<SumBackward0>)
+4.136613368988037
+BCE loss is  tensor(6090.1250, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(280.0550, device='cuda:0', grad_fn=<SumBackward0>)
+4.505077838897705
+BCE loss is  tensor(5830.5386, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(168.7070, device='cuda:0', grad_fn=<SumBackward0>)
+4.242748260498047
+BCE loss is  tensor(5501.2998, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(124.0085, device='cuda:0', grad_fn=<SumBackward0>)
+3.9782943725585938
+BCE loss is  tensor(6088.4209, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(256.1884, device='cuda:0', grad_fn=<SumBackward0>)
+4.486993789672852
+BCE loss is  tensor(5793.5542, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(201.9555, device='cuda:0', grad_fn=<SumBackward0>)
+4.240106105804443
+BCE loss is  tensor(6040.2324, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(258.2870, device='cuda:0', grad_fn=<SumBackward0>)
+4.4543986320495605
+BCE loss is  tensor(5431.4600, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(185.9864, device='cuda:0', grad_fn=<SumBackward0>)
+3.9727344512939453
+BCE loss is  tensor(5594.7939, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(141.5648, device='cuda:0', grad_fn=<SumBackward0>)
+4.056830883026123
+BCE loss is  tensor(5867.7559, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(262.9784, device='cuda:0', grad_fn=<SumBackward0>)
+4.335738658905029
+BCE loss is  tensor(5668.0747, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.6445, device='cuda:0', grad_fn=<SumBackward0>)
+4.126392841339111
+BCE loss is  tensor(5732.9512, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(178.0390, device='cuda:0', grad_fn=<SumBackward0>)
+4.180332660675049
+BCE loss is  tensor(6007.5166, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.3356, device='cuda:0', grad_fn=<SumBackward0>)
+4.369768142700195
+BCE loss is  tensor(5853.6328, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(192.6135, device='cuda:0', grad_fn=<SumBackward0>)
+4.27598762512207
+BCE loss is  tensor(5995.5273, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(203.2889, device='cuda:0', grad_fn=<SumBackward0>)
+4.38388729095459
+BCE loss is  tensor(5766.0171, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(135.6943, device='cuda:0', grad_fn=<SumBackward0>)
+4.173770427703857
+BCE loss is  tensor(5662.1792, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(194.2735, device='cuda:0', grad_fn=<SumBackward0>)
+4.141762733459473
+BCE loss is  tensor(5651.4629, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(122.5157, device='cuda:0', grad_fn=<SumBackward0>)
+4.083436012268066
+BCE loss is  tensor(5861.8447, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(176.6904, device='cuda:0', grad_fn=<SumBackward0>)
+4.270534038543701
+BCE loss is  tensor(5915.0659, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(157.2882, device='cuda:0', grad_fn=<SumBackward0>)
+4.2944512367248535
+BCE loss is  tensor(5875.9302, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(199.0175, device='cuda:0', grad_fn=<SumBackward0>)
+4.296285629272461
+BCE loss is  tensor(5598.5942, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(197.9461, device='cuda:0', grad_fn=<SumBackward0>)
+4.099392414093018
+BCE loss is  tensor(5603.1216, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(99.8121, device='cuda:0', grad_fn=<SumBackward0>)
+4.033192157745361
+BCE loss is  tensor(6042.8447, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(226.2628, device='cuda:0', grad_fn=<SumBackward0>)
+4.433598041534424
+BCE loss is  tensor(5701.9893, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(162.8523, device='cuda:0', grad_fn=<SumBackward0>)
+4.147696018218994
+BCE loss is  tensor(5745.7349, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(168.1882, device='cuda:0', grad_fn=<SumBackward0>)
+4.182406425476074
+BCE loss is  tensor(5843.0801, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(203.4722, device='cuda:0', grad_fn=<SumBackward0>)
+4.2762041091918945
+BCE loss is  tensor(5571.0913, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(142.2235, device='cuda:0', grad_fn=<SumBackward0>)
+4.040534019470215
+BCE loss is  tensor(6063.9844, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(183.8499, device='cuda:0', grad_fn=<SumBackward0>)
+4.418553352355957
+BCE loss is  tensor(5943.6108, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(205.2635, device='cuda:0', grad_fn=<SumBackward0>)
+4.348567485809326
+BCE loss is  tensor(5749.8818, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(154.2107, device='cuda:0', grad_fn=<SumBackward0>)
+4.175454139709473
+BCE loss is  tensor(6168.3984, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(191.2033, device='cuda:0', grad_fn=<SumBackward0>)
+4.497596740722656
+BCE loss is  tensor(5821.3672, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(187.5404, device='cuda:0', grad_fn=<SumBackward0>)
+4.249581336975098
+BCE loss is  tensor(5891.1885, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(157.1258, device='cuda:0', grad_fn=<SumBackward0>)
+4.277450084686279
+BCE loss is  tensor(5698.5195, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(194.0812, device='cuda:0', grad_fn=<SumBackward0>)
+4.167327404022217
+BCE loss is  tensor(6028.0903, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(246.9359, device='cuda:0', grad_fn=<SumBackward0>)
+4.437783718109131
+BCE loss is  tensor(5547.7021, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(194.8254, device='cuda:0', grad_fn=<SumBackward0>)
+4.061193466186523
+BCE loss is  tensor(5898.7451, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(271.0358, device='cuda:0', grad_fn=<SumBackward0>)
+4.3633527755737305
+BCE loss is  tensor(5541.3115, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(127.3200, device='cuda:0', grad_fn=<SumBackward0>)
+4.008933067321777
+BCE loss is  tensor(5849.7773, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(226.3696, device='cuda:0', grad_fn=<SumBackward0>)
+4.297133922576904
+BCE loss is  tensor(5864.3433, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(199.8553, device='cuda:0', grad_fn=<SumBackward0>)
+4.288683891296387
+BCE loss is  tensor(5593.8101, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(71.0933, device='cuda:0', grad_fn=<SumBackward0>)
+4.006296634674072
+BCE loss is  tensor(5680.2007, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(121.3067, device='cuda:0', grad_fn=<SumBackward0>)
+4.102904796600342
+BCE loss is  tensor(5745.3340, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(118.5448, device='cuda:0', grad_fn=<SumBackward0>)
+4.14701509475708
+BCE loss is  tensor(5756.0283, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(202.2369, device='cuda:0', grad_fn=<SumBackward0>)
+4.213766098022461
+BCE loss is  tensor(5687.2529, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(187.5757, device='cuda:0', grad_fn=<SumBackward0>)
+4.154758453369141
+BCE loss is  tensor(5594.7910, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(139.3060, device='cuda:0', grad_fn=<SumBackward0>)
+4.05523157119751
+BCE loss is  tensor(6005.4180, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(278.6726, device='cuda:0', grad_fn=<SumBackward0>)
+4.444194316864014
+BCE loss is  tensor(5946.3389, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(232.6169, device='cuda:0', grad_fn=<SumBackward0>)
+4.369841575622559
+BCE loss is  tensor(5946.6689, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(231.4414, device='cuda:0', grad_fn=<SumBackward0>)
+4.369243621826172
+BCE loss is  tensor(5954.5586, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(203.3232, device='cuda:0', grad_fn=<SumBackward0>)
+4.354937553405762
+BCE loss is  tensor(5727.2842, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(161.9332, device='cuda:0', grad_fn=<SumBackward0>)
+4.1649346351623535
+BCE loss is  tensor(5505.5488, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.3860, device='cuda:0', grad_fn=<SumBackward0>)
+4.014805316925049
+BCE loss is  tensor(5914.4136, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.6096, device='cuda:0', grad_fn=<SumBackward0>)
+4.319676876068115
+BCE loss is  tensor(5817.3027, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(151.4922, device='cuda:0', grad_fn=<SumBackward0>)
+4.221212863922119
+BCE loss is  tensor(5598.2769, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(254.3894, device='cuda:0', grad_fn=<SumBackward0>)
+4.139084815979004
+BCE loss is  tensor(5638.0898, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(151.3697, device='cuda:0', grad_fn=<SumBackward0>)
+4.09438419342041
+BCE loss is  tensor(6054.9399, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(276.7556, device='cuda:0', grad_fn=<SumBackward0>)
+4.477860927581787
+BCE loss is  tensor(5701.6680, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(106.8346, device='cuda:0', grad_fn=<SumBackward0>)
+4.107851982116699
+BCE loss is  tensor(5877.1294, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(185.8347, device='cuda:0', grad_fn=<SumBackward0>)
+4.287810802459717
+BCE loss is  tensor(5897.7300, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(170.4730, device='cuda:0', grad_fn=<SumBackward0>)
+4.291515827178955
+BCE loss is  tensor(5896.1099, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(243.4850, device='cuda:0', grad_fn=<SumBackward0>)
+4.342004776000977
+BCE loss is  tensor(5905.0400, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(185.4473, device='cuda:0', grad_fn=<SumBackward0>)
+4.307275295257568
+BCE loss is  tensor(5701.8340, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.9891, device='cuda:0', grad_fn=<SumBackward0>)
+4.145561218261719
+BCE loss is  tensor(6332.2285, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(282.5658, device='cuda:0', grad_fn=<SumBackward0>)
+4.678072452545166
+BCE loss is  tensor(5803.3481, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(228.9932, device='cuda:0', grad_fn=<SumBackward0>)
+4.266153812408447
+BCE loss is  tensor(5643.2812, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(195.9827, device='cuda:0', grad_fn=<SumBackward0>)
+4.129607200622559
+BCE loss is  tensor(5753.4258, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(206.9323, device='cuda:0', grad_fn=<SumBackward0>)
+4.215246200561523
+BCE loss is  tensor(5580.0303, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(134.1505, device='cuda:0', grad_fn=<SumBackward0>)
+4.041146278381348
+BCE loss is  tensor(5974.1382, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(251.5429, device='cuda:0', grad_fn=<SumBackward0>)
+4.402886390686035
+BCE loss is  tensor(5699.9902, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(204.5281, device='cuda:0', grad_fn=<SumBackward0>)
+4.175755500793457
+BCE loss is  tensor(6071.8901, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(195.6548, device='cuda:0', grad_fn=<SumBackward0>)
+4.432492733001709
+BCE loss is  tensor(5595.1982, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(178.2533, device='cuda:0', grad_fn=<SumBackward0>)
+4.08306360244751
+BCE loss is  tensor(5582.7207, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(121.4963, device='cuda:0', grad_fn=<SumBackward0>)
+4.034099578857422
+BCE loss is  tensor(5568.1772, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(167.7661, device='cuda:0', grad_fn=<SumBackward0>)
+4.05653715133667
+BCE loss is  tensor(5795.5996, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(181.2617, device='cuda:0', grad_fn=<SumBackward0>)
+4.226917743682861
+BCE loss is  tensor(5863.9912, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(189.9165, device='cuda:0', grad_fn=<SumBackward0>)
+4.281405925750732
+BCE loss is  tensor(5646.3931, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(125.0594, device='cuda:0', grad_fn=<SumBackward0>)
+4.0816497802734375
+BCE loss is  tensor(5805.8447, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(267.4273, device='cuda:0', grad_fn=<SumBackward0>)
+4.295100688934326
+BCE loss is  tensor(5552.2266, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(188.4608, device='cuda:0', grad_fn=<SumBackward0>)
+4.059892177581787
+BCE loss is  tensor(5380.0078, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(114.8447, device='cuda:0', grad_fn=<SumBackward0>)
+3.8860344886779785
+BCE loss is  tensor(5476.7402, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(125.8264, device='cuda:0', grad_fn=<SumBackward0>)
+3.9622111320495605
+BCE loss is  tensor(5647.7158, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(118.3919, device='cuda:0', grad_fn=<SumBackward0>)
+4.077869892120361
+BCE loss is  tensor(5879.9717, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(223.7446, device='cuda:0', grad_fn=<SumBackward0>)
+4.316631317138672
+BCE loss is  tensor(5576.2295, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(200.6095, device='cuda:0', grad_fn=<SumBackward0>)
+4.085458755493164
+BCE loss is  tensor(5921.8184, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(229.3005, device='cuda:0', grad_fn=<SumBackward0>)
+4.350154876708984
+BCE loss is  tensor(6064.9502, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(241.7002, device='cuda:0', grad_fn=<SumBackward0>)
+4.460148811340332
+BCE loss is  tensor(5953.0688, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(203.4917, device='cuda:0', grad_fn=<SumBackward0>)
+4.354003429412842
+BCE loss is  tensor(5771.0654, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(164.6143, device='cuda:0', grad_fn=<SumBackward0>)
+4.197793483734131
+BCE loss is  tensor(5803.1040, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(154.0435, device='cuda:0', grad_fn=<SumBackward0>)
+4.21297550201416
+BCE loss is  tensor(5758.7627, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(126.1449, device='cuda:0', grad_fn=<SumBackward0>)
+4.161886692047119
+BCE loss is  tensor(5381.1904, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(72.5936, device='cuda:0', grad_fn=<SumBackward0>)
+3.856990337371826
+BCE loss is  tensor(5927.6567, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.9637, device='cuda:0', grad_fn=<SumBackward0>)
+4.329293251037598
+BCE loss is  tensor(6125.2686, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(223.6546, device='cuda:0', grad_fn=<SumBackward0>)
+4.490045070648193
+BCE loss is  tensor(6160.9189, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(231.0484, device='cuda:0', grad_fn=<SumBackward0>)
+4.520486354827881
+BCE loss is  tensor(5980.7100, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(311.1257, device='cuda:0', grad_fn=<SumBackward0>)
+4.449671745300293
+BCE loss is  tensor(5968.5771, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(268.9938, device='cuda:0', grad_fn=<SumBackward0>)
+4.411294937133789
+BCE loss is  tensor(5697.9502, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(131.1119, device='cuda:0', grad_fn=<SumBackward0>)
+4.122391700744629
+BCE loss is  tensor(5941.4404, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(174.3178, device='cuda:0', grad_fn=<SumBackward0>)
+4.32514762878418
+BCE loss is  tensor(5738.5137, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(206.6669, device='cuda:0', grad_fn=<SumBackward0>)
+4.204512596130371
+BCE loss is  tensor(5906.5435, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(250.1300, device='cuda:0', grad_fn=<SumBackward0>)
+4.354083061218262
+BCE loss is  tensor(5691.8223, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.1919, device='cuda:0', grad_fn=<SumBackward0>)
+4.142867088317871
+BCE loss is  tensor(6085.7168, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(237.8926, device='cuda:0', grad_fn=<SumBackward0>)
+4.472142696380615
+BCE loss is  tensor(5615.1963, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(132.7607, device='cuda:0', grad_fn=<SumBackward0>)
+4.065033435821533
+BCE loss is  tensor(5694.5430, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(238.8738, device='cuda:0', grad_fn=<SumBackward0>)
+4.196193218231201
+BCE loss is  tensor(5864.3691, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(158.6566, device='cuda:0', grad_fn=<SumBackward0>)
+4.259565830230713
+BCE loss is  tensor(5900.5156, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(247.4930, device='cuda:0', grad_fn=<SumBackward0>)
+4.347955226898193
+BCE loss is  tensor(5564.7065, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(139.4236, device='cuda:0', grad_fn=<SumBackward0>)
+4.034038066864014
+BCE loss is  tensor(5715.4185, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(119.1222, device='cuda:0', grad_fn=<SumBackward0>)
+4.1262664794921875
+BCE loss is  tensor(5587.7021, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(170.3476, device='cuda:0', grad_fn=<SumBackward0>)
+4.072171211242676
+BCE loss is  tensor(5564.9092, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(123.6239, device='cuda:0', grad_fn=<SumBackward0>)
+4.023007869720459
+BCE loss is  tensor(5973.3662, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(228.4514, device='cuda:0', grad_fn=<SumBackward0>)
+4.386009693145752
+BCE loss is  tensor(6089.1870, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(225.6381, device='cuda:0', grad_fn=<SumBackward0>)
+4.465929985046387
+BCE loss is  tensor(5772.9561, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(145.9301, device='cuda:0', grad_fn=<SumBackward0>)
+4.185916900634766
+BCE loss is  tensor(5886.2974, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.0820, device='cuda:0', grad_fn=<SumBackward0>)
+4.264059066772461
+BCE loss is  tensor(5548.3994, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(118.1663, device='cuda:0', grad_fn=<SumBackward0>)
+4.007472515106201
+BCE loss is  tensor(5909.9941, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(208.9601, device='cuda:0', grad_fn=<SumBackward0>)
+4.327407360076904
+BCE loss is  tensor(5650.4795, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(150.0123, device='cuda:0', grad_fn=<SumBackward0>)
+4.102186679840088
+BCE loss is  tensor(5871.5156, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(203.8730, device='cuda:0', grad_fn=<SumBackward0>)
+4.296597480773926
+BCE loss is  tensor(5540.2773, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(153.7838, device='cuda:0', grad_fn=<SumBackward0>)
+4.026917457580566
+BCE loss is  tensor(5823.3579, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(198.3608, device='cuda:0', grad_fn=<SumBackward0>)
+4.258641242980957
+BCE loss is  tensor(6028.2583, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(200.7685, device='cuda:0', grad_fn=<SumBackward0>)
+4.405252456665039
+BCE loss is  tensor(5869.4658, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(194.0357, device='cuda:0', grad_fn=<SumBackward0>)
+4.288190841674805
+BCE loss is  tensor(5812.7910, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(229.6466, device='cuda:0', grad_fn=<SumBackward0>)
+4.273293972015381
+BCE loss is  tensor(5642.0488, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(130.8874, device='cuda:0', grad_fn=<SumBackward0>)
+4.082698822021484
+BCE loss is  tensor(5725.3564, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.8140, device='cuda:0', grad_fn=<SumBackward0>)
+4.170558929443359
+BCE loss is  tensor(5899.8828, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.0013, device='cuda:0', grad_fn=<SumBackward0>)
+4.28492546081543
+BCE loss is  tensor(5947.2729, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(243.0718, device='cuda:0', grad_fn=<SumBackward0>)
+4.377895832061768
+BCE loss is  tensor(5774.3691, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.6483, device='cuda:0', grad_fn=<SumBackward0>)
+4.201568603515625
+BCE loss is  tensor(6054.9883, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(315.8861, device='cuda:0', grad_fn=<SumBackward0>)
+4.505568981170654
+BCE loss is  tensor(6169.7114, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(205.8933, device='cuda:0', grad_fn=<SumBackward0>)
+4.508914470672607
+BCE loss is  tensor(5977.7734, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(224.3564, device='cuda:0', grad_fn=<SumBackward0>)
+4.38623046875
+BCE loss is  tensor(5982.8711, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(211.4300, device='cuda:0', grad_fn=<SumBackward0>)
+4.3806939125061035
+BCE loss is  tensor(5594.0645, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(160.3563, device='cuda:0', grad_fn=<SumBackward0>)
+4.069604873657227
+BCE loss is  tensor(5943.2871, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(175.5947, device='cuda:0', grad_fn=<SumBackward0>)
+4.327356338500977
+BCE loss is  tensor(6037.1426, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(250.1285, device='cuda:0', grad_fn=<SumBackward0>)
+4.446443557739258
+BCE loss is  tensor(5498.9565, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(198.5569, device='cuda:0', grad_fn=<SumBackward0>)
+4.029359340667725
+BCE loss is  tensor(5996.9653, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(212.1188, device='cuda:0', grad_fn=<SumBackward0>)
+4.391148567199707
+BCE loss is  tensor(6075.8872, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(238.5798, device='cuda:0', grad_fn=<SumBackward0>)
+4.465676784515381
+BCE loss is  tensor(5953.4570, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(198.0303, device='cuda:0', grad_fn=<SumBackward0>)
+4.350415229797363
+BCE loss is  tensor(5962.4868, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(235.7036, device='cuda:0', grad_fn=<SumBackward0>)
+4.383444309234619
+BCE loss is  tensor(6061.0142, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(174.8929, device='cuda:0', grad_fn=<SumBackward0>)
+4.410118579864502
+BCE loss is  tensor(6096.7480, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(215.8304, device='cuda:0', grad_fn=<SumBackward0>)
+4.464341163635254
+BCE loss is  tensor(5959.7622, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(135.1187, device='cuda:0', grad_fn=<SumBackward0>)
+4.31038236618042
+BCE loss is  tensor(5960., device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(207.0014, device='cuda:0', grad_fn=<SumBackward0>)
+4.361387252807617
+BCE loss is  tensor(5985.2148, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(176.1199, device='cuda:0', grad_fn=<SumBackward0>)
+4.357379913330078
+BCE loss is  tensor(5563.8936, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(194.0375, device='cuda:0', grad_fn=<SumBackward0>)
+4.072087287902832
+BCE loss is  tensor(6064.4541, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(151.7227, device='cuda:0', grad_fn=<SumBackward0>)
+4.396164894104004
+BCE loss is  tensor(5789.6621, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(205.2787, device='cuda:0', grad_fn=<SumBackward0>)
+4.23970365524292
+BCE loss is  tensor(5722.0029, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(172.7833, device='cuda:0', grad_fn=<SumBackward0>)
+4.168872833251953
+BCE loss is  tensor(6092.5083, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(182.3988, device='cuda:0', grad_fn=<SumBackward0>)
+4.437699794769287
+BCE loss is  tensor(5957.6694, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.3853, device='cuda:0', grad_fn=<SumBackward0>)
+4.334550857543945
+BCE loss is  tensor(5509.6387, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(140.2302, device='cuda:0', grad_fn=<SumBackward0>)
+3.995664358139038
+BCE loss is  tensor(5915.5923, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(137.4104, device='cuda:0', grad_fn=<SumBackward0>)
+4.280766010284424
+BCE loss is  tensor(5679.9609, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(125.5223, device='cuda:0', grad_fn=<SumBackward0>)
+4.105716705322266
+BCE loss is  tensor(5654.7871, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.2773, device='cuda:0', grad_fn=<SumBackward0>)
+4.135830879211426
+BCE loss is  tensor(5794.2544, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(179.2366, device='cuda:0', grad_fn=<SumBackward0>)
+4.224534034729004
+BCE loss is  tensor(5835.8599, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(158.4835, device='cuda:0', grad_fn=<SumBackward0>)
+4.239281177520752
+BCE loss is  tensor(5862.8916, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(173.8023, device='cuda:0', grad_fn=<SumBackward0>)
+4.269231796264648
+BCE loss is  tensor(5891.2046, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(181.7287, device='cuda:0', grad_fn=<SumBackward0>)
+4.29486083984375
+BCE loss is  tensor(5450.3369, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(139.4742, device='cuda:0', grad_fn=<SumBackward0>)
+3.953190326690674
+BCE loss is  tensor(5756.7715, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(144.2031, device='cuda:0', grad_fn=<SumBackward0>)
+4.173249244689941
+BCE loss is  tensor(5759.2349, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(197.1737, device='cuda:0', grad_fn=<SumBackward0>)
+4.212453365325928
+BCE loss is  tensor(5986.5811, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(209.0687, device='cuda:0', grad_fn=<SumBackward0>)
+4.38164758682251
+BCE loss is  tensor(5870.9258, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(242.4955, device='cuda:0', grad_fn=<SumBackward0>)
+4.323494911193848
+BCE loss is  tensor(6132.0938, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(242.0465, device='cuda:0', grad_fn=<SumBackward0>)
+4.50787878036499
+BCE loss is  tensor(5624.5913, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(144.6869, device='cuda:0', grad_fn=<SumBackward0>)
+4.080111980438232
+BCE loss is  tensor(5636.2598, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.0745, device='cuda:0', grad_fn=<SumBackward0>)
+4.103489875793457
+BCE loss is  tensor(5714.7979, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(223.0716, device='cuda:0', grad_fn=<SumBackward0>)
+4.199342250823975
+BCE loss is  tensor(5669.4048, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.2740, device='cuda:0', grad_fn=<SumBackward0>)
+4.1221208572387695
+BCE loss is  tensor(5886.0039, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(230.8971, device='cuda:0', grad_fn=<SumBackward0>)
+4.325955390930176
+BCE loss is  tensor(5783.6201, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(189.1496, device='cuda:0', grad_fn=<SumBackward0>)
+4.224023818969727
+BCE loss is  tensor(5773.2764, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(287.9498, device='cuda:0', grad_fn=<SumBackward0>)
+4.286581516265869
+BCE loss is  tensor(5766.9302, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(133.3981, device='cuda:0', grad_fn=<SumBackward0>)
+4.172792434692383
+BCE loss is  tensor(5644.8301, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(221.1945, device='cuda:0', grad_fn=<SumBackward0>)
+4.148532390594482
+BCE loss is  tensor(5924.7539, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(256.3108, device='cuda:0', grad_fn=<SumBackward0>)
+4.37133264541626
+BCE loss is  tensor(5744.2900, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(215.5555, device='cuda:0', grad_fn=<SumBackward0>)
+4.214883804321289
+BCE loss is  tensor(5813.0410, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(141.5457, device='cuda:0', grad_fn=<SumBackward0>)
+4.211164951324463
+BCE loss is  tensor(5815.7412, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(241.2392, device='cuda:0', grad_fn=<SumBackward0>)
+4.283578872680664
+BCE loss is  tensor(6032.5981, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(265.1271, device='cuda:0', grad_fn=<SumBackward0>)
+4.453836917877197
+BCE loss is  tensor(5751.4512, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(178.3078, device='cuda:0', grad_fn=<SumBackward0>)
+4.193605899810791
+BCE loss is  tensor(5598.3281, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(135.6040, device='cuda:0', grad_fn=<SumBackward0>)
+4.05511474609375
+BCE loss is  tensor(5956.9971, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(245.8925, device='cuda:0', grad_fn=<SumBackward0>)
+4.386767864227295
+BCE loss is  tensor(5389.2090, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(153.2726, device='cuda:0', grad_fn=<SumBackward0>)
+3.9197182655334473
+BCE loss is  tensor(5601.1680, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(118.3738, device='cuda:0', grad_fn=<SumBackward0>)
+4.044937610626221
+BCE loss is  tensor(6047.9517, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.7786, device='cuda:0', grad_fn=<SumBackward0>)
+4.414236545562744
+BCE loss is  tensor(5900.4092, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(167.6127, device='cuda:0', grad_fn=<SumBackward0>)
+4.291387557983398
+BCE loss is  tensor(6052.2578, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(275.9220, device='cuda:0', grad_fn=<SumBackward0>)
+4.475374698638916
+BCE loss is  tensor(5918.7788, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(181.5733, device='cuda:0', grad_fn=<SumBackward0>)
+4.314251899719238
+BCE loss is  tensor(5734.6787, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.9488, device='cuda:0', grad_fn=<SumBackward0>)
+4.168760776519775
+BCE loss is  tensor(5682.2949, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(262.6423, device='cuda:0', grad_fn=<SumBackward0>)
+4.20434045791626
+BCE loss is  tensor(5521.4590, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(149.7501, device='cuda:0', grad_fn=<SumBackward0>)
+4.010756015777588
+BCE loss is  tensor(5850.0767, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(228.3235, device='cuda:0', grad_fn=<SumBackward0>)
+4.298727512359619
+BCE loss is  tensor(6246.6660, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(226.7023, device='cuda:0', grad_fn=<SumBackward0>)
+4.578053951263428
+BCE loss is  tensor(5626.9561, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.5198, device='cuda:0', grad_fn=<SumBackward0>)
+4.0922746658325195
+BCE loss is  tensor(6034.3867, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(222.0978, device='cuda:0', grad_fn=<SumBackward0>)
+4.424670696258545
+BCE loss is  tensor(5695.3442, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(151.4516, device='cuda:0', grad_fn=<SumBackward0>)
+4.1349334716796875
+BCE loss is  tensor(5864.5537, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(145.1079, device='cuda:0', grad_fn=<SumBackward0>)
+4.250114440917969
+BCE loss is  tensor(6001.8877, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(167.0548, device='cuda:0', grad_fn=<SumBackward0>)
+4.362760066986084
+BCE loss is  tensor(5538.3330, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(109.7889, device='cuda:0', grad_fn=<SumBackward0>)
+3.9944286346435547
+BCE loss is  tensor(5803.2402, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(213.7363, device='cuda:0', grad_fn=<SumBackward0>)
+4.2552876472473145
+BCE loss is  tensor(5883.0454, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(189.3369, device='cuda:0', grad_fn=<SumBackward0>)
+4.294471263885498
+BCE loss is  tensor(5885.9365, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(254.4466, device='cuda:0', grad_fn=<SumBackward0>)
+4.342562675476074
+BCE loss is  tensor(5768.6821, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(134.6109, device='cuda:0', grad_fn=<SumBackward0>)
+4.174889087677002
+BCE loss is  tensor(5926.9902, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(201.0454, device='cuda:0', grad_fn=<SumBackward0>)
+4.333829879760742
+BCE loss is  tensor(5640.8486, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.8880, device='cuda:0', grad_fn=<SumBackward0>)
+4.0910444259643555
+BCE loss is  tensor(5606.8828, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(122.4372, device='cuda:0', grad_fn=<SumBackward0>)
+4.051852703094482
+BCE loss is  tensor(5526.0938, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(150.6844, device='cuda:0', grad_fn=<SumBackward0>)
+4.014694690704346
+BCE loss is  tensor(5648.3096, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(184.3716, device='cuda:0', grad_fn=<SumBackward0>)
+4.124951362609863
+BCE loss is  tensor(5520.5605, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(117.7575, device='cuda:0', grad_fn=<SumBackward0>)
+3.987494945526123
+BCE loss is  tensor(6068.6943, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(232.8880, device='cuda:0', grad_fn=<SumBackward0>)
+4.456564903259277
+BCE loss is  tensor(5998.4082, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(225.7431, device='cuda:0', grad_fn=<SumBackward0>)
+4.401804447174072
+BCE loss is  tensor(5783.4775, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(196.1703, device='cuda:0', grad_fn=<SumBackward0>)
+4.228888511657715
+BCE loss is  tensor(5635.7100, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(140.2597, device='cuda:0', grad_fn=<SumBackward0>)
+4.08484411239624
+BCE loss is  tensor(6141.9175, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(215.5917, device='cuda:0', grad_fn=<SumBackward0>)
+4.496117115020752
+BCE loss is  tensor(5893.7417, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(335.3447, device='cuda:0', grad_fn=<SumBackward0>)
+4.405294418334961
+BCE loss is  tensor(5681.3247, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(196.7408, device='cuda:0', grad_fn=<SumBackward0>)
+4.157047748565674
+BCE loss is  tensor(5587.2910, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(124.8127, device='cuda:0', grad_fn=<SumBackward0>)
+4.039677143096924
+BCE loss is  tensor(5922.3491, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(238.0182, device='cuda:0', grad_fn=<SumBackward0>)
+4.356695175170898
+BCE loss is  tensor(5991.8198, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(223.2877, device='cuda:0', grad_fn=<SumBackward0>)
+4.395408630371094
+BCE loss is  tensor(5814.4639, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(234.1440, device='cuda:0', grad_fn=<SumBackward0>)
+4.277657508850098
+BCE loss is  tensor(6154.7671, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(241.9914, device='cuda:0', grad_fn=<SumBackward0>)
+4.523874282836914
+BCE loss is  tensor(5707.0034, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.2714, device='cuda:0', grad_fn=<SumBackward0>)
+4.137393951416016
+BCE loss is  tensor(6032.1436, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.9542, device='cuda:0', grad_fn=<SumBackward0>)
+4.387622356414795
+BCE loss is  tensor(5814.9185, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(207.8697, device='cuda:0', grad_fn=<SumBackward0>)
+4.259397506713867
+BCE loss is  tensor(5677.2856, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(198.3114, device='cuda:0', grad_fn=<SumBackward0>)
+4.155302047729492
+BCE loss is  tensor(5788.9736, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(128.6890, device='cuda:0', grad_fn=<SumBackward0>)
+4.185051441192627
+BCE loss is  tensor(6374.0220, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(297.9882, device='cuda:0', grad_fn=<SumBackward0>)
+4.718536376953125
+BCE loss is  tensor(5964.8330, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(179.4798, device='cuda:0', grad_fn=<SumBackward0>)
+4.345341682434082
+BCE loss is  tensor(5577.5088, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(148.5672, device='cuda:0', grad_fn=<SumBackward0>)
+4.049559116363525
+BCE loss is  tensor(5590.4321, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.2147, device='cuda:0', grad_fn=<SumBackward0>)
+4.06622838973999
+BCE loss is  tensor(5951.8008, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(187.3946, device='cuda:0', grad_fn=<SumBackward0>)
+4.34172248840332
+BCE loss is  tensor(6115.4380, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(200.6301, device='cuda:0', grad_fn=<SumBackward0>)
+4.466809272766113
+BCE loss is  tensor(5611.9194, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(187.7607, device='cuda:0', grad_fn=<SumBackward0>)
+4.101612567901611
+BCE loss is  tensor(5741.0459, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(245.9570, device='cuda:0', grad_fn=<SumBackward0>)
+4.2340898513793945
+BCE loss is  tensor(5996.8008, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(208.3583, device='cuda:0', grad_fn=<SumBackward0>)
+4.388372898101807
+BCE loss is  tensor(5651.7266, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(109.9705, device='cuda:0', grad_fn=<SumBackward0>)
+4.0747504234313965
+BCE loss is  tensor(6114.0698, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(262.4958, device='cuda:0', grad_fn=<SumBackward0>)
+4.509593963623047
+BCE loss is  tensor(5720.6143, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(169.3672, device='cuda:0', grad_fn=<SumBackward0>)
+4.165474891662598
+BCE loss is  tensor(5469.0884, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(157.2890, device='cuda:0', grad_fn=<SumBackward0>)
+3.979050636291504
+BCE loss is  tensor(5933.9004, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(204.3259, device='cuda:0', grad_fn=<SumBackward0>)
+4.341036796569824
+BCE loss is  tensor(5738.1816, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(166.6803, device='cuda:0', grad_fn=<SumBackward0>)
+4.175998687744141
+BCE loss is  tensor(5894.0029, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(193.4205, device='cuda:0', grad_fn=<SumBackward0>)
+4.305108547210693
+BCE loss is  tensor(5807.7930, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(195.8614, device='cuda:0', grad_fn=<SumBackward0>)
+4.245865821838379
+BCE loss is  tensor(6003.9941, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(218.2544, device='cuda:0', grad_fn=<SumBackward0>)
+4.400458812713623
+BCE loss is  tensor(5620.5488, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(111.3884, device='cuda:0', grad_fn=<SumBackward0>)
+4.053703784942627
+BCE loss is  tensor(5720.0347, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(180.6526, device='cuda:0', grad_fn=<SumBackward0>)
+4.173046588897705
+BCE loss is  tensor(5603.9561, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(125.5050, device='cuda:0', grad_fn=<SumBackward0>)
+4.051952838897705
+BCE loss is  tensor(5863.1357, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(157.1346, device='cuda:0', grad_fn=<SumBackward0>)
+4.257616996765137
+BCE loss is  tensor(5699.5693, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(237.3808, device='cuda:0', grad_fn=<SumBackward0>)
+4.1986918449401855
+BCE loss is  tensor(5842.3096, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(174.0274, device='cuda:0', grad_fn=<SumBackward0>)
+4.25483512878418
+BCE loss is  tensor(5900.5703, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(333.3966, device='cuda:0', grad_fn=<SumBackward0>)
+4.408746242523193
+BCE loss is  tensor(5796.7852, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(171.8087, device='cuda:0', grad_fn=<SumBackward0>)
+4.221070766448975
+BCE loss is  tensor(5925.0986, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(257.0963, device='cuda:0', grad_fn=<SumBackward0>)
+4.372132301330566
+BCE loss is  tensor(6197.3047, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(326.6921, device='cuda:0', grad_fn=<SumBackward0>)
+4.613859176635742
+BCE loss is  tensor(5761.9688, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.8207, device='cuda:0', grad_fn=<SumBackward0>)
+4.176654815673828
+BCE loss is  tensor(5768.7031, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(222.9304, device='cuda:0', grad_fn=<SumBackward0>)
+4.237364292144775
+BCE loss is  tensor(6136.5581, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(208.5401, device='cuda:0', grad_fn=<SumBackward0>)
+4.487339496612549
+BCE loss is  tensor(5882.0815, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(188.8587, device='cuda:0', grad_fn=<SumBackward0>)
+4.29345178604126
+BCE loss is  tensor(6007.9492, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(215.0682, device='cuda:0', grad_fn=<SumBackward0>)
+4.401002407073975
+BCE loss is  tensor(5977.0117, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(330.3148, device='cuda:0', grad_fn=<SumBackward0>)
+4.46062707901001
+BCE loss is  tensor(5670.6631, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(190.6438, device='cuda:0', grad_fn=<SumBackward0>)
+4.145195960998535
+BCE loss is  tensor(5684.0645, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(140.5722, device='cuda:0', grad_fn=<SumBackward0>)
+4.119262218475342
+BCE loss is  tensor(5915.7573, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(218.0944, device='cuda:0', grad_fn=<SumBackward0>)
+4.337943077087402
+BCE loss is  tensor(5657.1133, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(150.3757, device='cuda:0', grad_fn=<SumBackward0>)
+4.107134819030762
+BCE loss is  tensor(6240.3027, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(286.2009, device='cuda:0', grad_fn=<SumBackward0>)
+4.615632057189941
+BCE loss is  tensor(5465.8169, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(157.5993, device='cuda:0', grad_fn=<SumBackward0>)
+3.9769561290740967
+BCE loss is  tensor(5607.6826, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(180.5774, device='cuda:0', grad_fn=<SumBackward0>)
+4.093535900115967
+BCE loss is  tensor(5600.1504, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(137.9557, device='cuda:0', grad_fn=<SumBackward0>)
+4.058066368103027
+BCE loss is  tensor(5681.7930, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(182.9889, device='cuda:0', grad_fn=<SumBackward0>)
+4.147653579711914
+BCE loss is  tensor(5550.4502, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(174.4594, device='cuda:0', grad_fn=<SumBackward0>)
+4.048733711242676
+BCE loss is  tensor(5711.3413, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(165.6151, device='cuda:0', grad_fn=<SumBackward0>)
+4.15626335144043
+BCE loss is  tensor(5859.1895, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(213.9370, device='cuda:0', grad_fn=<SumBackward0>)
+4.294997692108154
+BCE loss is  tensor(5940.8032, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(324.4034, device='cuda:0', grad_fn=<SumBackward0>)
+4.4308390617370605
+BCE loss is  tensor(5614.8838, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(159.4064, device='cuda:0', grad_fn=<SumBackward0>)
+4.083656311035156
+BCE loss is  tensor(5608.7891, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(141.1216, device='cuda:0', grad_fn=<SumBackward0>)
+4.066414833068848
+BCE loss is  tensor(5471.3438, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(143.4929, device='cuda:0', grad_fn=<SumBackward0>)
+3.970889091491699
+BCE loss is  tensor(5520.6685, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(191.1369, device='cuda:0', grad_fn=<SumBackward0>)
+4.039466381072998
+BCE loss is  tensor(5905.9390, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(182.3333, device='cuda:0', grad_fn=<SumBackward0>)
+4.305708885192871
+BCE loss is  tensor(5957.8086, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(290.8118, device='cuda:0', grad_fn=<SumBackward0>)
+4.419109344482422
+BCE loss is  tensor(5904.0869, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(262.5689, device='cuda:0', grad_fn=<SumBackward0>)
+4.361142635345459
+BCE loss is  tensor(5822.6147, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(185.8437, device='cuda:0', grad_fn=<SumBackward0>)
+4.249263286590576
+BCE loss is  tensor(5766.6802, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(256.2737, device='cuda:0', grad_fn=<SumBackward0>)
+4.259514808654785
+BCE loss is  tensor(6062.5010, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(205.1868, device='cuda:0', grad_fn=<SumBackward0>)
+4.432594299316406
+BCE loss is  tensor(5664.9258, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(209.7145, device='cuda:0', grad_fn=<SumBackward0>)
+4.154625415802002
+BCE loss is  tensor(5700.4775, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(222.8240, device='cuda:0', grad_fn=<SumBackward0>)
+4.189039707183838
+BCE loss is  tensor(6139.0049, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(256.8522, device='cuda:0', grad_fn=<SumBackward0>)
+4.5232367515563965
+BCE loss is  tensor(5765.1377, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(136.7126, device='cuda:0', grad_fn=<SumBackward0>)
+4.1738691329956055
+BCE loss is  tensor(5823.2974, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(160.2331, device='cuda:0', grad_fn=<SumBackward0>)
+4.231634140014648
+BCE loss is  tensor(6130.6104, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(230.8395, device='cuda:0', grad_fn=<SumBackward0>)
+4.498903751373291
+BCE loss is  tensor(6130.5132, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(208.4703, device='cuda:0', grad_fn=<SumBackward0>)
+4.483015060424805
+BCE loss is  tensor(5906.8779, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(247.1950, device='cuda:0', grad_fn=<SumBackward0>)
+4.352243900299072
+BCE loss is  tensor(5871.5469, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(191.2574, device='cuda:0', grad_fn=<SumBackward0>)
+4.2876973152160645
+BCE loss is  tensor(6025.5649, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(187.0194, device='cuda:0', grad_fn=<SumBackward0>)
+4.393624305725098
+BCE loss is  tensor(5811.8232, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(191.4904, device='cuda:0', grad_fn=<SumBackward0>)
+4.245625019073486
+BCE loss is  tensor(5730.6685, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(141.7399, device='cuda:0', grad_fn=<SumBackward0>)
+4.15304708480835
+BCE loss is  tensor(5462.2354, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(190.4943, device='cuda:0', grad_fn=<SumBackward0>)
+3.9976871013641357
+BCE loss is  tensor(5782.8330, device='cuda:0', grad_fn=<SumBackward0>)
+KLD_z loss is  tensor(185.2913, device='cuda:0', grad_fn=<SumBackward0>)
+4.220738887786865
+Per subject loss is  4.2348296016866165
