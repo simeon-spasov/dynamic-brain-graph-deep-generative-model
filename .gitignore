@@ -7,3 +7,7 @@ Pipfile.lock
 ./models
 ./results
 ./wandb
+
+data.npz
+
+__pycache__/

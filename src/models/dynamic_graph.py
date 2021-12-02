@@ -1,9 +1,7 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from torch.distributions import Normal, Categorical, RelaxedOneHotCategorical
-from torch.distributions.utils import clamp_probs
-from torch.distributions.kl import _kl_normal_normal as kl_normal
+from torch.distributions import Normal, Categorical, RelaxedOneHotCategorical, kl_divergence
 
 
 class Accumulator:
@@ -17,11 +15,6 @@ class Accumulator:
 
     def stack(self, dim=-1):
         self.data= {k: torch.stack(self.data[k], dim=dim) for k in self.data.keys()}
-
-
-def kl_categorical(q, p):
-    kl = clamp_probs(q.probs) * (q.logits - p.logits)
-    return kl
 
 
 def batched_index_select(input, dim, index):
@@ -195,7 +188,7 @@ class DynamicGraph(nn.Module):
     def _parameterise_prior_z(self, p_phi_sample, w):
         phi_w = batched_index_select(p_phi_sample, 1, w)
         logits = self.fc_p_z(phi_w)
-        return RelaxedOneHotCategorical(logits=logits, temperature=self.tau)
+        return Categorical(logits=logits)
 
 
     def _parameterise_posterior_z(self, q_phi_sample, w, c):
@@ -203,7 +196,7 @@ class DynamicGraph(nn.Module):
         phi_c = batched_index_select(q_phi_sample, 1, c)
         h = torch.cat((phi_w, phi_c), dim=-1)
         logits = self.fc_q_z(h)
-        return RelaxedOneHotCategorical(logits=logits, temperature=self.tau)
+        return Categorical(logits=logits)
   
 
     def _parameterise_likelihood_c(self, beta, z):
@@ -216,7 +209,7 @@ class DynamicGraph(nn.Module):
 
     
     def _forward_graph_edges(self, edges, edge_weights, p_phi_sample, q_phi_sample, q_beta_sample):
-        # unpack edges from and edges to
+        # unpack edges
         w, c = edges[..., 0], edges[..., 1]
 
         # parameterise z prior p(z | w)
@@ -224,14 +217,14 @@ class DynamicGraph(nn.Module):
         # parameterise z posterior q(z | w, c)
         q_z = self._parameterise_posterior_z(q_phi_sample, w, c)  
         # kl divergence z
-        kl_z = kl_categorical(q_z, p_z)
+        kl_z = kl_divergence(q_z, p_z)
      
         # sample z posterior q(z | w, c)
         q_z_sample = q_z.rsample() if self.training else F.one_hot(q_z.logits.argmax(-1), num_classes=self.num_communities)  
         # parameterise c likelihood p(c | z)
         p_c = self._parameterise_likelihood_c(q_beta_sample, q_z_sample)
  
-        # negative log likelihood = multiclass cross-entropy
+        # negative log likelihood = cross-entropy
         nll = F.cross_entropy(p_c.logits.reshape(-1, self.num_nodes), c.reshape(-1), reduction="none")
         nll = nll.reshape(q_z_sample.shape[0], -1)
         
@@ -260,7 +253,7 @@ class DynamicGraph(nn.Module):
             # parameterise posterior q(beta_t|beta_t-1) = GRU(alpha, h_t-1)
             q_beta = self._parameterise_posterior_beta(q_alpha_sample, h_q_beta)
             # calculate kl divergence KL(q(beta_t|beta_t-1)||p(beta_t|beta_t-1))
-            kl_beta = kl_normal(q_beta, p_beta)
+            kl_beta = kl_divergence(q_beta, p_beta)
 
             # sample prior beta_t ~ p(beta_t|beta_t-1) 
             p_beta_sample = p_beta.mean  
@@ -277,7 +270,7 @@ class DynamicGraph(nn.Module):
             # parameterise phi posterior q(phi_t|phi_t-1) = GRU(alpha, h_t-1)
             q_phi = self._parameterise_posterior_phi(q_alpha_sample, h_q_phi)
             # calculate kl divergence KL(q(phi_t|phi_t-1)||p(phi_t|phi_t-1))
-            kl_phi = kl_normal(q_phi, p_phi)
+            kl_phi = kl_divergence(q_phi, p_phi)
 
             # sample phi prior
             p_phi_sample = p_phi.mean
@@ -314,7 +307,7 @@ class DynamicGraph(nn.Module):
         # parameterise alpha posterior
         q_alpha = self._parameterise_posterior_alpha(subject_idx)
 
-        kl_alpha = kl_normal(q_alpha, p_alpha)
+        kl_alpha = kl_divergence(q_alpha, p_alpha)
 
         # sample prior alpha
         p_alpha_sample = p_alpha.mean

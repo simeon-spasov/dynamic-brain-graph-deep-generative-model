@@ -8,15 +8,15 @@ def get_loss(name, **kwargs):
 
     if name == "elbo":
 
-        return ELBOLoss(**kwargs)
+        return ELBO(**kwargs)
     
     else:
         raise ValueError("loss not implemented: '{}'".format(name))
 
 
-class ELBOLoss(nn.Module):
+class ELBO(nn.Module):
     def __init__(self, gamma_alpha=1., gamma_beta=1., gamma_phi=1., gamma_z=1., edge_balance=True):
-        super(ELBOLoss, self).__init__()
+        super(ELBO, self).__init__()
      
         self.gamma_alpha = gamma_alpha
         self.gamma_beta = gamma_beta
@@ -30,12 +30,12 @@ class ELBOLoss(nn.Module):
         # sum over time: B x E x T -> B x E 
         nll_pos = nll_pos.sum(dim=-1)
         # mean over number of positive edges and batch
-        nll_pol = nll_pos.mean(dim=(-1, -2))
+        nll_pos = nll_pos.mean(dim=(-1, -2))
 
         # sum over time: B x E x T -> B x E 
         nll_neg = nll_neg.sum(dim=-1)
         # mean over number of negative edges and batch
-        nll_neg = nllnll_neg_pos.mean(dim=(-1, -2))
+        nll_neg = nll_neg.mean(dim=(-1, -2))
         
         # sum over latent dimension: B x Z  -> B
         kl_alpha = kl_alpha.sum(dim=-1)
@@ -69,6 +69,6 @@ class ELBOLoss(nn.Module):
         
         else:
             
-            loss_parts = np.array([0.] * 6)
+            loss_parts =  np.array([nll_pos.item(), nll_neg.item()] + [0.] * 4)
                 
         return loss, loss_parts

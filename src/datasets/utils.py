@@ -1,3 +1,4 @@
+import torch
 import numpy as np
 import scipy.sparse as sp
 
@@ -6,7 +7,7 @@ def set_diff_2d(A, B):
     
     nrows, ncols = A.shape
     
-    dtype={"names":["f{}".format(i) for i in range(ncols)], "formats":ncols * [A.dtype]}
+    dtype={"names":["f{}".format(i) for i in range(ncols)], "formats": ncols * [A.dtype]}
     out = np.setdiff1d(A.copy().view(dtype), B.copy().view(dtype))
     
     return out.view(A.dtype).reshape(-1, ncols)
@@ -39,3 +40,31 @@ def edge_sampler(adjacency_matrix, num_positive_edges=100, num_negative_edges=10
     return sample_pos_edges, sample_pos_edge_weights, sample_neg_edges
 
 
+def remove_self_loops(A):
+
+    A_no_self_loops = A - A.diagonal(dim1=-2, dim2=-1).diag_embed(offset=0, dim1=-2, dim2=-1) 
+
+    return A_no_self_loops
+
+
+def add_self_loops(A):
+    
+    identity = torch.eye(A.shape[-1], dtype=A.dtype, device=A.device)
+    identity, A = torch.broadcast_tensors(identity, A)
+    
+    A_self_loops = A + identity
+
+    return A
+
+
+def normalize_adjacency(A, epsilon=1e-5):
+    
+    A = remove_self_loops(A)
+    A = add_self_loops(A)
+ 
+    diag = A.sum(dim=-1)
+    diag[diag <= epsilon] = epsilon
+    diag = (1 / diag.sqrt()).diag_embed(offset=0, dim1=-2, dim2=-1)
+    A_norm = (diag.matmul(A)).matmul(diag)
+
+    return A_norm

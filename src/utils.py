@@ -8,14 +8,13 @@ from omegaconf  import OmegaConf
 
 
 def set_random_seed(seed, is_gpu=False):
-    """
-    Set random seeds for reproducability
-    """
+    """Set random seeds for reproducability"""
+
     max_seed_value = np.iinfo(np.uint32).max
     min_seed_value = np.iinfo(np.uint32).min
 
     if not (min_seed_value <= seed <= max_seed_value):
-        raise ValueError("{} is not in bounds, numpy accepts from {} to {}".format(seed, min_seed_value, max_seed_value))
+        raise ValueError("seed {} is not in bounds, numpy accepts seeds from {} to {}".format(seed, min_seed_value, max_seed_value))
 
     torch.manual_seed(seed)
     np.random.seed(seed)
@@ -88,4 +87,5 @@ def save_config(config, save_dir, filename="config.yaml"):
     
     except:
         raise IOError("cannot save: '{}'".format(file_path))
+
 

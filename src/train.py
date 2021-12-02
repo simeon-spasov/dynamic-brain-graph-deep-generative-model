@@ -65,46 +65,42 @@ def train(model, train_loader, valid_loader, num_epochs, learning_rate, save_dir
 
     model.to(device)
 
-    optimiser = Adam(params=model.parameters(), 
-                     lr=learning_rate)
+    optimiser = Adam(params=model.parameters(), lr=learning_rate)
 
     if wb_logging: wandb.watch(model)
         
-    best_valid_nll = float("inf")
+    best_valid_elbo = float("inf")
     is_best = False
 
     for epoch in range(num_epochs):
-
         start_time = time.time() 
-
-        model.warmup = True if epoch < warmup else False
         
+        model.warmup = True if epoch < warmup else False
         if (epoch % valid_every == 0): valid = True 
 
         train_metrics = _train_epoch(model, train_loader, optimiser, device)
         
-        if not warmup and valid:
+        if not model.warmup and valid:
 
             valid_metrics = _train_epoch(model, valid_loader, optimiser, device, valid)
-
-            is_best = valid_nll < best_valid_nll
             
+            valid_elbo = valid_metrics[0]
+            is_best = valid_elbo < best_valid_elbo
+    
             if is_best and checkpoint_best:
                 
                 _save_model(model, save_dir, is_best)
+                best_valid_elbo = valid_elbo
                 
-                best_valid_nll = valid_nll
-        
-        break 
-        
         if epoch >= anneal_after:
             model.tau = np.maximum(model.tau * np.exp(-anneal_rate * epoch), min_tau)
             
         if verbose:
+            
             end_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-            to_print = "{}  |  epoch {:4d} of {:4d}  |  elbo {:01.3f}  |  nll_pos {:01.3f}  |  nll_neg {:01.3f}  |  kl_alpha {:01.3f}  |  kl_beta {:01.3f}  |  kl_phi {:01.3f}  |  kl_z {:01.3f}  |  time: {}  "
-            if model.warmup: to_print = to_print + "|  warm-up" 
-            if is_best and checkpoint_best and not model.warmup: to_print = to_print + "|  *" 
+            to_print = "{} | epoch {:4d} of {:4d} | elbo {:06.2f} | nll_pos {:06.2f} | nll_neg {:06.2f} | kl_alpha {:06.2f} | kl_beta {:06.2f} | kl_phi {:06.2f} | kl_z {:06.2f} | time: {} "
+            if model.warmup: to_print = to_print + "| warm-up" 
+            if is_best and checkpoint_best and not model.warmup: to_print = to_print + "| *" 
             print(to_print.format(save_dir.stem, epoch + 1, num_epochs, *[train_metrics[idx] for idx in range(len(train_metrics.metrics))], end_time))
 
         if wb_logging:

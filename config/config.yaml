@@ -32,11 +32,11 @@ data:
 model:
   name: dynamic_graph   # model name
   num_communities: 3    # number of communities
-  alpha_dim: 10         # dimension of alpha
-  alpha_std: 0.1        # standard deviation of alpha
-  beta_dim: 14          # dimension of beta
-  phi_dim: 17           # dimension of phi
+  alpha_dim: 2          # dimension of alpha
+  beta_dim: 50          # dimension of beta
+  phi_dim: 50           # dimension of phi
   tau: 1.0              # temperature of Gumbel Softmax distribution
+  alpha_std: 0.1        # standard deviation of alpha prior
 
 loss:
   name: elbo            # name of loss
