@@ -1,6 +1,5 @@
-import numpy as np
-# import scipy.sparse as sp
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def _plot_graph(graph, label=None, tick_prop=0.25, ax=None, figsize=(50, 8), **kwargs):

@@ -1,13 +1,14 @@
 .vscode
 .DS_Store
+__pycache__/
 
 Pipfile
 Pipfile.lock
 
-./models
-./results
-./wandb
+old
+models
+results
+wandb
 
-data.npz
 
-__pycache__/
+

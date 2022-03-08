@@ -1,0 +1,48 @@
+is_gpu: true           # use gpu
+gpu_number: 0          # number of gpu
+seed: 123456           # seed 
+
+data:
+  name: hcp_rest       # name of dataset
+  num_nodes: 200       # number of brain rois
+  num_timesteps: 1200  # number of time steps
+  valid_split: 0.10    # proportion validation data
+  test_split: 0.10     # proportion test data
+  num_cpus: 10         # number of cpus to use for loading data
+
+model:
+  name: dynamic_graph   # model name
+  num_communities: 3    # number of communities
+  alpha_dim: 2          # dimension of alpha
+  beta_dim: 50          # dimension of beta
+  phi_dim: 50           # dimension of phi
+  temp: 1.0             # temperature of Gumbel Softmax distribution
+  alpha_std: 0.1        # standard deviation of alpha prior
+  measure: correlation  # measure of functional connectivity 
+
+optimizer:
+  name: adamw           # name of optimizer
+  lr: 1e-3              # learning rate
+  weight_decay: 1e-3    # weight decay
+  eps: 1e-3
+  betas: [0.9, 0.99]
+
+scheduler:
+  name: null            # name of scheduler
+
+train:
+  num_epochs: 20        # number of epochs to train
+  batch_size: 2         # batch size
+  window_size: 500      # number of timepoints to train model
+  warmup: 10            # number of warm-up epochs
+  anneal_after: 100     # number of epochs before temperature annealing
+  min_temp: 0.1         # minimum value to anneal temperature
+  anneal_rate: 1e-5     # temperature anneal rate
+  valid_every: 5        # frequency of model validation
+  delta: 0.01
+  patience: 10
+  gamma_alpha: 1.0      # weight for kl alpha
+  gamma_beta: 1.0       # weight for kl beta
+  gamma_phi: 1.0        # weight for kl phi
+  gamma_z: 1.0          # weight for kl z
+  verbose: true         # print training output to terminal
