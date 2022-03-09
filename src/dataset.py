@@ -43,14 +43,18 @@ class HCPDataset(Dataset):
         return len(self.sub_ids)
     
     def __getitem__(self, idx):
-        sub_id = torch.tensor(self.sub_ids[idx]).type(torch.int32)       
+        sub_id = torch.tensor(self.sub_ids[idx]).type(torch.int32)   
+        
         x = pd.read_csv(self.filepaths[self.sub_ids[idx]], delimiter=" ").to_numpy().T
         x = x[:, :self.num_timesteps]
         x = stats.zscore(x, axis=-1)
-        x = torch.from_numpy(x).type(torch.float32)
+
+        x = torch.from_numpy(x).type(torch.float64)
+        
+        idx = torch.tensor(idx).long()
         
         if self.window_size is not None:
             sampling_idx = randrange(x.shape[-1] - self.window_size)
             x = x[:, sampling_idx: sampling_idx + self.window_size]
     
-        return dict(id=sub_id, x=x) 
+        return dict(id=sub_id, idx=idx, x=x) 

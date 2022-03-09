@@ -1,9 +1,9 @@
 import numpy as np
 import torch
-from torch import nn
-from torch import optim
 import torch.nn.functional as F
+from torch import nn, optim
 from torch.autograd import Variable
+
 #import torch.distributions as dist
 
 
@@ -96,12 +96,15 @@ class EvolveGraph(nn.Module):
 
         # sample subject embedding from posterior
         alpha_mean_n = self.alpha_mean.weight[subject_idx].to(self.device)
+        # print(alpha_mean_n.shape)
         alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx].to(self.device))
+        # print(alpha_mean_n.shape)
         alpha_n = self._reparameterized_sample(alpha_mean_n, alpha_std_n)
-        
+        # print(alpha_n.shape)
         KLD_alpha = self._kld_gauss(alpha_mean_n, alpha_std_n,
                                     self.alpha_mean_prior,
                                     self.alpha_std_scalar)
+        # print(KLD_alpha.shape)
 
         
         #TODO: need to figure out the weights for these KL terms.
@@ -170,6 +173,9 @@ class EvolveGraph(nn.Module):
             phi_sample = self._reparameterized_sample(
                 phi_mean_t, phi_std_t)
 
+            # print(beta_sample.shape)
+            # print(phi_sample.shape)
+
             recon, posterior_z, prior_z = self._edge_reconstruction(
                 w, c, phi_sample, beta_sample, temp)
 
@@ -193,7 +199,12 @@ class EvolveGraph(nn.Module):
         return loss
 
     def _edge_reconstruction(self, w, c, phi_sample, beta_sample, temp):
+        # print(w.shape, c.shape)
+        # print(phi_sample.shape)
+        # print(phi_sample[w].shape)
+        print(beta_sample.shape)
         q = self.nn_pi(phi_sample[w] * phi_sample[c])
+        # print(q.shape)
 
         if self.training:
             z = my_softmax_gumbel(q, self.device, tau=temp, hard=True)
@@ -201,13 +212,17 @@ class EvolveGraph(nn.Module):
             tmp = q.argmax(dim=-1).reshape(q.shape[0], 1)
             src = torch.ones_like(tmp).float()
             z = torch.zeros(q.shape).to(self.device).scatter_(1, tmp, src)
+        print(z.shape)
 
         q_prior = self.nn_pi(phi_sample[w])
+        print(q_prior.shape)
         prior_z = F.softmax(q_prior, dim=-1)
         #Sample community assignment from posterior q(z|w,c)
         new_z = torch.mm(z, beta_sample)
+        print(new_z.shape)
         #recon gives distribution over the nodes p(c|z)
         recon = self.decoder(new_z)
+        print(recon.shape)
 
         return recon, F.softmax(q, dim=-1), prior_z
 

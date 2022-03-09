@@ -80,8 +80,7 @@ class ConnectivityMeasure:
     
     def __init__(self, measure="correlation", self_loops=False):
         self.measure = measure
-        self.tril = tril
-        self.include_diagonal = include_diagonal
+        self.self_loops = self_loops
         if self.measure not in self.fc.keys():
             raise NotImplementedError("unknown connectivity measure '{}'. " 
                                       "Only {} are supported".format(self.measure, ", ".join(list(self.fc.keys()))))
@@ -95,6 +94,6 @@ class ConnectivityMeasure:
         # error check
         A = is_not_nan_inf(A)
         # remove self loops
-        if not self_loops:
+        if not self.self_loops:
             A = _remove_self_loops(A)
         return A

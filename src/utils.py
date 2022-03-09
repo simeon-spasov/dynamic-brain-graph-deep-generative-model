@@ -50,31 +50,25 @@ def save_config(config, save_dir):
         else:
             OmegaConf.save(config, filepath)
     except:
-        raise IOError("error saving config to '{}'".format(str(save_dir))
+        raise IOError("error saving config to '{}'".format(str(save_dir)))
 
 def is_not_nan_inf(tensor):
-    """Check if tensor elements are inf or nan"""
+    """Check elements of tensor for inf or nan"""
     if (~tensor.isnan()).all() and (~tensor.isinf()).all():
         return tensor
     else: 
         raise ValueError("tensor elements are inf or nan")
 
-def dense_to_edge_weights(A, tril=True):
- 
-    batch_size, num_timesteps, num_nodes, _ = A.shape
-    # (batch_size, num_timesteps, num_nodes, num_nodes) -> (batch_size * num_timesteps, num_nodes, num_nodes)
-    A = A.rehspae(-1, num_nodes, num_nodes)
+def adjacency_to_edge_weights(A, tril=True):
+    """Reperesnt adjacency matrix as edge indices and weights"""
+    batch_size = A.shape[0]
     # zero out upper triangle including diagonal
     if tril:
         A = A.tril(diagonal=-1)
-    # (batch_size * num_timesteps, num_nodes, num_nodes) -> (batch_size * num_timesteps, num_edges, 2)
-    edges = A.nonzero().reshape(batch_size, -1, 3)[:, :, 1:]
-    # (batch_size * num_timesteps, num_nodes, num_nodes) -> (batch_size * num_timesteps, num_edges)
-    weights = A[A.nonzero(as_tuple=True)].reshape(_batch_size, -1)
+    # (batch_size, num_nodes, num_nodes) -> (batch_size, num_edges, 2)
+    edges = A.nonzero().reshape(batch_size, -1, 3)[..., 1:]
+    # (batch_size, num_nodes, num_nodes) -> (batch_size, num_edges)
+    weights = A[A.nonzero(as_tuple=True)].reshape(batch_size, -1)
     # sanity check
     assert edges.shape[:-1] == weights.shape
-    # (batch_size * num_timesteps, num_edges, 2) -> (batch_size, num_timesteps, num_edges, 2)
-    edges = edges.reshape(batch_size, num_timesteps, -1, 2)
-    # (batch_size * num_timesteps, num_edges) -> (batch_size, num_timesteps, num_edges)
-    weights = weights.reshape(batch_size, num_timesteps, -1)
     return edges, weights
