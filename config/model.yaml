@@ -1,4 +1,4 @@
-is_gpu: false           # use gpu
+is_gpu: true           # use gpu
 gpu_number: 1          # which gpu to use if more than more available
 seed: 123456           # seed for random number generators
 
@@ -34,7 +34,7 @@ scheduler:
   name: null            # name of scheduler
 
 train:
-  num_epochs: 1         # number of epochs to train
+  num_epochs: 50        # number of epochs to train
   batch_size: 32        # batch size
   window_size: 100      # number of timepoints to train model on
   warmup: 5             # number of warmup epochs (setting all kl terms to zero) 

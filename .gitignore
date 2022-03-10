@@ -5,7 +5,6 @@ __pycache__/
 Pipfile
 Pipfile.lock
 
-old/
 data/
 models/
 results/
