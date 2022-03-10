@@ -8,7 +8,7 @@ import torch.optim as opt
 from omegaconf import OmegaConf
 from torch.utils.data import DataLoader
 
-from .logger import save_results
+from .utils import save_results
 
 
 def get_optimizer(name):
@@ -32,7 +32,7 @@ def loss_fnc(nll, kl_alpha, kl_beta, kl_phi, kl_z, gamma_alpha=1., gamma_beta=1.
     nll = nll.mean(dim=(0, 1, 2))
     # sum over alpha_dim and mean over batch_size
     # (batch_size, alpha_dim) 
-    kl_alpha = kl_alpha.sum(dim=1).mean(dim=0) / 800
+    kl_alpha = kl_alpha.sum(dim=1).mean(dim=0) 
     # sum over beta_dim and mean over num_windows, num_communities, and batch_size 
     # (batch_size, num_communities, beta_dim, num_windows) 
     kl_beta = kl_beta.sum(dim=2).mean(dim=(0, 1, 2))
@@ -56,7 +56,7 @@ def loss_fnc(nll, kl_alpha, kl_beta, kl_phi, kl_z, gamma_alpha=1., gamma_beta=1.
             
     return elbo, elbo_parts
 
-def train_step(model, dataloader, optimiser=None, warmup=False, device=None, args=None):
+def train_step(model, dataloader, optimizer=None, warmup=False, device=None, args=None):
     model.to(device)
     model.train()
  
@@ -72,15 +72,17 @@ def train_step(model, dataloader, optimiser=None, warmup=False, device=None, arg
                                     args.train.gamma_phi, args.train.gamma_z, warmup)
         
         # compute gradients and update model parameters
-        optimiser.zero_grad()
+        optimizer.zero_grad()
         elbo.backward()
-        optimiser.step()
+        optimizer.step()
         
         # accumulate loss
         metrics["elbo"] += elbo.item() / len(dataloader) 
         for key, value in elbo_parts.items():
             metrics[key] += value / len(dataloader)
-    
+        metrics["lr"] = optimizer.param_groups[0]["lr"]
+        metrics["temp"] = model.temp
+
     return metrics
 
 def valid_step(model, dataloader, device=None):

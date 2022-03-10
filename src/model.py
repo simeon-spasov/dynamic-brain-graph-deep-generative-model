@@ -32,7 +32,6 @@ class Model(nn.Module):
 
         self.device = device
 
-        self.q_alpha = None
         self.q_beta = []
         self.q_phi = []
         self.inference = False
@@ -396,6 +395,9 @@ class Model(nn.Module):
 
     def forward(self, X, idx=None):
         assert ~(self.training and self.inference)
+        if self.inference:
+            self.q_beta = []
+            self.q_phi = []
 
         # check dimension of input to ensure multivariate timeseries
         if X.ndim != 3:
@@ -404,11 +406,11 @@ class Model(nn.Module):
         # dynamic connectivity matrix from timeseries
         # (batch_size, num_nodes num_timepoints) -> (batch_size, num_windows, num_nodes, num_nodes)
         A = self._dynamic_connectivity_matrix(X)
-
+        
         # edge weights from dynamic connectivity matrix
         # (batch_size, num_windows, num_edges, 2), (batch_size, num_windows, num_edges)
         edges, weights = self._to_edge_weights(A)
-
+     
         # parameterize alpha prior
         p_alpha = self._parameterize_prior_alpha(idx)
         # parameterize alpha posterior
@@ -429,38 +431,37 @@ class Model(nn.Module):
         
         return nll, kl_alpha, kl_beta, kl_phi, kl_z
 
-    def get_embeddings(self, x):
-        self.eval()
-        self.inference = True
-        self.q_beta = []
-        self.q_phi = []
 
-        with torch.no_grad():
-            _, _, _, _, _ = self.forward(x)
+    # def get_embeddings(self, x):
+    #     self.training = False
+    #     self.inference = True
 
-        # subject embeddings
-        alpha = self._parameterize_posterior_alpha(None).mean
+    #     self.q_beta = []
+    #     self.q_phi = []
+
+    #     with torch.no_grad():
+    #         _, _, _, _, _ = self.forward(x)
+
+    #     # subject embeddings
+    #     alpha = self._parameterize_posterior_alpha(None).mean
         
-        # community embeddings
-        # (batch_size, num_communities, beta_dim, num_windows)
-        beta = torch.stack([q.mean for q in self.q_beta], dim=-1)
-        # node embeddings
-        # (batch_size, num_nodes, phi_dim, num_windows)
-        phi = torch.stack([q.mean for q in self.q_phi], dim=-1)
-
-        self.train()
-        self.inference = False
+    #     # community embeddings
+    #     # (batch_size, num_communities, beta_dim, num_windows)
+    #     beta = torch.stack([q.mean for q in self.q_beta], dim=-1)
+    #     # node embeddings
+    #     # (batch_size, num_nodes, phi_dim, num_windows)
+    #     phi = torch.stack([q.mean for q in self.q_phi], dim=-1)
         
-        return dict(alpha=alpha, beta=beta, phi=phi)
+    #     return dict(alpha=alpha, beta=beta, phi=phi)
        
-    def get_community_nodes(self, x):
-        beta = self.get_embeddings(x)["beta"]
-        # (batch_size, num_communities, beta_dim, num_windows) -> (batch_size * num_windows, num_communities, beta_dim)
-        beta = beta.permute(0, 3, 1, 2).reshape(-1, self.num_communities, self.beta_dim)
-        # (batch_size * num_windows, num_communities, beta_dim) -> (batch_size * num_windows, num_communities, num_nodes)
-        node_communities = self.fc_p_c(beta)
-        # (batch_size * num_windows, num_communities, num_nodes) -> (batch_size, num_nodes, num_windows)
-        return node_communities.reshape(x.shape[0], -1, self.num_communities, self.num_nodes).permute(0, 2, 3, 1)
+    # def get_community_node_dist(self, x):
+    #     beta = self.get_embeddings(x)["beta"]
+    #     # (batch_size, num_communities, beta_dim, num_windows) -> (batch_size * num_windows, num_communities, beta_dim)
+    #     beta = beta.permute(0, 3, 1, 2).reshape(-1, self.num_communities, self.beta_dim)
+    #     # (batch_size * num_windows, num_communities, beta_dim) -> (batch_size * num_windows, num_communities, num_nodes)
+    #     node_communities = self.fc_p_c(beta)
+    #     # (batch_size * num_windows, num_communities, num_nodes) -> (batch_size, num_communities, num_nodes, num_windows)
+    #     return node_communities.reshape(x.shape[0], -1, self.num_communities, self.num_nodes).permute(0, 2, 3, 1)
 
 
 

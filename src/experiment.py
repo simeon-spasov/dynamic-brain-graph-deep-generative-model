@@ -2,6 +2,7 @@ import uuid
 
 from .dataset import load_hcp_datasets
 from .model import Model
+from .test import test
 from .train import get_optimizer, get_scheduler, train
 from .utils import set_device, set_random_seed
 
@@ -36,5 +37,8 @@ def run(args):
     # train
     print("\ntraining")
     train(model, train_data, valid_data, optimizer, scheduler, device, args)
-    # test()
+    
+    #test
+    print("\ntesting")
+    test(model, test_data, device, args)
 

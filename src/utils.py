@@ -1,3 +1,4 @@
+import csv
 import random
 from pathlib import Path
 
@@ -51,6 +52,18 @@ def save_config(config, save_dir):
             OmegaConf.save(config, filepath)
     except:
         raise IOError("error saving config to '{}'".format(str(save_dir)))
+
+
+def save_results(metrics_dict, prefix, results_dir):
+    """..."""
+    filepath = Path(results_dir) / "{}_metrics.csv".format(prefix)
+    exists = filepath.is_file()
+    with open(filepath, "a", newline="") as f:
+        writer = csv.writer(f)
+        if not exists:
+            writer.writerow(metrics_dict.keys())
+        writer.writerow(list(metrics_dict.values()))
+
 
 def is_not_nan_inf(tensor):
     """Check elements of tensor for inf or nan"""
