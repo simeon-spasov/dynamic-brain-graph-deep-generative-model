@@ -13,10 +13,10 @@ data:
 model:
   name: dynamic_graph   # model name
   num_communities: 8    # number of communities
-  alpha_dim: 3         # dimension of subject embeddings
-  beta_dim: 32          # dimension of community embeddings
-  phi_dim: 32           # dimension of node embeddings
-  temp: 1.0             # initial temperature for gumbel softmax distribution
+  alpha_dim: 128         # dimension of subject embeddings
+  beta_dim: 128          # dimension of community embeddings
+  phi_dim: 128           # dimension of node embeddings
+  temp: 0.05             # initial temperature for gumbel softmax distribution
   alpha_std: 0.01       # standard deviation of alpha prior
   window_size: 25       # window is the number of timepoints to calculate functional connectivity
   window_stride: 10     # stride of window
@@ -25,7 +25,7 @@ model:
 
 optimizer:
   name: adamw           # name of optimizer
-  lr: 1e-3              # learning rate
+  lr: 5e-3              # learning rate
   weight_decay: 1e-3    # weight decay
   eps: 1e-3
   betas: [0.9, 0.99]
@@ -34,18 +34,18 @@ scheduler:
   name: null            # name of scheduler
 
 train:
-  num_epochs: 50        # number of epochs to train
+  num_epochs: 500        # number of epochs to train
   batch_size: 32        # batch size
   window_size: 100      # number of timepoints to train model on
   warmup: 5             # number of warmup epochs (setting all kl terms to zero) 
   anneal_after: 20      # number of epochs before temperature annealing (does not count warmup epochs)
   anneal_rate: 1e-5     # temperature anneal rate
-  min_temp: 0.1         # minimum value to anneal temperature
+  min_temp: 0.005         # minimum value to anneal temperature
   valid_every: 1        # frequency of model validation
-  patience: 10          # early stopping counter
+  patience: 1000          # early stopping counter
   delta: 0.01           # minium change in validation loss to reset early stopping counter
-  gamma_alpha: 1        # weight for kl alpha term in elbo loss
-  gamma_beta: 10        # weight for kl beta term in elbo loss
-  gamma_phi: 100        # weight for kl phi term in elbo loss
-  gamma_z: 100          # weight for kl z term in elbo loss
+  gamma_alpha: 0        # weight for kl alpha term in elbo loss
+  gamma_beta: 0        # weight for kl beta term in elbo loss
+  gamma_phi: 0        # weight for kl phi term in elbo loss
+  gamma_z: 0          # weight for kl z term in elbo loss
   verbose: true         # print training progress to terminal
