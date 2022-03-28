@@ -106,7 +106,8 @@ class Model(nn.Module):
                 nn.init.normal_(module.weight, 0, 0.01)
                 nn.init.zeros_(module.bias)
             if isinstance(module, nn.Embedding):
-                nn.init.uniform_(module.weight, -1.0, 1.0)
+                # nn.init.uniform_(module.weight, -1.0 / self.alpha_dim, 1.0 / self.alpha_dim)
+                n.init.uniform_(module.weight, -1.0, 1.0)
             if isinstance(module, nn.GRU):
                 pass
 
@@ -128,11 +129,9 @@ class Model(nn.Module):
         out = self.fc_q_alpha(out)
         # (batch_size, alpha_dim)
         mean = out[..., :self.alpha_dim]
-        print('mean', mean.min(), mean.max()) 
-	# (batch_size, alpha_dim)
+        # (batch_size, alpha_dim)
         std = F.softplus(out[..., self.alpha_dim:])
-       	print('std', std.min(), std.max()) 
-	return Normal(mean, std)
+        return Normal(mean, std)
 
     # prior over community embeddings parameterized from subject embeddings and hidden state
     # p(beta_t|alpha, h_1:t-1) = Normal((mean_t, std_t) = GRU(alpha, h_1:t-1))
@@ -206,8 +205,10 @@ class Model(nn.Module):
         out = self.fc_q_phi(hidden)
         # (batch_size, num_nodes, phi_dim)
         mean = out[..., :self.phi_dim]
+        print("mean", mean.min(), mean.max())
         # (batch_size, num_nodes, phi_dim)
         std = F.softplus(out[..., self.phi_dim:])
+        print("std", std.min(), std.max())
         return Normal(mean, std)
 
     # prior over community assignment
