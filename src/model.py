@@ -129,8 +129,10 @@ class Model(nn.Module):
         out = self.fc_q_alpha(out)
         # (batch_size, alpha_dim)
         mean = out[..., :self.alpha_dim]
+        print("mean", mean.min(), mean.max())
         # (batch_size, alpha_dim)
         std = F.softplus(out[..., self.alpha_dim:])
+        print("std", std.min(), std.max())
         return Normal(mean, std)
 
     # prior over community embeddings parameterized from subject embeddings and hidden state
@@ -205,10 +207,8 @@ class Model(nn.Module):
         out = self.fc_q_phi(hidden)
         # (batch_size, num_nodes, phi_dim)
         mean = out[..., :self.phi_dim]
-        print("mean", mean.min(), mean.max())
         # (batch_size, num_nodes, phi_dim)
         std = F.softplus(out[..., self.phi_dim:])
-        print("std", std.min(), std.max())
         return Normal(mean, std)
 
     # prior over community assignment
