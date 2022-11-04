@@ -1,19 +1,18 @@
 import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 
+from dataset import _zscore_timeseries
 
-def _plot_graph(graph, label=None, tick_prop=0.25, ax=None, figsize=(50, 8), **kwargs):
+
+def _plot_graph(G, tick_prop=0.25, ax=None, figsize=(50, 8), **kwargs):
     
-    # if isinstance(graph, sp.csr_matrix): 
-    #     graph = graph.toarray()
-    #     graph = (graph + graph.T) / 2
-    #     np.fill_diagonal(graph, 1.0)
-        
+    if isinstance(G, nx.Graph): G = nx.to_numpy_matrix(G)
+    num_nodes = int(G.shape[0])
+    
     if ax is None: _, ax = plt.subplots(figsize=figsize)
-        
-    ax.imshow(graph, cmap="gray", vmin=graph.min(), vmax=graph.max(), interpolation="none", aspect="equal", **kwargs)
+    ax.imshow(G, cmap="gray", vmin=0, vmax=1, interpolation="none", aspect="equal", **kwargs)
 
-    num_nodes = int(graph.shape[0])
     tick_positions = np.arange(0, num_nodes + 1, num_nodes * tick_prop)
     tick_positions[-1] = num_nodes - 0.5
     tick_labels = np.arange(0, num_nodes + 1, num_nodes * tick_prop).astype(int)
@@ -23,13 +22,38 @@ def _plot_graph(graph, label=None, tick_prop=0.25, ax=None, figsize=(50, 8), **k
     ax.set_xticklabels(tick_labels); ax.set_yticklabels(tick_labels)
     ax.set_ylabel("Node"); ax.set_xlabel("Node")
 
+def plot_dynamic_graph(G, time_len=None, figsize=(30, 8), title=True, **kwargs):
+    ncols  = time_len if time_len is not None else len(G)
+    _, axes = plt.subplots(1, ncols, figsize=figsize)
+    for idx, (ax, g) in enumerate(zip(axes.ravel(), G)):
+        _plot_graph(g, ax=ax, **kwargs)
+        if title: ax.set_title("$t={}$".format(idx + 1)) 
 
-def plot_dynamic_graph(dynamic_graph, nrows=None, ncols=None, figsize=(30, 8), **kwargs):
-    
-    nrows = nrows if nrows is not None else 1
-    ncols  = ncols if ncols is not None else len(dynamic_graph)
+def plot_timeseries(X, num_features=None, time_len=None, figsize=(10, 30), 
+                    title=None, zscore=True, **kwargs):
+    if zscore: X = _zscore_timeseries(X)
 
-    _, axes = plt.subplots(nrows, ncols, figsize=figsize)
-    for idx, (ax, graph) in enumerate(zip(axes.ravel(), dynamic_graph)):
-        _plot_graph(graph, ax=ax, **kwargs)
-        ax.set_title("$t={}$".format(idx + 1)) 
+    _num_features,  _time_len = X.shape
+    num_features  = num_features if num_features is not None else _num_features
+    time_len = time_len if time_len is not None else _time_len
+    X = X[:num_features, :time_len]
+
+    fig, axes = plt.subplots(num_features, 1, figsize=figsize, sharex=True, sharey=True)
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor="none", top=False, bottom=False, left=False, right=False)
+    plt.grid(False)
+    plt.xlabel("Time")
+    plt.ylabel("z-score" if zscore else "BOLD signal")
+
+    axes = axes.ravel()
+    for idx, (ax, x) in enumerate(zip(axes, X)):
+        ax.plot(x)
+        if idx < (len(axes) - 1):
+            ax.spines["top"].set_visible(False)
+            ax.spines["right"].set_visible(False)
+            ax.spines["bottom"].set_visible(False)
+            ax.get_xaxis().set_visible(False)
+        else:
+            ax.spines["top"].set_visible(False)
+            ax.spines["right"].set_visible(False)
+        if title: ax.set_title("...") 

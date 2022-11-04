@@ -1,20 +1,42 @@
-import argparse
+import pickle
+import random
 
-from src.experiment import run
-from src.utils import load_config
+import numpy as np
+import torch
 
+from src.dataset import load_dataset
+from src.model import Model
+from src.train import train
 
-def parse_arguments():
-    """Parse command line arguments"""
-    parser = argparse.ArgumentParser(description="Dynamic graph generative model")
-    parser.add_argument("-c", "--config_file", type=str, default="model", help="yaml file with parameters for model, training, testing, and output")
-    args = parser.parse_args()
-    config = load_config(args.config_file)                    
-    return config
+# setup
+data_dir = "../data"
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+seed = 12345
 
-def main(args):
-    run(args)
-    
-if __name__ == "__main__":
-    args = parse_arguments()
-    main(args)
+# hyperparameters
+dataset_args = dict(dataset="hcp", 
+                    window_size=30, 
+                    window_stride=10, 
+                    measure="correlation", 
+                    top_percent=5)
+model_args = dict(sigma=1., 
+                  gamma=0.1, 
+                  categorical_dim=3, 
+                  embedding_dim=32)
+train_args = dict(num_epochs=10001, 
+                  batch_size=25, 
+                  learning_rate=5e-3, 
+                  lamda=100, 
+                  temp_min=0.1, 
+                  anneal_rate=3e-5,
+                  temp=1.)
+
+# dataset
+dataset = load_dataset(**dataset_args, data_dir=data_dir)
+num_subjects, num_nodes = len(dataset), dataset[0][1][0].number_of_nodes()
+
+# model
+model = Model(num_subjects, num_nodes, **model_args, device=device)
+
+# train
+model = train(model, dataset, **train_args)

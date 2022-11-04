@@ -5,7 +5,8 @@ __pycache__/
 Pipfile
 Pipfile.lock
 
-data/
+_*
+*.pkl
 models/
 results/
 wandb/
