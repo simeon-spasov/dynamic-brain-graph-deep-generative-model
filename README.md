@@ -23,3 +23,16 @@
 
 - Data
   - https://www.humanconnectome.org/storage/app/media/documentation/s1200/HCP1200-DenseConnectome+PTN+Appendix-July2017.pdf
+
+# Cannot find cuDNN on Enterprise
+
+"OSError: libcudnn.so.8: cannot open shared object file: No such file or directory"
+
+- Enter virtual env
+  - pipenv run
+
+- Uninstall pytorch
+  - pipenv uninstall torch
+
+- Reinstall pytroch via pip via pipenv
+  - pipenv run pip install torch
