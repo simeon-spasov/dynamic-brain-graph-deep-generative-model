@@ -8,7 +8,7 @@ from .dataset import data_loader
 
 
 def train(model, dataset,
-          save_path=Path.cwd() / "train_model",
+          save_path=Path.cwd() / "models",
           learning_rate=0.005,
           temp=1.,
           temp_min=0.1,
