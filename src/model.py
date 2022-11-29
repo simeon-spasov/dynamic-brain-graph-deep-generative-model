@@ -87,7 +87,7 @@ class Model(nn.Module):
 
         KLD_alpha = self._kld_gauss(alpha_mean_n, alpha_std_n,
                                     self.alpha_mean_prior.to(self.device),
-                                    self.alpha_std_scalar.to(self.device)
+                                    self.alpha_std_scalar
                                     )
 
         loss += 0 * KLD_alpha  # For debugging simplicity. TODO: need to figure out the weights for these KL terms.
