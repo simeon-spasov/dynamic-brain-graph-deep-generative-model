@@ -32,6 +32,7 @@ def main():
     train_args = dict(num_epochs=2001,
                       batch_size=25,
                       learning_rate=1e-3,
+                      device=device,
                       temp_min=0.1,
                       anneal_rate=3e-5,
                       temp=1.)

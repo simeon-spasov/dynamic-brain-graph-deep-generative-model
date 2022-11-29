@@ -56,7 +56,7 @@ class Model(nn.Module):
         self.subject_to_phi = nn.Linear(embedding_dim, self.num_nodes * self.embedding_dim)
         self.subject_to_beta = nn.Linear(embedding_dim, self.categorical_dim * self.embedding_dim)
 
-        self.alpha_mean_prior = torch.zeros((embedding_dim))
+        self.alpha_mean_prior = torch.zeros(embedding_dim)
         self.alpha_std_scalar = 1.
 
         self.decoder = nn.Sequential(nn.Linear(embedding_dim, num_nodes))
@@ -85,7 +85,10 @@ class Model(nn.Module):
         alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx])
         alpha_n = self._reparameterized_sample(alpha_mean_n, alpha_std_n)
 
-        KLD_alpha = self._kld_gauss(alpha_mean_n, alpha_std_n, self.alpha_mean_prior, self.alpha_std_scalar)
+        KLD_alpha = self._kld_gauss(alpha_mean_n, alpha_std_n,
+                                    self.alpha_mean_prior.to(self.device),
+                                    self.alpha_std_scalar.to(self.device)
+                                    )
 
         loss += 0 * KLD_alpha  # For debugging simplicity. TODO: need to figure out the weights for these KL terms.
 
@@ -101,16 +104,17 @@ class Model(nn.Module):
         beta_prior_mean = beta_0_mean
 
         # GRU hidden states for node and community embeddings
-        h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim)
-        h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim)
+        h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
+        h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         # iterate all over all edges in a graph at a single time point
         for snapshot_idx, graph in enumerate(dynamic_graph):
 
             train_edges = [(u, v) for u, v in graph.edges()]
-            if self.training: np.random.shuffle(train_edges)
+            if self.training:
+                np.random.shuffle(train_edges)
 
-            batch = torch.LongTensor(train_edges)
+            batch = torch.LongTensor(train_edges).to(self.device)
             assert batch.shape == (len(train_edges), 2)
             w = torch.cat((batch[:, 0], batch[:, 1]))
             c = torch.cat((batch[:, 1], batch[:, 0]))
@@ -266,7 +270,7 @@ class Model(nn.Module):
 
     def _vGraph_loss(self, recon_c, q_y, prior_z, c):
         recon_c_softmax = F.log_softmax(recon_c, dim=-1)
-        BCE = F.nll_loss(recon_c_softmax, c.to(self.device), reduction='none')
+        BCE = F.nll_loss(recon_c_softmax, c, reduction='none')
         BCE = (BCE).sum()
         log_qy = torch.log(q_y + 1e-20)
         KLD = (
