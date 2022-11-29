@@ -50,13 +50,13 @@ class Model(nn.Module):
         self.rnn_nodes = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=1, bias=True)
         self.rnn_comms = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=1, bias=True)
 
-        self.alpha_mean = nn.Embedding(num_samples, embedding_dim)
-        self.alpha_std = nn.Embedding(num_samples, embedding_dim)
+        self.alpha_mean = nn.Embedding(self.num_samples, self.embedding_dim)
+        self.alpha_std = nn.Embedding(self.num_samples, self.embedding_dim)
 
-        self.subject_to_phi = nn.Linear(embedding_dim, self.num_nodes * self.embedding_dim)
-        self.subject_to_beta = nn.Linear(embedding_dim, self.categorical_dim * self.embedding_dim)
+        self.subject_to_phi = nn.Linear(self.embedding_dim, self.num_nodes * self.embedding_dim)
+        self.subject_to_beta = nn.Linear(self.embedding_dim, self.categorical_dim * self.embedding_dim)
 
-        self.alpha_mean_prior = torch.zeros(embedding_dim)
+        self.alpha_mean_prior = torch.zeros(self.embedding_dim)
         self.alpha_std_scalar = 1.
 
         self.decoder = nn.Sequential(nn.Linear(embedding_dim, num_nodes))
@@ -96,6 +96,10 @@ class Model(nn.Module):
         # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
         # phi_0_mean = torch.zeros((self.num_nodes, self.embedding_dim)).to(self.device)
         # beta_0_mean = torch.zeros((self.categorical_dim, self.embedding_dim)).to(self.device)
+        logging.debug(f'alpha n is {alpha_n}')
+        logging.debug(f'subject_to_phi is {self.subject_to_phi}')
+        logging.debug(f'subject_to_phi weights is {self.subject_to_phi.weight}')
+        logging.debug(f'subject_to_phi bias is {self.subject_to_phi.bias}')
         phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
         beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
 
