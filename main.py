@@ -30,17 +30,24 @@ def main():
                       categorical_dim=3,
                       embedding_dim=32)
     train_args = dict(num_epochs=2001,
-                      batch_size=1,
+                      batch_size=25,
                       learning_rate=1e-3,
                       device=device,
                       temp_min=0.1,
                       anneal_rate=3e-5,
                       temp=1.)
 
+    # Log all dataset parameters.
+    logging.debug('Dataset args: %s', dataset_args)
+    # Log all model parameters.
+    logging.debug('Model args: %s', model_args)
+    # Log all training setup parameters.
+    logging.debug('Train args: %s', train_args)
+
     # dataset
     logging.info('Loading data.')
     dataset = load_dataset(**dataset_args, data_dir=data_dir)
-    experiment_dataset = dataset[:10]
+    experiment_dataset = dataset
     num_subjects, num_nodes = len(experiment_dataset), experiment_dataset[0][1][0].number_of_nodes()
     logging.info(f'{num_subjects} subjects with {num_nodes} nodes each.')
 

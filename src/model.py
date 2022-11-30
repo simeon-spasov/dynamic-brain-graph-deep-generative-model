@@ -85,21 +85,15 @@ class Model(nn.Module):
         alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx])
         alpha_n = self._reparameterized_sample(alpha_mean_n, alpha_std_n)
 
-        KLD_alpha = self._kld_gauss(alpha_mean_n, alpha_std_n,
+        kld_alpha = self._kld_gauss(alpha_mean_n, alpha_std_n,
                                     self.alpha_mean_prior.to(self.device),
                                     self.alpha_std_scalar
                                     )
 
-        loss += 0 * KLD_alpha  # For debugging simplicity. TODO: need to figure out the weights for these KL terms.
+        loss += 0 * kld_alpha  # For debugging simplicity. TODO: need to figure out the weights for these KL terms.
 
         # inital values of phi and beta at time 0 per subject
         # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
-        # phi_0_mean = torch.zeros((self.num_nodes, self.embedding_dim)).to(self.device)
-        # beta_0_mean = torch.zeros((self.categorical_dim, self.embedding_dim)).to(self.device)
-        logging.debug(f'alpha n is {alpha_n}')
-        logging.debug(f'subject_to_phi is {self.subject_to_phi}')
-        logging.debug(f'subject_to_phi weights is {self.subject_to_phi.weight}')
-        logging.debug(f'subject_to_phi bias is {self.subject_to_phi.bias}')
         phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
         beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
 
@@ -124,16 +118,12 @@ class Model(nn.Module):
             c = torch.cat((batch[:, 1], batch[:, 0]))
 
             # Update node and community hidden states of GRUs
-            # nodes_in = torch.cat([alpha_n.unsqueeze(0).expand(self.num_nodes, -1),
-            #                     phi_prior_mean], dim = -1)
             nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
 
             nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
 
             _, h_phi = self.rnn_nodes(nodes_in, h_phi)
 
-            # comms_in = torch.cat([alpha_n.unsqueeze(0).expand(self.categorical_dim, -1),
-            #                      beta_prior_mean], dim = -1)
             comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
 
             comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
@@ -154,16 +144,16 @@ class Model(nn.Module):
             recon, posterior_z, prior_z = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
 
             # per subject loss for time t
-            KLD_z, BCE = self._vGraph_loss(recon, posterior_z, prior_z, c)
-            KLD_beta = self._kld_gauss(beta_mean_t, beta_std_t, beta_prior_mean, self.gamma)
-            KLD_phi = self._kld_gauss(phi_mean_t, phi_std_t, phi_prior_mean, self.sigma)
+            kld_z, BCE = self._vGraph_loss(recon, posterior_z, prior_z, c)
+            kld_beta = self._kld_gauss(beta_mean_t, beta_std_t, beta_prior_mean, self.gamma)
+            kld_phi = self._kld_gauss(phi_mean_t, phi_std_t, phi_prior_mean, self.sigma)
 
             logging.debug(f"For Subject index: {subject_idx}.\n"
                           f" Snapshot index: {snapshot_idx}: "
-                          f"BCE loss is {BCE}. KLD_z loss is {KLD_z}.")
+                          f"BCE loss is {BCE}. kld_z loss is {kld_z}.")
 
-            loss_edges = (KLD_z + BCE) / c.shape[0]
-            loss += loss_edges + 0 * KLD_beta / self.categorical_dim + 0 * KLD_phi / self.num_nodes
+            loss_edges = (kld_z + BCE) / c.shape[0]
+            loss += loss_edges + 0 * kld_beta / self.categorical_dim + 0 * kld_phi / self.num_nodes
 
             beta_prior_mean = beta_sample
             phi_prior_mean = phi_sample
@@ -193,33 +183,23 @@ class Model(nn.Module):
         subjects = {}
         for subject in subject_graphs:
             subject_idx, subject_graphs = subject
-            node_distrib_over_communities = self._inference(subject_idx, subject_graphs)
-            subjects[subject_idx] = node_distrib_over_communities
+
+            subject_data = self._inference(subject_idx, subject_graphs)
+
+            subjects[subject_idx] = subject_data
 
         return subjects
 
     def _inference(self, subject_idx, batch_graphs):
+        data = {}
+
         alpha_n = self.alpha_mean.weight[subject_idx].to(self.device)
+        alpha_embedding = alpha_n.cpu().detach().data.numpy()
+        data['alpha_embedding'] = alpha_embedding
 
         # inital values of phi and beta at time 0 per subject
         # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
-        # phi_0_mean = torch.zeros((self.num_nodes, self.embedding_dim)).to(self.device)
-        # beta_0_mean = torch.zeros((self.categorical_dim, self.embedding_dim)).to(self.device)
 
-        # Initialize the priors over nodes (phi) and communities (beta)
-        # phi_prior_mean = phi_0_mean
-        # beta_prior_mean = beta_0_mean
-
-        # GRU hidden states for node and community embeddings
-        # h_beta = torch.zeros(1, self.categorical_dim,
-        #                     self.embedding_dim).to(self.device)
-        # h_phi = torch.zeros(1, self.num_nodes,
-        #                    self.embedding_dim).to(self.device)
-
-        # inital values of phi and beta at time 0 per subject
-        # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
-        # phi_0_mean = torch.zeros((self.num_nodes, self.embedding_dim)).to(self.device)
-        # beta_0_mean = torch.zeros((self.categorical_dim, self.embedding_dim)).to(self.device)
         phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
         beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
 
@@ -233,7 +213,10 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes,
                             self.embedding_dim).to(self.device)
 
-        node_distrib_over_communities = []
+        data['node_distribution_over_communities'] = []
+        data['beta_embeddings'] = []
+        data['phi_embeddings'] = []
+
         for i, graph in enumerate(batch_graphs):
             nodes_in = torch.cat([phi_prior_mean,
                                   phi_prior_mean], dim=-1)
@@ -242,8 +225,6 @@ class Model(nn.Module):
 
             _, h_phi = self.rnn_nodes(nodes_in, h_phi)
 
-            # comms_in = torch.cat([alpha_n.unsqueeze(0).expand(self.categorical_dim, -1),
-            #                      beta_prior_mean], dim = -1)
             comms_in = torch.cat([beta_prior_mean,
                                   beta_prior_mean], dim=-1)
 
@@ -259,13 +240,16 @@ class Model(nn.Module):
             node_distrib_over_communities_t = F.softmax(
                 node_distrib_over_communities_t,
                 dim=-1).cpu().detach().data.numpy()
-            node_distrib_over_communities.append(
+
+            data['node_distribution_over_communities'].append(
                 node_distrib_over_communities_t)
+            data['beta_embeddings'].append(beta_sample.cpu().detach().data.numpy())
+            data['phi_embeddings'].append(phi_sample.cpu().detach().data.numpy())
 
             beta_prior_mean = beta_sample
             phi_prior_mean = phi_sample
 
-        return node_distrib_over_communities
+        return data
 
     def _reparameterized_sample(self, mean, std):
         eps = torch.FloatTensor(std.size()).normal_()
