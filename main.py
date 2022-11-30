@@ -3,6 +3,7 @@ import logging
 import torch
 
 from src.dataset import load_dataset
+from src.inference import inference
 from src.model import Model
 from src.train import train
 
@@ -47,7 +48,7 @@ def main():
     # dataset
     logging.info('Loading data.')
     dataset = load_dataset(**dataset_args, data_dir=data_dir)
-    experiment_dataset = dataset
+    experiment_dataset = dataset[:10]
     num_subjects, num_nodes = len(experiment_dataset), experiment_dataset[0][1][0].number_of_nodes()
     logging.info(f'{num_subjects} subjects with {num_nodes} nodes each.')
 
@@ -57,6 +58,10 @@ def main():
     # train
     logging.info('Starting training.')
     train(model, experiment_dataset, **train_args)
+
+    logging.info('Running inference...')
+    inference(model, experiment_dataset, device=device)
+
     logging.info('Finished script.')
 
 

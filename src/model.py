@@ -182,7 +182,7 @@ class Model(nn.Module):
     def inference(self, subject_graphs):
         subjects = {}
         for subject in subject_graphs:
-            subject_idx, subject_graphs = subject
+            subject_idx, subject_graphs, gender_label = subject
 
             subject_data = self._inference(subject_idx, subject_graphs)
 
