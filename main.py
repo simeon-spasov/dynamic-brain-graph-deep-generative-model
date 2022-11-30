@@ -3,6 +3,7 @@ import logging
 import torch
 
 from src.dataset import load_dataset
+from src.inference import inference
 from src.model import Model
 from src.train import train
 
@@ -37,11 +38,19 @@ def main():
                       anneal_rate=3e-5,
                       temp=1.)
 
+    # Log all dataset parameters.
+    logging.debug('Dataset args: %s', dataset_args)
+    # Log all model parameters.
+    logging.debug('Model args: %s', model_args)
+    # Log all training setup parameters.
+    logging.debug('Train args: %s', train_args)
+
     # dataset
     logging.info('Loading data.')
     dataset = load_dataset(**dataset_args, data_dir=data_dir)
     experiment_dataset = dataset[:10]
     num_subjects, num_nodes = len(experiment_dataset), experiment_dataset[0][1][0].number_of_nodes()
+    logging.info(f'{num_subjects} subjects with {num_nodes} nodes each.')
 
     # model
     model = Model(num_subjects, num_nodes, **model_args, device=device)
@@ -49,6 +58,10 @@ def main():
     # train
     logging.info('Starting training.')
     train(model, experiment_dataset, **train_args)
+
+    logging.info('Running inference...')
+    inference(model, experiment_dataset, device=device)
+
     logging.info('Finished script.')
 
 
