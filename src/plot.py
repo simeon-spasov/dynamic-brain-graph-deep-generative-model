@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 
-from dataset import _zscore_timeseries
+from .dataset import _zscore_timeseries
 
 
 def _plot_graph(G, tick_prop=0.25, ax=None, figsize=(50, 8), **kwargs):
