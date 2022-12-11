@@ -9,6 +9,8 @@ def inference(model, dataset,
               load_path=Path.cwd() / "models",
               save_path=Path.cwd() / "results",
               model_name="fmri_model.pt",
+              valid_prop=0.1,
+              test_prop=0.1,
               device=torch.device("cpu")
               ):
     model_path = load_path / model_name
@@ -19,9 +21,20 @@ def inference(model, dataset,
         logging.error(f'No model found at path: {model_path}')
 
     model.to(device)
+
     model.eval()
 
-    subjects_data = model.inference(dataset)
+    subjects_data = model.predict_embeddings(dataset)
+
+    nll, aucroc, ap = model.predict_auc_roc_precision(
+        dataset,
+        valid_prop=valid_prop,
+        test_prop=test_prop)
+
+    logging.info(
+        f"train nll {nll['train']} aucroc {aucroc['train']} ap {ap['train']}| "
+        f"valid nll {nll['valid']} aucroc {aucroc['valid']} ap {ap['valid']} | "
+        f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']}")
 
     logging.info("Saving results.")
 

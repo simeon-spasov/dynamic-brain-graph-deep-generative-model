@@ -16,6 +16,8 @@ def train(model, dataset,
           anneal_rate=0.00003,
           batch_size=25,
           weight_decay=0.,
+          valid_prop=0.1,
+          test_prop=0.1,
           device=torch.device("cpu")
           ):
     try:
@@ -35,27 +37,41 @@ def train(model, dataset,
                                   weight_decay=weight_decay)
 
     model.to(device)
-    model.train()
 
     for epoch in range(num_epochs):
         logging.debug(f"Starting epoch {epoch}")
         np.random.shuffle(dataset)
+        model.train()
 
         running_loss = 0
         for batch_graphs in data_loader(dataset, batch_size):
             optimizer.zero_grad()
-            loss = model(batch_graphs, temp=temp)
+            loss = model(batch_graphs,
+                         valid_prop=valid_prop,
+                         test_prop=test_prop,
+                         temp=temp)
             loss.backward()
             optimizer.step()
             running_loss += loss / len(batch_graphs)
 
-        logging.debug(f"Epoch {epoch}: Running loss is {running_loss}\n")
+        logging.info(f"Epoch {epoch}: Running loss is {running_loss}\n")
 
         if epoch % 10 == 0:
             logging.info(f"Saving model.")
             torch.save(model.state_dict(), str(model_save_path))
 
-        if epoch % 10 == 0:
+            model.eval()
+
+            nll, aucroc, ap = model.predict_auc_roc_precision(
+                batch_graphs,
+                valid_prop=valid_prop,
+                test_prop=test_prop)
+
+            logging.info(f"Epoch {epoch} | "
+                         f"train nll {nll['train']} aucroc {aucroc['train']} ap {ap['train']}| "
+                         f"valid nll {nll['valid']} aucroc {aucroc['valid']} ap {ap['valid']} | "
+                         f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']}")
+
             temp = np.maximum(temp * np.exp(-anneal_rate * epoch), temp_min)
             logging.debug(f"Updating temperature for Gumbel-softmax to {temp}")
             learning_rate *= .99

@@ -36,6 +36,8 @@ def main():
                       device=device,
                       temp_min=0.1,
                       anneal_rate=3e-5,
+                      valid_prop=0.1,
+                      test_prop=0.1,
                       temp=1.)
 
     # Log all dataset parameters.
@@ -48,7 +50,7 @@ def main():
     # dataset
     logging.info('Loading data.')
     dataset = load_dataset(**dataset_args, data_dir=data_dir)
-    experiment_dataset = dataset[:10]
+    experiment_dataset = dataset[:2]
     num_subjects, num_nodes = len(experiment_dataset), experiment_dataset[0][1][0].number_of_nodes()
     logging.info(f'{num_subjects} subjects with {num_nodes} nodes each.')
 

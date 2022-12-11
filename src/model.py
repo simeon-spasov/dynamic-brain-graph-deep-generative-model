@@ -1,10 +1,14 @@
 import logging
+import math
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+from sklearn.metrics import average_precision_score, roc_auc_score
 from torch import nn
 from torch.autograd import Variable
+
+from .utils import sample_pos_neg_edges
 
 
 def _gumbel_softmax(logits, device, tau=1, hard=False, eps=1e-10, dim=-1):
@@ -45,7 +49,7 @@ class Model(nn.Module):
         self.beta_std = nn.Sequential(nn.Linear(self.embedding_dim, embedding_dim), nn.Softplus())
         self.phi_mean = nn.Linear(self.embedding_dim, self.embedding_dim)
         self.phi_std = nn.Sequential(nn.Linear(self.embedding_dim, self.embedding_dim), nn.Softplus())
-        self.nn_pi = nn.Linear(self.embedding_dim, self.categorical_dim)
+        self.nn_pi = nn.Linear(self.embedding_dim, self.categorical_dim, bias=False)
 
         self.rnn_nodes = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=1, bias=True)
         self.rnn_comms = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=1, bias=True)
@@ -59,7 +63,7 @@ class Model(nn.Module):
         self.alpha_mean_prior = torch.zeros(self.embedding_dim)
         self.alpha_std_scalar = 1.
 
-        self.decoder = nn.Sequential(nn.Linear(embedding_dim, num_nodes))
+        self.decoder = nn.Sequential(nn.Linear(embedding_dim, num_nodes, bias=False))
 
         self.init_emb()
 
@@ -68,14 +72,19 @@ class Model(nn.Module):
             if isinstance(m, nn.Linear):
                 torch.nn.init.xavier_uniform_(m.weight.data)
 
-    def forward(self, batch_data, temp=1.):
+    def forward(self, batch_data, valid_prop=0.1, test_prop=0.1, temp=1.):
         loss = 0
         for data in batch_data:
             subject_idx, dynamic_graph, _ = data
-            loss += self._forward(subject_idx, dynamic_graph, temp)
+            loss += self._forward(subject_idx, dynamic_graph, valid_prop, test_prop, temp)
         return loss
 
-    def _forward(self, subject_idx, dynamic_graph, temp):
+    def _forward(self, subject_idx, batch_graphs, valid_prop, test_prop, temp):
+
+        time_len = len(batch_graphs)
+        valid_time = math.floor(time_len * valid_prop)
+        test_time = math.floor(time_len * test_prop)
+        train_time = time_len - valid_time - test_time
 
         logging.debug(f"Forward pass for subject idx: {subject_idx}")
 
@@ -106,8 +115,8 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         # iterate all over all edges in a graph at a single time point
-        for snapshot_idx, graph in enumerate(dynamic_graph):
-
+        for snapshot_idx in range(train_time):
+            graph = batch_graphs[snapshot_idx]
             train_edges = [(u, v) for u, v in graph.edges()]
             if self.training:
                 np.random.shuffle(train_edges)
@@ -179,18 +188,18 @@ class Model(nn.Module):
 
         return recon, F.softmax(q, dim=-1), prior_z
 
-    def inference(self, subject_graphs):
+    def predict_embeddings(self, subject_graphs):
         subjects = {}
         for subject in subject_graphs:
             subject_idx, subject_graphs, gender_label = subject
 
-            subject_data = self._inference(subject_idx, subject_graphs)
+            subject_data = self._predict_embeddings(subject_idx, subject_graphs)
 
             subjects[subject_idx] = subject_data
 
         return subjects
 
-    def _inference(self, subject_idx, batch_graphs):
+    def _predict_embeddings(self, subject_idx, batch_graphs):
         data = {}
 
         alpha_n = self.alpha_mean.weight[subject_idx].to(self.device)
@@ -250,6 +259,135 @@ class Model(nn.Module):
             phi_prior_mean = phi_sample
 
         return data
+
+    def predict_auc_roc_precision(self, subject_graphs, valid_prop=0.1, test_prop=0.1):
+        aucroc = {'train': 0, 'valid': 0, 'test': 0}
+        ap = {'train': 0, 'valid': 0, 'test': 0}
+        nll = {'train': 0, 'valid': 0, 'test': 0}
+        num_subjects = len(subject_graphs)
+        for subject in subject_graphs:
+            subject_idx, subject_graphs, gender_label = subject
+
+            pred, label, _nll = self._predict_auc_roc_precision(subject_idx, subject_graphs, valid_prop, test_prop)
+
+            for status in ['train', 'valid', 'test']:
+                aucroc[status] += roc_auc_score(label[status], pred[status]) / num_subjects
+                ap[status] += average_precision_score(label[status], pred[status]) / num_subjects
+                nll[status] += _nll[status].mean() / num_subjects
+
+        return nll, aucroc, ap
+
+    def _predict_auc_roc_precision(self, subject_idx, batch_graphs, valid_prop, test_prop):
+        time_len = len(batch_graphs)
+        valid_time = math.floor(time_len * valid_prop)
+        test_time = math.floor(time_len * test_prop)
+        train_time = time_len - valid_time - test_time
+
+        pred = {'train': [], 'valid': [], 'test': []}
+        label = {'train': [], 'valid': [], 'test': []}
+        nll = {'train': [], 'valid': [], 'test': []}
+
+        alpha_n = self.alpha_mean.weight[subject_idx].to(self.device)
+
+        # inital values of phi and beta at time 0 per subject
+        # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
+
+        phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
+        beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
+
+        # Initialize the priors over nodes (phi) and communities (beta)
+        phi_prior_mean = phi_0_mean
+        beta_prior_mean = beta_0_mean
+
+        # GRU hidden states for node and community embeddings
+        h_beta = torch.zeros(1, self.categorical_dim,
+                             self.embedding_dim).to(self.device)
+        h_phi = torch.zeros(1, self.num_nodes,
+                            self.embedding_dim).to(self.device)
+
+        for i, graph in enumerate(batch_graphs):
+            if i < train_time:
+                status = 'train'
+            elif train_time <= i < train_time + valid_time:
+                status = 'valid'
+            elif train_time + valid_time <= i < train_time + valid_time + test_time:
+                status = 'test'
+            else:
+                logging.debug(f'Wrong time index at inference. Time index is {i}.')
+            # Sample edges
+            pos_edges, neg_edges = sample_pos_neg_edges(graph)
+
+            pos_batch = torch.LongTensor(pos_edges).to(self.device)
+            neg_batch = torch.LongTensor(neg_edges).to(self.device)
+
+            assert pos_batch.shape == (len(pos_edges), 2)
+            assert neg_batch.shape == (len(neg_edges), 2)
+
+            # Positive edge tensors
+            w_pos = torch.cat((pos_batch[:, 0], pos_batch[:, 1]))
+            c_pos = torch.cat((pos_batch[:, 1], pos_batch[:, 0]))
+
+            # Negative edge tensors
+            w_neg = torch.cat((neg_batch[:, 0], pos_batch[:, 1]))
+            c_neg = torch.cat((neg_batch[:, 1], neg_batch[:, 0]))
+
+            nodes_in = torch.cat([phi_prior_mean,
+                                  phi_prior_mean], dim=-1)
+
+            nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
+
+            # Update nodes (phi) hidden state
+            _, h_phi = self.rnn_nodes(nodes_in, h_phi)
+
+            comms_in = torch.cat([beta_prior_mean,
+                                  beta_prior_mean], dim=-1)
+
+            comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
+
+            # Update communities (beta) hidden state
+            _, h_beta = self.rnn_comms(comms_in, h_beta)
+
+            # Sample node and community representations to be the means
+            beta_sample = self.beta_mean(h_beta[-1])
+            phi_sample = self.phi_mean(h_phi[-1])
+
+            # Posterior distribution over the communities for each edge
+            q_pos = F.softmax(self.nn_pi(phi_sample[w_pos] * phi_sample[c_pos]), dim=-1)
+            # Sample community z with highest probability
+            # I need to get q pos = F.softmax(q, dim=-1)
+            # tmp = q_pos.argmax(dim=-1).reshape(q_pos.shape[0], 1)
+            # src = torch.ones_like(tmp).float()
+            # z_pos = torch.zeros(q_pos.shape).to(self.device).scatter_(1, tmp, src)
+            # Weighted beta embedding based on the posterior community distribution
+            beta_mixture_pos = torch.mm(q_pos, beta_sample)
+            # Weighted beta embedding based on the posterior community distribution
+            recon_pos = self.decoder(beta_mixture_pos)
+            # pos_pred = recon_pos[c_pos].detach().cpu().numpy()
+            pos_pred = recon_pos.gather(1, c_pos.unsqueeze(dim=1)).detach().cpu().numpy().squeeze(axis=-1)
+
+            q_neg = F.softmax(self.nn_pi(phi_sample[w_neg] * phi_sample[c_neg]), dim=-1)
+            # tmp = q_neg.argmax(dim=-1).reshape(q_neg.shape[0], 1)
+            # src = torch.ones_like(tmp).float()
+            # z_neg = torch.zeros(q_neg.shape).to(self.device).scatter_(1, tmp, src)
+            # Weighted beta embedding based on the posterior community distribution
+            beta_mixture_neg = torch.mm(q_neg, beta_sample)
+            recon_neg = self.decoder(beta_mixture_neg)
+            # neg_pred = recon_neg[c_neg].detach().cpu().numpy()
+
+            neg_pred = recon_neg.gather(1, c_neg.unsqueeze(dim=1)).detach().cpu().numpy().squeeze(axis=-1)
+
+            recon_c_softmax = F.log_softmax(recon_pos, dim=-1)
+            bce = F.nll_loss(recon_c_softmax, c_pos, reduction='none')
+            bce = bce.detach().cpu().numpy()
+
+            pred[status] = np.hstack([pred[status], pos_pred, neg_pred])
+            label[status] = np.hstack([label[status], np.ones(len(pos_pred)), np.zeros(len(neg_pred))])
+            nll[status] = np.hstack([nll[status], bce])
+
+            beta_prior_mean = beta_sample
+            phi_prior_mean = phi_sample
+
+        return pred, label, nll
 
     def _reparameterized_sample(self, mean, std):
         eps = torch.FloatTensor(std.size()).normal_()
