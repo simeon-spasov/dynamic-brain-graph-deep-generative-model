@@ -43,18 +43,22 @@ def train(model, dataset,
         np.random.shuffle(dataset)
         model.train()
 
-        running_loss = 0
+        running_loss = {'nll': 0, 'kld_z': 0, 'kld_alpha': 0, 'kld_beta': 0, 'kld_phi': 0}
         for batch_graphs in data_loader(dataset, batch_size):
             optimizer.zero_grad()
-            loss = model(batch_graphs,
-                         valid_prop=valid_prop,
-                         test_prop=test_prop,
-                         temp=temp)
+
+            batch_loss = model(batch_graphs,
+                               valid_prop=valid_prop,
+                               test_prop=test_prop,
+                               temp=temp)
+
+            loss = (batch_loss['nll'] + batch_loss['kld_z']) / len(batch_graphs)
             loss.backward()
             optimizer.step()
-            running_loss += loss / len(batch_graphs)
+            for loss_name in running_loss.keys():
+                running_loss[loss_name] += batch_loss[loss_name].cpu().detach().data.numpy() / len(dataset)
 
-        logging.info(f"Epoch {epoch}: Running loss is {running_loss}\n")
+        logging.info(f"Epoch {epoch} | {running_loss}")
 
         if epoch % 10 == 0:
             logging.info(f"Saving model.")

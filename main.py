@@ -22,8 +22,8 @@ def main():
 
     # hyperparameters
     dataset_args = dict(dataset="hcp",
-                        window_size=90,
-                        window_stride=40,
+                        window_size=30,
+                        window_stride=3,
                         measure="correlation",
                         top_percent=5)
     model_args = dict(sigma=1.,

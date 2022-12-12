@@ -73,22 +73,26 @@ class Model(nn.Module):
                 torch.nn.init.xavier_uniform_(m.weight.data)
 
     def forward(self, batch_data, valid_prop=0.1, test_prop=0.1, temp=1.):
-        loss = 0
+        loss = {'nll': 0, 'kld_z': 0, 'kld_alpha': 0, 'kld_beta': 0, 'kld_phi': 0}
         for data in batch_data:
             subject_idx, dynamic_graph, _ = data
-            loss += self._forward(subject_idx, dynamic_graph, valid_prop, test_prop, temp)
+            subject_loss = self._forward(subject_idx, dynamic_graph, valid_prop, test_prop, temp)
+            for loss_name in loss.keys():
+                loss[loss_name] += subject_loss[loss_name]
         return loss
 
     def _forward(self, subject_idx, batch_graphs, valid_prop, test_prop, temp):
+
+        loss = {'nll': 0, 'kld_z': 0, 'kld_alpha': 0, 'kld_beta': 0, 'kld_phi': 0}
+        edge_counter = 0
 
         time_len = len(batch_graphs)
         valid_time = math.floor(time_len * valid_prop)
         test_time = math.floor(time_len * test_prop)
         train_time = time_len - valid_time - test_time
 
-        logging.debug(f"Forward pass for subject idx: {subject_idx}")
+        # logging.debug(f"Forward pass for subject idx: {subject_idx}")
 
-        loss = 0
         # sample subject embedding from posterior
         alpha_mean_n = self.alpha_mean.weight[subject_idx]
         alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx])
@@ -98,8 +102,6 @@ class Model(nn.Module):
                                     self.alpha_mean_prior.to(self.device),
                                     self.alpha_std_scalar
                                     )
-
-        loss += 0 * kld_alpha  # For debugging simplicity. TODO: need to figure out the weights for these KL terms.
 
         # inital values of phi and beta at time 0 per subject
         # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
@@ -157,15 +159,18 @@ class Model(nn.Module):
             kld_beta = self._kld_gauss(beta_mean_t, beta_std_t, beta_prior_mean, self.gamma)
             kld_phi = self._kld_gauss(phi_mean_t, phi_std_t, phi_prior_mean, self.sigma)
 
-            logging.debug(f"For Subject index: {subject_idx}.\n"
-                          f" Snapshot index: {snapshot_idx}: "
-                          f"BCE loss is {BCE}. kld_z loss is {kld_z}.")
-
-            loss_edges = (kld_z + BCE) / c.shape[0]
-            loss += loss_edges + 0 * kld_beta / self.categorical_dim + 0 * kld_phi / self.num_nodes
+            loss['nll'] += BCE
+            loss['kld_z'] += kld_z
+            loss['kld_alpha'] += kld_alpha
+            loss['kld_beta'] += kld_beta
+            loss['kld_phi'] += kld_phi
+            edge_counter += c.shape[0]
 
             beta_prior_mean = beta_sample
             phi_prior_mean = phi_sample
+
+        for loss_name in loss.keys():
+            loss[loss_name] = loss[loss_name] / edge_counter
 
         return loss
 
@@ -353,11 +358,6 @@ class Model(nn.Module):
 
             # Posterior distribution over the communities for each edge
             q_pos = F.softmax(self.nn_pi(phi_sample[w_pos] * phi_sample[c_pos]), dim=-1)
-            # Sample community z with highest probability
-            # I need to get q pos = F.softmax(q, dim=-1)
-            # tmp = q_pos.argmax(dim=-1).reshape(q_pos.shape[0], 1)
-            # src = torch.ones_like(tmp).float()
-            # z_pos = torch.zeros(q_pos.shape).to(self.device).scatter_(1, tmp, src)
             # Weighted beta embedding based on the posterior community distribution
             beta_mixture_pos = torch.mm(q_pos, beta_sample)
             # Weighted beta embedding based on the posterior community distribution
@@ -366,9 +366,6 @@ class Model(nn.Module):
             pos_pred = recon_pos.gather(1, c_pos.unsqueeze(dim=1)).detach().cpu().numpy().squeeze(axis=-1)
 
             q_neg = F.softmax(self.nn_pi(phi_sample[w_neg] * phi_sample[c_neg]), dim=-1)
-            # tmp = q_neg.argmax(dim=-1).reshape(q_neg.shape[0], 1)
-            # src = torch.ones_like(tmp).float()
-            # z_neg = torch.zeros(q_neg.shape).to(self.device).scatter_(1, tmp, src)
             # Weighted beta embedding based on the posterior community distribution
             beta_mixture_neg = torch.mm(q_neg, beta_sample)
             recon_neg = self.decoder(beta_mixture_neg)
