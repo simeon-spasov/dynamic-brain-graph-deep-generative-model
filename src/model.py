@@ -44,6 +44,7 @@ class Model(nn.Module):
         self.gamma = gamma
         self.sigma = sigma
         self.device = device
+        self.gru_layers = 1
 
         self.beta_mean = nn.Linear(self.embedding_dim, embedding_dim)
         self.beta_std = nn.Sequential(nn.Linear(self.embedding_dim, embedding_dim), nn.Softplus())
@@ -51,8 +52,8 @@ class Model(nn.Module):
         self.phi_std = nn.Sequential(nn.Linear(self.embedding_dim, self.embedding_dim), nn.Softplus())
         self.nn_pi = nn.Linear(self.embedding_dim, self.categorical_dim, bias=False)
 
-        self.rnn_nodes = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=1, bias=True)
-        self.rnn_comms = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=1, bias=True)
+        self.rnn_nodes = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=self.gru_layers, bias=True)
+        self.rnn_comms = nn.GRU(2 * self.embedding_dim, self.embedding_dim, num_layers=self.gru_layers, bias=True)
 
         self.alpha_mean = nn.Embedding(self.num_samples, self.embedding_dim)
         self.alpha_std = nn.Embedding(self.num_samples, self.embedding_dim)
@@ -113,8 +114,8 @@ class Model(nn.Module):
         beta_prior_mean = beta_0_mean
 
         # GRU hidden states for node and community embeddings
-        h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
-        h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
+        h_beta = torch.zeros(self.gru_layers, self.categorical_dim, self.embedding_dim).to(self.device)
+        h_phi = torch.zeros(self.gru_layers, self.num_nodes, self.embedding_dim).to(self.device)
 
         # iterate all over all edges in a graph at a single time point
         for snapshot_idx in range(train_time):
@@ -276,9 +277,10 @@ class Model(nn.Module):
             pred, label, _nll = self._predict_auc_roc_precision(subject_idx, subject_graphs, valid_prop, test_prop)
 
             for status in ['train', 'valid', 'test']:
-                aucroc[status] += roc_auc_score(label[status], pred[status]) / num_subjects
-                ap[status] += average_precision_score(label[status], pred[status]) / num_subjects
-                nll[status] += _nll[status].mean() / num_subjects
+                if len(pred[status])>0: 
+                    aucroc[status] += roc_auc_score(label[status], pred[status]) / num_subjects
+                    ap[status] += average_precision_score(label[status], pred[status]) / num_subjects
+                    nll[status] += _nll[status].mean() / num_subjects
 
         return nll, aucroc, ap
 
