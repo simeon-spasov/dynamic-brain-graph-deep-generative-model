@@ -22,20 +22,22 @@ def main():
 
     # hyperparameters
     dataset_args = dict(dataset="hcp",
-                        window_size=489,
-                        window_stride=490,
+                        window_size=30,
+                        window_stride=30,
                         measure="correlation",
                         top_percent=5)
     model_args = dict(sigma=1.,
                       gamma=0.1,
                       categorical_dim=3,
                       embedding_dim=128)
+    # Need batch size = 1 to optimize per subject.
     train_args = dict(num_epochs=2001,
-                      batch_size=10,
+                      batch_size=1,
                       learning_rate=1e-3,
                       device=device,
                       temp_min=0.1,
                       anneal_rate=3e-5,
+                      train_prop=0.3,
                       valid_prop=0.1,
                       test_prop=0.1,
                       temp=1.)
@@ -50,7 +52,7 @@ def main():
     # dataset
     logging.info('Loading data.')
     dataset = load_dataset(**dataset_args, data_dir=data_dir)
-    experiment_dataset = dataset[:1]
+    experiment_dataset = dataset
     num_subjects, num_nodes = len(experiment_dataset), experiment_dataset[0][1][0].number_of_nodes()
     logging.info(f'{num_subjects} subjects with {num_nodes} nodes each.')
 

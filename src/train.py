@@ -16,6 +16,7 @@ def train(model, dataset,
           anneal_rate=0.00003,
           batch_size=25,
           weight_decay=0.,
+          train_prop=1.,
           valid_prop=0.1,
           test_prop=0.1,
           device=torch.device("cpu")
@@ -48,6 +49,7 @@ def train(model, dataset,
             optimizer.zero_grad()
 
             batch_loss = model(batch_graphs,
+                               train_prop=train_prop,
                                valid_prop=valid_prop,
                                test_prop=test_prop,
                                temp=temp)
@@ -68,6 +70,7 @@ def train(model, dataset,
 
             nll, aucroc, ap = model.predict_auc_roc_precision(
                 batch_graphs,
+                train_prop=train_prop,
                 valid_prop=valid_prop,
                 test_prop=test_prop)
 
