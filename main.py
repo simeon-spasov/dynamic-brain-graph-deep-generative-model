@@ -10,7 +10,7 @@ from src.train import train
 
 def main():
     logging.basicConfig(
-        filename='fMRI.log',
+        filename='fMRI_size_30_stride_30_lr_1e-4.log',
         format='%(levelname)s:%(message)s',
         filemode='w',
         level=logging.DEBUG)
@@ -33,11 +33,11 @@ def main():
     # Need batch size = 1 to optimize per subject.
     train_args = dict(num_epochs=2001,
                       batch_size=1,
-                      learning_rate=1e-3,
+                      learning_rate=1e-4,
                       device=device,
                       temp_min=0.1,
                       anneal_rate=3e-5,
-                      train_prop=0.3,
+                      train_prop=1.,
                       valid_prop=0.1,
                       test_prop=0.1,
                       temp=1.)
@@ -63,8 +63,8 @@ def main():
     logging.info('Starting training.')
     train(model, experiment_dataset, **train_args)
 
-    logging.info('Running inference...')
-    inference(model, experiment_dataset, device=device)
+    # logging.info('Running inference...')
+    # inference(model, experiment_dataset, device=device)
 
     logging.info('Finished script.')
 
