@@ -9,12 +9,12 @@ from .dataset import data_loader
 
 def train(model, dataset,
           save_path=Path.cwd() / "models",
-          learning_rate=0.005,
+          learning_rate=1e-4,
           temp=1.,
           temp_min=0.1,
-          num_epochs=1000,
+          num_epochs=1001,
           anneal_rate=0.00003,
-          batch_size=25,
+          batch_size=1,
           weight_decay=0.,
           train_prop=1.,
           valid_prop=0.1,
@@ -30,7 +30,6 @@ def train(model, dataset,
     else:
         logging.info(f"Folder to save model weights was created at {save_path}")
 
-    model_save_path = Path(save_path) / "fmri_model.pt"
     logging.info(f"Model save path is: {save_path}. ")
 
     optimizer = torch.optim.AdamW(model.parameters(),
@@ -38,6 +37,8 @@ def train(model, dataset,
                                   weight_decay=weight_decay)
 
     model.to(device)
+
+    best_nll = float('inf')
 
     for epoch in range(num_epochs):
         logging.debug(f"Starting epoch {epoch}")
@@ -62,23 +63,25 @@ def train(model, dataset,
 
         logging.info(f"Epoch {epoch} | {running_loss}")
 
-        if epoch % 10 == 0:
+        model.eval()
+
+        nll, aucroc, ap = model.predict_auc_roc_precision(
+            batch_graphs,
+            train_prop=train_prop,
+            valid_prop=valid_prop,
+            test_prop=test_prop)
+
+        logging.info(f"Epoch {epoch} | "
+                     f"train nll {nll['train']} aucroc {aucroc['train']} ap {ap['train']}| "
+                     f"valid nll {nll['valid']} aucroc {aucroc['valid']} ap {ap['valid']} | "
+                     f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']}")
+
+        if nll['valid'] < best_nll:
             logging.info(f"Saving model.")
-            torch.save(model.state_dict(), str(model_save_path))
+            torch.save((model.state_dict(), optimizer.state_dict()), Path(save_path) / "checkpoint.pt")
+            best_nll = nll['valid']
 
-            model.eval()
-
-            nll, aucroc, ap = model.predict_auc_roc_precision(
-                batch_graphs,
-                train_prop=train_prop,
-                valid_prop=valid_prop,
-                test_prop=test_prop)
-
-            logging.info(f"Epoch {epoch} | "
-                         f"train nll {nll['train']} aucroc {aucroc['train']} ap {ap['train']}| "
-                         f"valid nll {nll['valid']} aucroc {aucroc['valid']} ap {ap['valid']} | "
-                         f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']}")
-
+        if epoch % 10 == 0:
             temp = np.maximum(temp * np.exp(-anneal_rate * epoch), temp_min)
             logging.debug(f"Updating temperature for Gumbel-softmax to {temp}")
             learning_rate *= .99
@@ -87,5 +90,4 @@ def train(model, dataset,
             for param_group in optimizer.param_groups:
                 param_group['lr'] = learning_rate
 
-    logging.info(f"Saving model.")
-    torch.save(model.state_dict(), str(model_save_path))
+    logging.info(f"Finished training.")

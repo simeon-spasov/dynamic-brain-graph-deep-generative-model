@@ -1,45 +1,46 @@
+import argparse
 import logging
+from pathlib import Path
 
 import torch
 
 from src.dataset import load_dataset
-from src.inference import inference
 from src.model import Model
 from src.train import train
 
 
-def main():
+def main(args):
     logging.basicConfig(
-        filename='fMRI_size_30_stride_30_lr_1e-4.log',
+        filename='fMRI_{}_{}.log'.format(args.dataset, args.trial),
         format='%(levelname)s:%(message)s',
         filemode='w',
         level=logging.DEBUG)
 
     # setup
     data_dir = "./data"
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    seed = 12345
+    device = torch.device("cuda:{}".format(args.gpu))
 
     # hyperparameters
-    dataset_args = dict(dataset="hcp",
+    dataset_args = dict(dataset=args.dataset,
                         window_size=30,
                         window_stride=30,
                         measure="correlation",
                         top_percent=5)
     model_args = dict(sigma=1.,
                       gamma=0.1,
-                      categorical_dim=3,
+                      categorical_dim=args.categorical_dim,
                       embedding_dim=128)
     # Need batch size = 1 to optimize per subject.
-    train_args = dict(num_epochs=2001,
+    train_args = dict(num_epochs=1001,
+                      save_path=Path.cwd() / "models_{}_{}".format(args.dataset, args.trial),
                       batch_size=1,
                       learning_rate=1e-4,
                       device=device,
                       temp_min=0.1,
                       anneal_rate=3e-5,
                       train_prop=1.,
-                      valid_prop=0.1,
-                      test_prop=0.1,
+                      valid_prop=args.valid_prop,
+                      test_prop=args.test_prop,
                       temp=1.)
 
     # Log all dataset parameters.
@@ -70,4 +71,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(prog='ProgramName', description='Train model.', )
+    parser.add_argument('--dataset', required=True, type=str, choices=['ukb', 'hcp'])
+    parser.add_argument('--categorical-dim', required=True, type=int)
+    parser.add_argument('--valid-prop', default=0.1, type=float)
+    parser.add_argument('--test-prop', default=0.1, type=float)
+    parser.add_argument('--trial', required=True, type=int)
+    parser.add_argument('--gpu', required=True, type=int, choices=[0, 1])
+    args = parser.parse_args()
+    main(args)
