@@ -152,8 +152,10 @@ class Model(nn.Module):
             phi_std_t = self.phi_std(h_phi[-1])
 
             # Sample node and community representations
-            beta_sample = self._reparameterized_sample(beta_mean_t, beta_std_t)
-            phi_sample = self._reparameterized_sample(phi_mean_t, phi_std_t)
+            # beta_sample = self._reparameterized_sample(beta_mean_t, beta_std_t)
+            beta_sample = beta_mean_t
+            # phi_sample = self._reparameterized_sample(phi_mean_t, phi_std_t)
+            phi_sample = phi_mean_t
 
             recon, posterior_z, prior_z = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
 
