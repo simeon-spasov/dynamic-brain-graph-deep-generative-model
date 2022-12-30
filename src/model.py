@@ -1,4 +1,3 @@
-import logging
 import math
 
 import numpy as np
@@ -8,7 +7,7 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 from torch import nn
 from torch.autograd import Variable
 
-from .utils import sample_pos_neg_edges
+from .utils import sample_pos_neg_edges, index_fill, temporal_degree, topological_overlap, get_adjacency_matrix
 
 
 def _gumbel_softmax(logits, device, tau=1, hard=False, eps=1e-10, dim=-1):
@@ -198,25 +197,35 @@ class Model(nn.Module):
 
         return recon, F.softmax(q, dim=-1), prior_z
 
-    def predict_auc_roc_precision(self, subject_graphs, train_prop=1, valid_prop=0.1, test_prop=0.1):
+    def predict_auc_roc_precision(self, subject_graphs, train_prop=1, valid_prop=0.1, test_prop=0.1, num_samples=1):
         aucroc = {'train': 0, 'valid': 0, 'test': 0}
         ap = {'train': 0, 'valid': 0, 'test': 0}
         nll = {'train': 0, 'valid': 0, 'test': 0}
+        mse_to = 0
+        mse_td = 0
+
         num_subjects = len(subject_graphs)
         for subject in subject_graphs:
             subject_idx, subject_graphs, gender_label = subject
 
-            pred, label, _nll = self._predict_auc_roc_precision(subject_idx, subject_graphs, train_prop, valid_prop, test_prop)
+            pred, label, _nll, _mse_to, _mse_td = self._predict_auc_roc_precision(subject_idx,
+                                                                                  subject_graphs,
+                                                                                  train_prop,
+                                                                                  valid_prop,
+                                                                                  test_prop,
+                                                                                  num_samples)
 
             for status in ['train', 'valid', 'test']:
                 if len(pred[status]) > 0:
                     aucroc[status] += roc_auc_score(label[status], pred[status]) / num_subjects
                     ap[status] += average_precision_score(label[status], pred[status]) / num_subjects
                     nll[status] += _nll[status].mean() / num_subjects
+                    mse_to = _mse_to / num_subjects
+                    mse_td = _mse_td / num_subjects
 
-        return nll, aucroc, ap
+        return nll, aucroc, ap, mse_to, mse_td
 
-    def _predict_auc_roc_precision(self, subject_idx, batch_graphs, train_prop, valid_prop, test_prop):
+    def _predict_auc_roc_precision(self, subject_idx, batch_graphs, train_prop, valid_prop, test_prop, num_samples):
         time_len = len(batch_graphs)
         valid_time = math.floor(time_len * valid_prop)
         test_time = math.floor(time_len * test_prop)
@@ -228,6 +237,10 @@ class Model(nn.Module):
         pred = {'train': [], 'valid': [], 'test': []}
         label = {'train': [], 'valid': [], 'test': []}
         nll = {'train': [], 'valid': [], 'test': []}
+        A = []
+        pos_c_preds = []
+        recons_c_pos = []
+        ws_pos = []
 
         alpha_n = self.alpha_mean.weight[subject_idx].to(self.device)
 
@@ -254,10 +267,8 @@ class Model(nn.Module):
                 status = 'valid'
             elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
                 status = 'test'
-            else:
-                logging.debug(f'Wrong time index at inference. Time index is {i}.')
             # Sample edges
-            pos_edges, neg_edges = sample_pos_neg_edges(graph)
+            pos_edges, neg_edges = sample_pos_neg_edges(graph, num_samples=num_samples)
 
             pos_batch = torch.LongTensor(pos_edges).to(self.device)
             neg_batch = torch.LongTensor(neg_edges).to(self.device)
@@ -298,30 +309,45 @@ class Model(nn.Module):
             # Weighted beta embedding based on the posterior community distribution
             beta_mixture_pos = torch.mm(q_pos, beta_sample)
             # Weighted beta embedding based on the posterior community distribution
-            recon_pos = self.decoder(beta_mixture_pos)
-            # pos_pred = recon_pos[c_pos].detach().cpu().numpy()
-            pos_pred = recon_pos.gather(1, c_pos.unsqueeze(dim=1)).detach().cpu().numpy().squeeze(axis=-1)
+            recon_c_pos = self.decoder(beta_mixture_pos)
+            pos_c_pred = recon_c_pos.gather(1, c_pos.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
 
             q_neg = F.softmax(self.nn_pi(phi_sample[w_neg] * phi_sample[c_neg]), dim=-1)
             # Weighted beta embedding based on the posterior community distribution
             beta_mixture_neg = torch.mm(q_neg, beta_sample)
-            recon_neg = self.decoder(beta_mixture_neg)
-            # neg_pred = recon_neg[c_neg].detach().cpu().numpy()
+            recon_c_neg = self.decoder(beta_mixture_neg)
+            neg_c_pred = recon_c_neg.gather(1, c_neg.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
 
-            neg_pred = recon_neg.gather(1, c_neg.unsqueeze(dim=1)).detach().cpu().numpy().squeeze(axis=-1)
-
-            recon_c_softmax = F.log_softmax(recon_pos, dim=-1)
+            recon_c_softmax = F.log_softmax(recon_c_pos, dim=-1)
             bce = F.nll_loss(recon_c_softmax, c_pos, reduction='none')
             bce = bce.detach().cpu().numpy()
 
-            pred[status] = np.hstack([pred[status], pos_pred, neg_pred])
-            label[status] = np.hstack([label[status], np.ones(len(pos_pred)), np.zeros(len(neg_pred))])
+            pred[status] = np.hstack([pred[status], pos_c_pred.numpy(), neg_c_pred.numpy()])
+            label[status] = np.hstack([label[status], np.ones(len(pos_c_pred)), np.zeros(len(neg_c_pred))])
             nll[status] = np.hstack([nll[status], bce])
+
+            # If last validation step
+            if train_time + valid_time - 1 <= i:
+                A.append(torch.tensor(get_adjacency_matrix(graph), dtype=torch.float))
+                pos_c_preds.append(pos_c_pred)
+                recons_c_pos.append(recon_c_pos)
+                ws_pos.append(w_pos)
 
             beta_prior_mean = beta_sample
             phi_prior_mean = phi_sample
 
-        return pred, label, nll
+        A = torch.stack(A, dim=0).unsqueeze(0)
+        pos_c_preds = torch.stack(pos_c_preds, dim=0).unsqueeze(0)
+        recons_c_pos = torch.stack(recons_c_pos, dim=0).unsqueeze(0)
+        ws_pos = torch.stack(ws_pos, dim=0).unsqueeze(0)
+
+        A_pred = index_fill(torch.zeros_like(A), torch.ones_like(pos_c_preds), ws_pos, recons_c_pos.argmax(dim=-1))
+        top_ov, top_ov_pred = topological_overlap(A), topological_overlap(A_pred)
+        mse_to = F.mse_loss(top_ov_pred, top_ov, reduction="mean").item()
+        temp_deg, temp_deg_pred = temporal_degree(A), temporal_degree(A_pred)
+        mse_td = F.mse_loss(temp_deg_pred, temp_deg, reduction="mean").item()
+
+        return pred, label, nll, mse_to, mse_td
 
     def _reparameterized_sample(self, mean, std):
         eps = torch.FloatTensor(std.size()).normal_()
@@ -346,25 +372,36 @@ class Model(nn.Module):
              (std_1.pow(2) + (mu_1 - mu_2).pow(2)) / std_2.pow(2) - 1))
         return KLD
 
-
-"""
-    def predict_embeddings(self, subject_graphs):
+    def predict_embeddings(self, subject_graphs, train_prop=1, valid_prop=0.1, test_prop=0.1):
         subjects = {}
         for subject in subject_graphs:
             subject_idx, subject_graphs, gender_label = subject
 
-            subject_data = self._predict_embeddings(subject_idx, subject_graphs)
+            subject_data = self._predict_embeddings(subject_idx, subject_graphs, train_prop, valid_prop, test_prop)
 
             subjects[subject_idx] = subject_data
 
         return subjects
 
-    def _predict_embeddings(self, subject_idx, batch_graphs):
-        data = {}
+    def _predict_embeddings(self, subject_idx, batch_graphs, train_prop, valid_prop, test_prop):
+        time_len = len(batch_graphs)
+        valid_time = math.floor(time_len * valid_prop)
+        test_time = math.floor(time_len * test_prop)
+        train_time = time_len - valid_time - test_time
+
+        train_snapshots = math.floor(train_time * train_prop)
+        train_start_idx = train_time - train_snapshots
+
+        embeddings = {
+            'alpha_embedding': None,
+            'node_distribution_over_communities': {'train': [], 'valid': [], 'test': []},
+            'beta_embeddings': {'train': [], 'valid': [], 'test': []},
+            'phi_embeddings': {'train': [], 'valid': [], 'test': []}
+        }
 
         alpha_n = self.alpha_mean.weight[subject_idx].to(self.device)
         alpha_embedding = alpha_n.cpu().detach().data.numpy()
-        data['alpha_embedding'] = alpha_embedding
+        embeddings['alpha_embedding'] = alpha_embedding
 
         # inital values of phi and beta at time 0 per subject
         # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
@@ -382,11 +419,14 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes,
                             self.embedding_dim).to(self.device)
 
-        data['node_distribution_over_communities'] = []
-        data['beta_embeddings'] = []
-        data['phi_embeddings'] = []
+        for i, graph in enumerate(batch_graphs[train_start_idx:]):
+            if i + train_start_idx < train_time:
+                status = 'train'
+            elif train_time <= i + train_start_idx < train_time + valid_time:
+                status = 'valid'
+            elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
+                status = 'test'
 
-        for i, graph in enumerate(batch_graphs):
             nodes_in = torch.cat([phi_prior_mean,
                                   phi_prior_mean], dim=-1)
 
@@ -410,13 +450,12 @@ class Model(nn.Module):
                 node_distrib_over_communities_t,
                 dim=-1).cpu().detach().data.numpy()
 
-            data['node_distribution_over_communities'].append(
+            embeddings['node_distribution_over_communities'][status].append(
                 node_distrib_over_communities_t)
-            data['beta_embeddings'].append(beta_sample.cpu().detach().data.numpy())
-            data['phi_embeddings'].append(phi_sample.cpu().detach().data.numpy())
+            embeddings['beta_embeddings'][status].append(beta_sample.cpu().detach().data.numpy())
+            embeddings['phi_embeddings'][status].append(phi_sample.cpu().detach().data.numpy())
 
             beta_prior_mean = beta_sample
             phi_prior_mean = phi_sample
 
-        return data
-        """
+        return embeddings

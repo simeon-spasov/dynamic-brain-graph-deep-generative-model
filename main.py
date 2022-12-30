@@ -5,6 +5,7 @@ from pathlib import Path
 import torch
 
 from src.dataset import load_dataset
+from src.inference import inference
 from src.model import Model
 from src.train import train
 
@@ -42,6 +43,12 @@ def main(args):
                       valid_prop=args.valid_prop,
                       test_prop=args.test_prop,
                       temp=1.)
+    inference_args = dict(load_path=Path('/Users/simeonspasov/Downloads/experiments/models_hcp_1'),
+                          save_path=Path('/Users/simeonspasov/Downloads/experiments/models_hcp_1'),
+                          device=device,
+                          valid_prop=args.valid_prop,
+                          test_prop=args.test_prop,
+                          num_samples=1)
 
     # Log all dataset parameters.
     logging.debug('Dataset args: %s', dataset_args)
@@ -67,7 +74,9 @@ def main(args):
     # logging.info('Running inference...')
     # inference(model, experiment_dataset, device=device)
 
-    logging.info('Finished script.')
+    logging.info('Finished training.')
+
+    inference(model, experiment_dataset, **inference_args)
 
 
 if __name__ == '__main__':

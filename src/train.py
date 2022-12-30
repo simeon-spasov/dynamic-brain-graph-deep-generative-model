@@ -65,7 +65,7 @@ def train(model, dataset,
 
         model.eval()
 
-        nll, aucroc, ap = model.predict_auc_roc_precision(
+        nll, aucroc, ap, mse_to, mse_td = model.predict_auc_roc_precision(
             batch_graphs,
             train_prop=train_prop,
             valid_prop=valid_prop,
@@ -74,7 +74,8 @@ def train(model, dataset,
         logging.info(f"Epoch {epoch} | "
                      f"train nll {nll['train']} aucroc {aucroc['train']} ap {ap['train']}| "
                      f"valid nll {nll['valid']} aucroc {aucroc['valid']} ap {ap['valid']} | "
-                     f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']}")
+                     f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']} | "
+                     f"mse topological overlap {mse_to} mse temporal degree {mse_td}")
 
         if nll['valid'] < best_nll:
             logging.info(f"Saving model.")
