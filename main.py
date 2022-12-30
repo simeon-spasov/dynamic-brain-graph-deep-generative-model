@@ -43,8 +43,8 @@ def main(args):
                       valid_prop=args.valid_prop,
                       test_prop=args.test_prop,
                       temp=1.)
-    inference_args = dict(load_path=Path('/Users/simeonspasov/Downloads/experiments/models_hcp_1'),
-                          save_path=Path('/Users/simeonspasov/Downloads/experiments/models_hcp_1'),
+    inference_args = dict(load_path=Path.cwd() / "models_{}_{}".format(args.dataset, args.trial),
+                          save_path=Path.cwd() / "models_{}_{}".format(args.dataset, args.trial),
                           device=device,
                           valid_prop=args.valid_prop,
                           test_prop=args.test_prop,
@@ -67,16 +67,17 @@ def main(args):
     # model
     model = Model(num_subjects, num_nodes, **model_args, device=device)
 
-    # train
-    logging.info('Starting training.')
-    train(model, experiment_dataset, **train_args)
+    if args.command != 'inference':
+        # train
+        logging.info('Starting training.')
+        train(model, experiment_dataset, **train_args)
 
-    # logging.info('Running inference...')
-    # inference(model, experiment_dataset, device=device)
+        # logging.info('Running inference...')
 
-    logging.info('Finished training.')
+        logging.info('Finished training.')
 
-    inference(model, experiment_dataset, **inference_args)
+    else:
+        inference(model, experiment_dataset, **inference_args)
 
 
 if __name__ == '__main__':
@@ -87,5 +88,9 @@ if __name__ == '__main__':
     parser.add_argument('--test-prop', default=0.1, type=float)
     parser.add_argument('--trial', required=True, type=int)
     parser.add_argument('--gpu', required=True, type=int, choices=[0, 1])
+
+    subparsers = parser.add_subparsers(dest='command')
+    parser_foo = subparsers.add_parser('inference')
+
     args = parser.parse_args()
     main(args)
