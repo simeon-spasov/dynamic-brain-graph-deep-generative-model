@@ -84,17 +84,20 @@ def train(model, dataset,
                                                   test_prop=test_prop)
             logging.info(f"Saving model.")
             torch.save(
-                {
-                    'model_state_dict': model.state_dict(),
-                    'optimizer_state_dict': optimizer.state_dict(),
-                    'nll': nll,
-                    'aucroc': aucroc,
-                    'ap': ap,
-                    'mse_to': mse_to,
-                    'mse_td': mse_td,
-                    'embeddings': embeddings
-                },
-                Path(save_path) / "checkpoint.pt")
+                (model.state_dict(), optimizer.state_dict()),
+                Path(save_path) / "checkpoint.pt"
+            )
+
+            np.save(Path(save_path) / "results.npy",
+                    {
+                        'nll': nll,
+                        'aucroc': aucroc,
+                        'ap': ap,
+                        'mse_to': mse_to,
+                        'mse_td': mse_td,
+                        'embeddings': embeddings
+                    })
+
             best_nll = nll['valid']
 
         if epoch % 10 == 0:
