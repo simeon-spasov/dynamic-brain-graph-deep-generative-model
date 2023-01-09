@@ -55,4 +55,4 @@ def inference(model, dataset,
     with open(model_save_path, 'wb') as f:
         np.save(f, embeddings)
 
-    logging.info("Results saved.")
+    logging.info("Performance metrics saved.")

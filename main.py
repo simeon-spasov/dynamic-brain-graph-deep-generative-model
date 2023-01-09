@@ -56,6 +56,8 @@ def main(args):
     logging.debug('Model args: %s', model_args)
     # Log all training setup parameters.
     logging.debug('Train args: %s', train_args)
+    # Log all inference setup parameters.
+    logging.debug('Inference args: %s', inference_args)
 
     # dataset
     logging.info('Loading data.')
@@ -77,6 +79,8 @@ def main(args):
         logging.info('Finished training.')
 
     else:
+        logging.info('Starting inference.')
+
         inference(model, experiment_dataset, **inference_args)
 
 
