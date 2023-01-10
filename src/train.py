@@ -55,7 +55,7 @@ def train(model, dataset,
                                test_prop=test_prop,
                                temp=temp)
 
-            loss = (batch_loss['nll'] + batch_loss['kld_z']) / len(batch_graphs)
+            loss = (batch_loss['nll'] + batch_loss['kld_z'] + 10*batch_loss['kld_alpha']) / len(batch_graphs)
             loss.backward()
             optimizer.step()
             for loss_name in running_loss.keys():

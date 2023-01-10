@@ -90,10 +90,8 @@ class Model(nn.Module):
         test_time = math.floor(time_len * test_prop)
         train_time = time_len - valid_time - test_time
 
-        train_snapshots = math.floor(train_time * train_prop)
-        train_start_idx = np.random.randint(0, train_time - train_snapshots + 1)
-
-        # logging.debug(f"Forward pass for subject idx: {subject_idx}")
+        # train_snapshots = math.floor(train_time * train_prop)
+        # train_start_idx = np.random.randint(0, train_time - train_snapshots + 1)
 
         # sample subject embedding from posterior
         alpha_mean_n = self.alpha_mean.weight[subject_idx]
@@ -119,7 +117,8 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         # iterate all over all edges in a graph at a single time point
-        for snapshot_idx in range(train_start_idx, train_start_idx + train_snapshots):
+        # for snapshot_idx in range(train_start_idx, train_start_idx + train_snapshots):
+        for snapshot_idx in range(0, train_time):
             graph = batch_graphs[snapshot_idx]
             train_edges = [(u, v) for u, v in graph.edges()]
             if self.training:
@@ -151,10 +150,8 @@ class Model(nn.Module):
             phi_std_t = self.phi_std(h_phi[-1])
 
             # Sample node and community representations
-            # beta_sample = self._reparameterized_sample(beta_mean_t, beta_std_t)
-            beta_sample = beta_mean_t
-            # phi_sample = self._reparameterized_sample(phi_mean_t, phi_std_t)
-            phi_sample = phi_mean_t
+            beta_sample = self._reparameterized_sample(beta_mean_t, beta_std_t)
+            phi_sample = self._reparameterized_sample(phi_mean_t, phi_std_t)
 
             recon, posterior_z, prior_z = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
 
@@ -231,8 +228,8 @@ class Model(nn.Module):
         test_time = math.floor(time_len * test_prop)
         train_time = time_len - valid_time - test_time
 
-        train_snapshots = math.floor(train_time * train_prop)
-        train_start_idx = train_time - train_snapshots
+        # train_snapshots = math.floor(train_time * train_prop)
+        # train_start_idx = train_time - train_snapshots
 
         pred = {'train': [], 'valid': [], 'test': []}
         label = {'train': [], 'valid': [], 'test': []}
@@ -260,12 +257,16 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes,
                             self.embedding_dim).to(self.device)
 
-        for i, graph in enumerate(batch_graphs[train_start_idx:]):
-            if i + train_start_idx < train_time:
+        # for i, graph in enumerate(batch_graphs[train_start_idx:]):
+        for i, graph in enumerate(batch_graphs):
+            # if i + train_start_idx < train_time:
+            if i < train_time:
                 status = 'train'
-            elif train_time <= i + train_start_idx < train_time + valid_time:
+            # elif train_time <= i + train_start_idx < train_time + valid_time:
+            elif train_time <= i < train_time + valid_time:
                 status = 'valid'
-            elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
+            # elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
+            else:
                 status = 'test'
             # Sample edges
             pos_edges, neg_edges = sample_pos_neg_edges(graph, num_samples=num_samples)
@@ -389,8 +390,8 @@ class Model(nn.Module):
         test_time = math.floor(time_len * test_prop)
         train_time = time_len - valid_time - test_time
 
-        train_snapshots = math.floor(train_time * train_prop)
-        train_start_idx = train_time - train_snapshots
+        # train_snapshots = math.floor(train_time * train_prop)
+        # train_start_idx = train_time - train_snapshots
 
         embeddings = {
             'alpha_embedding': None,
@@ -419,12 +420,16 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes,
                             self.embedding_dim).to(self.device)
 
-        for i, graph in enumerate(batch_graphs[train_start_idx:]):
-            if i + train_start_idx < train_time:
+        # for i, graph in enumerate(batch_graphs[train_start_idx:]):
+        for i, graph in enumerate(batch_graphs):
+            # if i + train_start_idx < train_time:
+            if i < train_time:
                 status = 'train'
-            elif train_time <= i + train_start_idx < train_time + valid_time:
+            # elif train_time <= i + train_start_idx < train_time + valid_time:
+            elif train_time <= i < train_time + valid_time:
                 status = 'valid'
-            elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
+            # elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
+            else:
                 status = 'test'
 
             nodes_in = torch.cat([phi_prior_mean,
