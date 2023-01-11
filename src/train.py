@@ -39,6 +39,7 @@ def train(model, dataset,
     model.to(device)
 
     best_nll = float('inf')
+    best_nll_train = float('inf')
 
     for epoch in range(num_epochs):
         logging.debug(f"Starting epoch {epoch}")
@@ -99,6 +100,29 @@ def train(model, dataset,
                     })
 
             best_nll = nll['valid']
+
+        if nll['train'] < best_nll_train:
+            embeddings = model.predict_embeddings(dataset,
+                                                  train_prop=train_prop,
+                                                  valid_prop=valid_prop,
+                                                  test_prop=test_prop)
+            logging.info(f"Saving model (best train).")
+            torch.save(
+                (model.state_dict(), optimizer.state_dict()),
+                Path(save_path) / "checkpoint_best_train.pt"
+            )
+
+            np.save(Path(save_path) / "results_best_train.npy",
+                    {
+                        'nll': nll,
+                        'aucroc': aucroc,
+                        'ap': ap,
+                        'mse_to': mse_to,
+                        'mse_td': mse_td,
+                        'embeddings': embeddings
+                    })
+
+            best_nll_train = nll['train']
 
         if epoch % 10 == 0:
             temp = np.maximum(temp * np.exp(-anneal_rate * epoch), temp_min)

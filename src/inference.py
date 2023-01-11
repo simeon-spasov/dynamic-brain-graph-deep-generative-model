@@ -49,7 +49,7 @@ def inference(model, dataset,
         print(f"Saving subject embeddings to {save_path}."
               f"Existing saved results will be overridden.")
 
-    model_save_path = Path(save_path) / "results_inference.npy",
+    model_save_path = Path(save_path) / "results_inference.npy"
 
     np.save(model_save_path,
             {
