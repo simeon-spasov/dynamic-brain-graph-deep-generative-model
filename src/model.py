@@ -130,13 +130,13 @@ class Model(nn.Module):
             c = torch.cat((batch[:, 1], batch[:, 0]))
 
             # Update node and community hidden states of GRUs
-            nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
+            nodes_in = torch.cat([phi_prior_mean, phi_0_mean], dim=-1)
 
             nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
 
             _, h_phi = self.rnn_nodes(nodes_in, h_phi)
 
-            comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
+            comms_in = torch.cat([beta_prior_mean, beta_0_mean], dim=-1)
 
             comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
 
@@ -350,29 +350,6 @@ class Model(nn.Module):
 
         return pred, label, nll, mse_to, mse_td
 
-    def _reparameterized_sample(self, mean, std):
-        eps = torch.FloatTensor(std.size()).normal_()
-        eps = Variable(eps).to(self.device)
-        return eps.mul(std).add_(mean)
-
-    def _vGraph_loss(self, recon_c, q_y, prior_z, c):
-        recon_c_softmax = F.log_softmax(recon_c, dim=-1)
-        BCE = F.nll_loss(recon_c_softmax, c, reduction='none')
-        BCE = (BCE).sum()
-        log_qy = torch.log(q_y + 1e-20)
-        KLD = (
-            torch.sum(q_y *
-                      (log_qy - torch.log(prior_z + 1e-20)), dim=-1)).sum()
-        return KLD, BCE
-
-    def _kld_gauss(self, mu_1, std_1, mu_2, std_2_scale):
-        std_2 = Variable(torch.ones_like(std_1)).mul(std_2_scale).to(
-            self.device)
-        KLD = 0.5 * torch.sum(
-            (2 * torch.log(std_2 + 1e-20) - 2 * torch.log(std_1 + 1e-20) +
-             (std_1.pow(2) + (mu_1 - mu_2).pow(2)) / std_2.pow(2) - 1))
-        return KLD
-
     def predict_embeddings(self, subject_graphs, train_prop=1, valid_prop=0.1, test_prop=0.1):
         subjects = {}
         for subject in subject_graphs:
@@ -464,3 +441,26 @@ class Model(nn.Module):
             phi_prior_mean = phi_sample
 
         return embeddings
+
+    def _reparameterized_sample(self, mean, std):
+        eps = torch.FloatTensor(std.size()).normal_()
+        eps = Variable(eps).to(self.device)
+        return eps.mul(std).add_(mean)
+
+    def _vGraph_loss(self, recon_c, q_y, prior_z, c):
+        recon_c_softmax = F.log_softmax(recon_c, dim=-1)
+        BCE = F.nll_loss(recon_c_softmax, c, reduction='none')
+        BCE = (BCE).sum()
+        log_qy = torch.log(q_y + 1e-20)
+        KLD = (
+            torch.sum(q_y *
+                      (log_qy - torch.log(prior_z + 1e-20)), dim=-1)).sum()
+        return KLD, BCE
+
+    def _kld_gauss(self, mu_1, std_1, mu_2, std_2_scale):
+        std_2 = Variable(torch.ones_like(std_1)).mul(std_2_scale).to(
+            self.device)
+        KLD = 0.5 * torch.sum(
+            (2 * torch.log(std_2 + 1e-20) - 2 * torch.log(std_1 + 1e-20) +
+             (std_1.pow(2) + (mu_1 - mu_2).pow(2)) / std_2.pow(2) - 1))
+        return KLD
