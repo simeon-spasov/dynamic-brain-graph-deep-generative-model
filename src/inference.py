@@ -19,7 +19,7 @@ def inference(model, dataset,
         checkpoint = torch.load(model_path, map_location=device)
         model.load_state_dict(checkpoint[0])
     except FileNotFoundError:
-        logging.error(f'No model found at path: {model_path}')
+        print(f'No model found at path: {model_path}')
 
     model.to(device)
 
@@ -40,19 +40,25 @@ def inference(model, dataset,
              f"mse topological overlap {mse_to} mse temporal degree {mse_td}"
 
     print(report)
-    logging.info(report)
 
-    logging.info("Saving embeddings.")
+    print("Saving embeddings.")
 
     try:
         save_path.mkdir(parents=True, exist_ok=False)
     except FileExistsError:
-        logging.warning(f"Saving subject embeddings to {save_path}."
-                        f"Existing saved results will be overridden.")
+        print(f"Saving subject embeddings to {save_path}."
+              f"Existing saved results will be overridden.")
 
-    model_save_path = save_path / "embeddings.npy"
+    model_save_path = Path(save_path) / "results_inference.npy",
 
-    with open(model_save_path, 'wb') as f:
-        np.save(f, embeddings)
+    np.save(model_save_path,
+            {
+                'nll': nll,
+                'aucroc': aucroc,
+                'ap': ap,
+                'mse_to': mse_to,
+                'mse_td': mse_td,
+                'embeddings': embeddings
+            })
 
-    logging.info("Performance metrics saved.")
+    print("Performance metrics saved.")

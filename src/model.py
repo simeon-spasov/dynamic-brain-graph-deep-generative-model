@@ -358,7 +358,7 @@ class Model(nn.Module):
             subject_idx, subject_graphs, gender_label = subject
 
             subject_data = self._predict_embeddings(subject_idx, subject_graphs, train_prop, valid_prop, test_prop)
-
+            subject_data['gender'] = gender_label
             subjects[subject_idx] = subject_data
 
         return subjects

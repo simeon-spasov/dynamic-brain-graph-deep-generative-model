@@ -30,7 +30,7 @@ def main(args):
     model_args = dict(sigma=1.,
                       gamma=0.1,
                       categorical_dim=args.categorical_dim,
-                      embedding_dim=32)
+                      embedding_dim=128)
     # Need batch size = 1 to optimize per subject.
     train_args = dict(num_epochs=1001,
                       save_path=Path.cwd() / "models_{}_{}".format(args.dataset, args.trial),
