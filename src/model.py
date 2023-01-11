@@ -113,8 +113,8 @@ class Model(nn.Module):
         beta_prior_mean = beta_0_mean
 
         # GRU hidden states for node and community embeddings
-        h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
-        h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
+        # h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
+        # h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         # iterate all over all edges in a graph at a single time point
         # for snapshot_idx in range(train_start_idx, train_start_idx + train_snapshots):
@@ -130,24 +130,28 @@ class Model(nn.Module):
             c = torch.cat((batch[:, 1], batch[:, 0]))
 
             # Update node and community hidden states of GRUs
-            nodes_in = torch.cat([phi_prior_mean, phi_0_mean], dim=-1)
+            # nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
 
-            nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
+            # nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
 
-            _, h_phi = self.rnn_nodes(nodes_in, h_phi)
+            # _, h_phi = self.rnn_nodes(nodes_in, h_phi)
 
-            comms_in = torch.cat([beta_prior_mean, beta_0_mean], dim=-1)
+            # comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
 
-            comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
+            # comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
 
-            _, h_beta = self.rnn_comms(comms_in, h_beta)
+            # _, h_beta = self.rnn_comms(comms_in, h_beta)
 
             # Produce node and community mean and std of respective posteriors
-            beta_mean_t = self.beta_mean(h_beta[-1])
-            beta_std_t = self.beta_std(h_beta[-1])
+            # beta_mean_t = self.beta_mean(h_beta[-1])
+            beta_mean_t = self.beta_mean(beta_0_mean)
+            # beta_std_t = self.beta_std(h_beta[-1])
+            beta_std_t = self.beta_std(beta_0_mean)
 
-            phi_mean_t = self.phi_mean(h_phi[-1])
-            phi_std_t = self.phi_std(h_phi[-1])
+            # phi_mean_t = self.phi_mean(h_phi[-1])
+            phi_mean_t = self.phi_mean(phi_0_mean)
+            # phi_std_t = self.phi_std(h_phi[-1])
+            phi_std_t = self.phi_std(phi_0_mean)
 
             # Sample node and community representations
             beta_sample = self._reparameterized_sample(beta_mean_t, beta_std_t)
@@ -167,8 +171,8 @@ class Model(nn.Module):
             loss['kld_phi'] += kld_phi
             edge_counter += c.shape[0]
 
-            beta_prior_mean = beta_sample
-            phi_prior_mean = phi_sample
+            # beta_prior_mean = beta_sample
+            # phi_prior_mean = phi_sample
 
         for loss_name in loss.keys():
             loss[loss_name] = loss[loss_name] / edge_counter
@@ -252,10 +256,8 @@ class Model(nn.Module):
         beta_prior_mean = beta_0_mean
 
         # GRU hidden states for node and community embeddings
-        h_beta = torch.zeros(1, self.categorical_dim,
-                             self.embedding_dim).to(self.device)
-        h_phi = torch.zeros(1, self.num_nodes,
-                            self.embedding_dim).to(self.device)
+        # h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
+        # h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         # for i, graph in enumerate(batch_graphs[train_start_idx:]):
         for i, graph in enumerate(batch_graphs):
@@ -285,25 +287,25 @@ class Model(nn.Module):
             w_neg = torch.cat((neg_batch[:, 0], pos_batch[:, 1]))
             c_neg = torch.cat((neg_batch[:, 1], neg_batch[:, 0]))
 
-            nodes_in = torch.cat([phi_prior_mean,
-                                  phi_prior_mean], dim=-1)
+            # nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
 
-            nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
+            # nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
 
             # Update nodes (phi) hidden state
-            _, h_phi = self.rnn_nodes(nodes_in, h_phi)
+            # _, h_phi = self.rnn_nodes(nodes_in, h_phi)
 
-            comms_in = torch.cat([beta_prior_mean,
-                                  beta_prior_mean], dim=-1)
+            # comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
 
-            comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
+            # comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
 
             # Update communities (beta) hidden state
-            _, h_beta = self.rnn_comms(comms_in, h_beta)
+            # _, h_beta = self.rnn_comms(comms_in, h_beta)
 
             # Sample node and community representations to be the means
-            beta_sample = self.beta_mean(h_beta[-1])
-            phi_sample = self.phi_mean(h_phi[-1])
+            # beta_sample = self.beta_mean(h_beta[-1])
+            beta_sample = self.beta_mean(beta_0_mean)
+            # phi_sample = self.phi_mean(h_phi[-1])
+            phi_sample = self.phi_mean(phi_0_mean)
 
             # Posterior distribution over the communities for each edge
             q_pos = F.softmax(self.nn_pi(phi_sample[w_pos] * phi_sample[c_pos]), dim=-1)
@@ -334,8 +336,8 @@ class Model(nn.Module):
                 recons_c_pos.append(recon_c_pos)
                 ws_pos.append(w_pos)
 
-            beta_prior_mean = beta_sample
-            phi_prior_mean = phi_sample
+            # beta_prior_mean = beta_sample
+            # phi_prior_mean = phi_sample
 
         A = torch.stack(A, dim=0).unsqueeze(0)
         pos_c_preds = torch.stack(pos_c_preds, dim=0).unsqueeze(0)
@@ -388,14 +390,12 @@ class Model(nn.Module):
         beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
 
         # Initialize the priors over nodes (phi) and communities (beta)
-        phi_prior_mean = phi_0_mean
-        beta_prior_mean = beta_0_mean
+        # phi_prior_mean = phi_0_mean
+        # beta_prior_mean = beta_0_mean
 
         # GRU hidden states for node and community embeddings
-        h_beta = torch.zeros(1, self.categorical_dim,
-                             self.embedding_dim).to(self.device)
-        h_phi = torch.zeros(1, self.num_nodes,
-                            self.embedding_dim).to(self.device)
+        # h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
+        # h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         # for i, graph in enumerate(batch_graphs[train_start_idx:]):
         for i, graph in enumerate(batch_graphs):
@@ -409,23 +409,23 @@ class Model(nn.Module):
             else:
                 status = 'test'
 
-            nodes_in = torch.cat([phi_prior_mean,
-                                  phi_prior_mean], dim=-1)
+            # nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
 
-            nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
+            # nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
 
-            _, h_phi = self.rnn_nodes(nodes_in, h_phi)
+            # _, h_phi = self.rnn_nodes(nodes_in, h_phi)
 
-            comms_in = torch.cat([beta_prior_mean,
-                                  beta_prior_mean], dim=-1)
+            # comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
 
-            comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
+            # comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
 
-            _, h_beta = self.rnn_comms(comms_in, h_beta)
+            # _, h_beta = self.rnn_comms(comms_in, h_beta)
 
             # Sample node and community representations
-            beta_sample = self.beta_mean(h_beta[-1])
-            phi_sample = self.phi_mean(h_phi[-1])
+            # beta_sample = self.beta_mean(h_beta[-1])
+            beta_sample = self.beta_mean(beta_0_mean)
+            # phi_sample = self.phi_mean(h_phi[-1])
+            phi_sample = self.phi_mean(phi_0_mean)
 
             node_distrib_over_communities_t = self.decoder(beta_sample)
             node_distrib_over_communities_t = F.softmax(
@@ -437,8 +437,8 @@ class Model(nn.Module):
             embeddings['beta_embeddings'][status].append(beta_sample.cpu().detach().data.numpy())
             embeddings['phi_embeddings'][status].append(phi_sample.cpu().detach().data.numpy())
 
-            beta_prior_mean = beta_sample
-            phi_prior_mean = phi_sample
+            # beta_prior_mean = beta_sample
+            # phi_prior_mean = phi_sample
 
         return embeddings
 
