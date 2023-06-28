@@ -21,6 +21,25 @@ def train(model, dataset,
           test_prop=0.1,
           device=torch.device("cpu")
           ):
+    """
+    Train the given model using the provided dataset and parameters.
+
+    :param model: The model to be trained.
+    :param dataset: The dataset for training.
+    :param save_path: The path to save the model and results.
+    :param learning_rate: Learning rate for the optimizer.
+    :param temp: Initial temperature for Gumbel-softmax.
+    :param temp_min: Minimum temperature for Gumbel-softmax.
+    :param num_epochs: Number of epochs for training.
+    :param anneal_rate: Annealing rate for temperature.
+    :param batch_size: Batch size for training.
+    :param weight_decay: Weight decay for the optimizer.
+    :param train_prop: Proportion of data used for training.
+    :param valid_prop: Proportion of data used for validation.
+    :param test_prop: Proportion of data used for testing.
+    :param device: Device to use for training (e.g., 'cpu' or 'cuda').
+    """
+    # Create save path if it doesn't exist
     try:
         save_path.mkdir(parents=True, exist_ok=False)
     except FileExistsError:
@@ -32,21 +51,26 @@ def train(model, dataset,
 
     logging.info(f"Model save path is: {save_path}. ")
 
+    # Initialize optimizer
     optimizer = torch.optim.AdamW(model.parameters(),
                                   lr=learning_rate,
                                   weight_decay=weight_decay)
 
+    # Move model to device
     model.to(device)
 
+    # Initialize variables to track best losses
     best_nll = float('inf')
     best_nll_train = float('inf')
 
+    # Begin training
     for epoch in range(num_epochs):
         logging.debug(f"Starting epoch {epoch}")
         np.random.shuffle(dataset)
         model.train()
 
         running_loss = {'nll': 0, 'kld_z': 0, 'kld_alpha': 0, 'kld_beta': 0, 'kld_phi': 0}
+
         for batch_graphs in data_loader(dataset, batch_size):
             optimizer.zero_grad()
 
@@ -66,7 +90,7 @@ def train(model, dataset,
 
         model.eval()
 
-        nll, aucroc, ap, mse_to, mse_td = model.predict_auc_roc_precision(
+        nll, aucroc, ap = model.predict_auc_roc_precision(
             batch_graphs,
             train_prop=train_prop,
             valid_prop=valid_prop,
@@ -75,9 +99,7 @@ def train(model, dataset,
         logging.info(f"Epoch {epoch} | "
                      f"train nll {nll['train']} aucroc {aucroc['train']} ap {ap['train']}| "
                      f"valid nll {nll['valid']} aucroc {aucroc['valid']} ap {ap['valid']} | "
-                     f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']} | "
-                     f"mse topological overlap {mse_to} mse temporal degree {mse_td}")
-
+                     f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']} | ")
         if nll['valid'] < best_nll:
             embeddings = model.predict_embeddings(dataset,
                                                   train_prop=train_prop,
@@ -94,8 +116,6 @@ def train(model, dataset,
                         'nll': nll,
                         'aucroc': aucroc,
                         'ap': ap,
-                        'mse_to': mse_to,
-                        'mse_td': mse_td,
                         'embeddings': embeddings
                     })
 
@@ -117,8 +137,6 @@ def train(model, dataset,
                         'nll': nll,
                         'aucroc': aucroc,
                         'ap': ap,
-                        'mse_to': mse_to,
-                        'mse_td': mse_td,
                         'embeddings': embeddings
                     })
 

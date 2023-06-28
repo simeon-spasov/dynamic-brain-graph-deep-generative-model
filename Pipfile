@@ -33,6 +33,7 @@ tqdm = "==4.64.1"
 urllib3 = "==1.26.12"
 torch = "*"
 jupyter = "*"
+seaborn = "*"
 
 [dev-packages]
 

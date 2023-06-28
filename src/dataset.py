@@ -91,30 +91,6 @@ def load_dataset(dataset="hcp", window_size=30, window_stride=10, measure="corre
     return _dataset
 
 
-# def split_dataset(dataset, valid_prop=0.1, test_prop=0.1, num_windows=None):
-#    _, G_0, _ = dataset[0]
-#    time_len = len(G_0)
-#    valid_time = math.floor(time_len * valid_prop)
-#    test_time = math.floor(time_len * test_prop)
-#    train_time = time_len - valid_time - test_time
-#    assert (valid_time + test_time) < time_len
-#    assert num_windows < train_time
-
-#    train, valid, test = [], [], []
-
-#    for sample in dataset:
-#        idx, G, y = sample
-#        G_train = G[:train_time]
-#        G_valid = G[train_time: time_len - test_time]
-#        G_test = G[time_len - test_time:]
-
-#        train += [[idx, G_train, y]]
-#        valid += [[idx, G_valid, y]]
-#        test += [[idx, G_test, y]]
-
-#    return train, valid, test
-
-
 def data_loader(dataset, batch_size=10):
     num_samples = len(dataset)
     sample_idx = list(range(num_samples))

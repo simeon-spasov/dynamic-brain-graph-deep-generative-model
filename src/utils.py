@@ -1,8 +1,7 @@
 import itertools
+import math
 import random
 
-import networkx as nx
-import numpy as np
 import torch
 
 
@@ -28,32 +27,60 @@ def sample_pos_neg_edges(graph, num_samples=1):
            list(itertools.chain.from_iterable(neg_edges))
 
 
-def topological_overlap(A):
-    numerator = (A[:, :-1, ...] * A[:, 1:, ...]).sum(-1)
-    denominator = (A[:, :-1, ...].sum(-1) * A[:, 1:, ...].sum(-1)).sqrt() + 1e-6
-    # shape (batch_size, time_len - 1, num_nodes)
-    return (numerator / denominator)
+def _gumbel_softmax(logits, device, tau=1, hard=False, eps=1e-10, dim=-1):
+    shape = logits.size()
+    U = torch.rand(shape).to(device)  # sample from uniform [0, 1)
+    g = -torch.log(-torch.log(U + eps) + eps)
+    y_soft = F.softmax((logits + g) / tau, dim=-1)
+    if hard:
+        # Straight through.
+        index = y_soft.max(dim, keepdim=True)[1]
+        y_hard = torch.zeros_like(logits).scatter_(dim, index, 1.0)
+        ret = y_hard - y_soft.detach() + y_soft
+    else:
+        # Reparametrization trick.
+        ret = y_soft
+    return ret
 
 
-def temporal_degree(A):
-    numerator = A.sum(-1)
-    denominator = 2 * (A.shape[-1] - 1)
-    # shape (batch_size, time_len, num_nodes)
-    return (numerator / denominator)
+def _bce_loss(p_c_given_z, c, reduction='sum'):
+    recon_c_softmax = F.log_softmax(p_c_given_z, dim=-1)
+    bce = F.nll_loss(recon_c_softmax, c, reduction=reduction)
+    return bce
 
 
-def index_fill(A, values, row_idx, col_idx):
-    """Batched row and column fill"""
-    assert values.shape[-1] == row_idx.shape[-1] == col_idx.shape[-1]
-    dims = list(A.shape)
-    batch_dims, num_nodes = dims[:-2], dims[-1]
-    flat_batch_dims = np.prod(batch_dims)
-    A, values = A.reshape(flat_batch_dims, num_nodes, num_nodes), values.reshape(flat_batch_dims, -1)
-    row_idx, col_idx = row_idx.reshape(flat_batch_dims, -1), col_idx.reshape(flat_batch_dims, -1)
-    A[:, row_idx, col_idx] = values[torch.arange(flat_batch_dims).unsqueeze(-1)]
-    return A.reshape(*dims)
+def _kld_z_loss(q, p_prior):
+    log_q = torch.log(q + 1e-20)
+    kld = (
+        torch.sum(q *
+                  (log_q - torch.log(p_prior + 1e-20)), dim=-1)).sum()
+    return kld
 
 
-def get_adjacency_matrix(graph):
-    A = nx.adjacency_matrix(graph).todense()
-    return np.squeeze(np.asarray(A))
+def _reparameterized_sample(mean, std):
+    eps = torch.FloatTensor(std.size()).normal_().to(mean.device)
+    return eps.mul(std).add_(mean)
+
+
+def _kld_gauss(mu_1, std_1, mu_2, std_2_scale):
+    std_2 = torch.ones_like(std_1).mul(std_2_scale).to(mu_1.device)
+    KLD = 0.5 * torch.sum(
+        (2 * torch.log(std_2 + 1e-20) - 2 * torch.log(std_1 + 1e-20) +
+         (std_1.pow(2) + (mu_1 - mu_2).pow(2)) / std_2.pow(2) - 1))
+    return KLD
+
+
+def _get_status(index, train_time, valid_time):
+    if index < train_time:
+        return 'train'
+    elif train_time <= index < train_time + valid_time:
+        return 'valid'
+    else:
+        return 'test'
+
+
+def _divide_graph_snapshots(time_len, valid_prop, test_prop):
+    valid_time = math.floor(time_len * valid_prop)
+    test_time = math.floor(time_len * test_prop)
+    train_time = time_len - valid_time - test_time
+    return train_time, valid_time, test_time
