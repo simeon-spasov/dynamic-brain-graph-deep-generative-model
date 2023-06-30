@@ -20,13 +20,20 @@ def main(args):
 
     # Setup
     data_dir = "./data"
-    device = torch.device(f"cuda:{args.gpu}" if torch.cuda.is_available() else 'cpu')
+    if args.gpu and torch.cuda.is_available():
+        device = torch.device(f"cuda:{args.gpu}")
+    else:
+        device = torch.device('cpu')
+        if args.gpu:
+            logging.warning(f'Torch cannot find GPU. Using device: {device} instead.')
+
+    logging.info(f'Using device: {device}')
 
     # Hyperparameters
     dataset_args = dict(
         dataset=args.dataset,
-        window_size=30,
-        window_stride=30,
+        window_size=165,
+        window_stride=160,
         measure="correlation",
         top_percent=5
     )
@@ -35,7 +42,7 @@ def main(args):
         sigma=1.0,
         gamma=0.1,
         categorical_dim=args.categorical_dim,
-        embedding_dim=128
+        embedding_dim=32
     )
 
     # Need batch size = 1 to optimize per subject.
@@ -43,11 +50,10 @@ def main(args):
         num_epochs=1001,
         save_path=Path.cwd() / f"models_{args.dataset}_{args.trial}",
         batch_size=1,
-        learning_rate=1e-4,
+        learning_rate=1e-3,
         device=device,
         temp_min=0.05,
         anneal_rate=3e-4,
-        train_prop=1.0,
         valid_prop=args.valid_prop,
         test_prop=args.test_prop,
         temp=1.0
@@ -93,13 +99,13 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='ProgramName', description='Train model.', )
+    parser = argparse.ArgumentParser(description='DBGDGM model.')
     parser.add_argument('--dataset', required=True, type=str, choices=['ukb', 'hcp'])
     parser.add_argument('--categorical-dim', required=True, type=int)
     parser.add_argument('--valid-prop', default=0.1, type=float)
     parser.add_argument('--test-prop', default=0.1, type=float)
     parser.add_argument('--trial', required=True, type=int)
-    parser.add_argument('--gpu', required=True, type=int, choices=[0, 1])
+    parser.add_argument('--gpu', default=None, type=int, choices=[0, 1])
 
     subparsers = parser.add_subparsers(dest='command')
     parser_foo = subparsers.add_parser('inference')

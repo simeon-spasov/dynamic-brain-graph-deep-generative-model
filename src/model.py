@@ -4,7 +4,8 @@ import torch.nn.functional as F
 from sklearn.metrics import average_precision_score, roc_auc_score
 from torch import nn
 
-from utils import sample_pos_neg_edges, _gumbel_softmax, _bce_loss, _kld_z_loss, _kld_gauss, _reparameterized_sample, _get_status, _divide_graph_snapshots
+from .utils import sample_pos_neg_edges, gumbel_softmax, bce_loss, kld_z_loss, kld_gauss, reparameterized_sample, \
+    get_status, divide_graph_snapshots
 
 LOSS_KEYS = ['nll', 'kld_z', 'kld_alpha', 'kld_beta', 'kld_phi']
 
@@ -145,10 +146,10 @@ class Model(nn.Module):
         phi_mean_t = self.phi_mean(h_phi[-1])
         phi_std_t = self.phi_std(h_phi[-1])
 
-        beta_sample = _reparameterized_sample(beta_mean_t, beta_std_t)
-        phi_sample = _reparameterized_sample(phi_mean_t, phi_std_t)
+        beta_sample = reparameterized_sample(beta_mean_t, beta_std_t)
+        phi_sample = reparameterized_sample(phi_mean_t, phi_std_t)
 
-        return beta_sample, phi_sample
+        return (beta_sample, beta_mean_t, beta_std_t), (phi_sample, phi_mean_t, phi_std_t)
 
     def _edge_reconstruction(self, w, c, phi_sample, beta_sample, temp):
         """
@@ -162,21 +163,20 @@ class Model(nn.Module):
             temp (float): Temperature parameter for the Gumbel-Softmax trick.
 
         Returns:
-            p_c_given_z (torch.Tensor): Tensor representing the likelihood of observing community c given the community assignment z with shape (2*num_edges,).
-            F.softmax(q, dim=-1) (torch.Tensor): Softmax over the tensor q (the posterior), representing the probability distribution over community assignments given nodes w and c.
-            F.softmax(p_prior, dim=-1) (torch.Tensor): Softmax over the tensor p_prior (the prior), representing the probability distribution over community assignments given node w.
+            p_c_given_z (torch.Tensor): Likelihood of neighbour node c given the community assignment z. Shape (2*num_edges,).
+            F.softmax(q, dim=-1) (torch.Tensor): The posterior over community assignments z. Shape (2*num_edges,).
+            F.softmax(p_prior, dim=-1) (torch.Tensor): Prior over community assignments z. Shape (2*num_edges,).
         """
         q = self.nn_pi(phi_sample[w] * phi_sample[c])  # q(z|w, c)
         p_prior = self.nn_pi(phi_sample[w])  # p(z|w)
 
         if self.training:
-            z = _gumbel_softmax(q, self.device, tau=temp, hard=True)
+            z = gumbel_softmax(q, self.device, tau=temp, hard=True)
         else:
             z = F.softmax(q, dim=-1)
 
-        # Community mixture embeddings
-        beta_mixture = torch.mm(z, beta_sample)
-        p_c_given_z = self.decoder(beta_mixture)
+        beta_mixture = torch.mm(z, beta_sample)  # Community mixture embeddings
+        p_c_given_z = self.decoder(beta_mixture)  # p(c|z)
 
         return p_c_given_z, F.softmax(q, dim=-1), F.softmax(p_prior, dim=-1)
 
@@ -195,8 +195,9 @@ class Model(nn.Module):
         """
         alpha_mean_n = self.alpha_mean.weight[subject_idx]
         alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx])
-        alpha_n = alpha_mean_n
-        kld_alpha = _kld_gauss(alpha_mean_n, alpha_std_n, self.alpha_mean_prior.to(self.device), self.alpha_std_scalar)
+        # alpha_n = alpha_mean_n  # Converges faster than sampling but might overfit
+        alpha_n = reparameterized_sample(alpha_mean_n, alpha_std_n)
+        kld_alpha = kld_gauss(alpha_mean_n, alpha_std_n, self.alpha_mean_prior.to(self.device), self.alpha_std_scalar)
         phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
         beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
         return alpha_n, kld_alpha, phi_0_mean, beta_0_mean
@@ -224,17 +225,17 @@ class Model(nn.Module):
         if self.training:
             np.random.shuffle(train_edges)
         h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
-        beta_sample, phi_sample = self._sample_embeddings(h_phi, h_beta)
+        (beta_sample, _, beta_std_t), (phi_sample, _, phi_std_t) = self._sample_embeddings(h_phi, h_beta)
         batch = torch.LongTensor(train_edges).to(self.device)
         w = torch.cat((batch[:, 0], batch[:, 1]))  # source nodes
         c = torch.cat((batch[:, 1], batch[:, 0]))  # target nodes
         p_c_given_z, q, p_prior = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
 
         snapshot_loss = {
-            'kld_z': _kld_z_loss(q, p_prior),
-            'nll': _bce_loss(p_c_given_z, c),
-            'kld_beta': _kld_gauss(beta_sample, beta_prior_mean, self.gamma),
-            'kld_phi': _kld_gauss(phi_sample, phi_prior_mean, self.sigma)
+            'kld_z': kld_z_loss(q, p_prior),
+            'nll': bce_loss(p_c_given_z, c),
+            'kld_beta': kld_gauss(beta_sample, beta_std_t, beta_prior_mean, self.gamma),
+            'kld_phi': kld_gauss(phi_sample, phi_std_t, phi_prior_mean, self.sigma)
         }
 
         edge_counter = c.shape[0]
@@ -257,7 +258,7 @@ class Model(nn.Module):
         for data in batch_data:
             subject_idx, dynamic_graph, _ = data
             subject_loss = self._forward(subject_idx, dynamic_graph, valid_prop, test_prop, temp)
-            for loss_name in loss:
+            for loss_name in LOSS_KEYS:
                 loss[loss_name] += subject_loss[loss_name]
         return loss
 
@@ -276,7 +277,7 @@ class Model(nn.Module):
             dict: Dictionary with keys matching LOSS_KEYS, where each value is the accumulated loss for that key for the subject.
         """
         loss = {key: 0 for key in LOSS_KEYS}
-        train_time, valid_time, test_time = _divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
+        train_time, valid_time, test_time = divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
 
         alpha_n, kld_alpha, phi_prior_mean, beta_prior_mean = self._initialize_subject(subject_idx)
 
@@ -290,7 +291,9 @@ class Model(nn.Module):
             edge_counter, phi_prior_mean, beta_prior_mean, snapshot_loss = self._process_snapshot(graph, h_phi, h_beta,
                                                                                                   phi_prior_mean,
                                                                                                   beta_prior_mean, temp)
-            for loss_name in loss:
+            for loss_name in LOSS_KEYS:
+                if loss_name == 'kld_alpha':
+                    continue
                 loss[loss_name] += snapshot_loss[loss_name]
 
         loss['kld_alpha'] = kld_alpha
@@ -348,19 +351,21 @@ class Model(nn.Module):
             label (dict): A dictionary with keys ['train', 'valid', 'test'] and values being numpy arrays of true labels for each key.
             nll (dict): A dictionary with keys ['train', 'valid', 'test'] and values being numpy arrays of negative log-likelihoods for each key.
         """
+
         def _get_edge_reconstructions(edges, phi_sample, beta_sample):
             batch = torch.LongTensor(edges).to(self.device)
             assert batch.shape == (len(edges), 2)
             w = torch.cat((batch[:, 0], batch[:, 1]))
             c = torch.cat((batch[:, 1], batch[:, 0]))
             # Posterior over edge probabilities
-            p_c_given_z, _, _ = self._edge_reconstruction(w, c, phi_sample, beta_sample)
-            # Get ground truth labels for edges
-            p_c_gt = (edges
+            p_c_given_z, _, _ = self._edge_reconstruction(w, c, phi_sample, beta_sample, 1)  # Model not in train
+            # mode so temp does not matter
+
+            p_c_gt = (p_c_given_z
                       .gather(1, c.unsqueeze(dim=1))
                       .squeeze(dim=-1)
                       .detach()
-                      .cpu())
+                      .cpu())  # Ground truth (gt) labels for edges
             return p_c_given_z, p_c_gt, w, c
 
         # Initialize the priors over nodes (phi) and communities (beta)
@@ -376,13 +381,12 @@ class Model(nn.Module):
         nll = {'train': [], 'valid': [], 'test': []}
 
         # Divide graph snapshots in train/val/test
-        train_time, valid_time, test_time = _divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
+        train_time, valid_time, test_time = divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
 
         for i, graph in enumerate(batch_graphs):
-            status = _get_status(i, train_time, valid_time)
-            edge_counter, phi_sample, beta_sample, snapshot_loss = self._process_snapshot(batch_graphs[i], h_phi,
-                                                                                          h_beta, phi_prior_mean,
-                                                                                          beta_prior_mean, temp)
+            status = get_status(i, train_time, valid_time)
+            h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
+            (beta_sample, _, _), (phi_sample, _, _) = self._sample_embeddings(h_phi, h_beta)
 
             # Sample edges
             pos_edges, neg_edges = sample_pos_neg_edges(graph)
@@ -390,7 +394,7 @@ class Model(nn.Module):
             p_c_pos_given_z, p_c_pos_gt, _, c_pos = _get_edge_reconstructions(pos_edges, phi_sample, beta_sample)
             p_c_neg_given_z, p_c_neg_gt, _, _ = _get_edge_reconstructions(neg_edges, phi_sample, beta_sample)
 
-            bce = _bce_loss(p_c_pos_given_z, c_pos, reduction='none').detach().cpu().numpy()
+            bce = bce_loss(p_c_pos_given_z, c_pos, reduction='none').detach().cpu().numpy()
 
             pred[status] = np.hstack([pred[status], p_c_pos_gt.numpy(), p_c_neg_gt.numpy()])
             label[status] = np.hstack([label[status], np.ones(len(p_c_pos_gt)), np.zeros(len(p_c_neg_gt))])
@@ -407,7 +411,6 @@ class Model(nn.Module):
 
         Args:
             subject_graphs (list): A list of tuples, where each tuple contains a subject index, the corresponding subject graphs, and a gender label.
-            train_prop (float, optional): Proportion of data to be used for training. Default is 1.
             valid_prop (float, optional): Proportion of data to be used for validation. Default is 0.1.
             test_prop (float, optional): Proportion of data to be used for testing. Default is 0.1.
 
@@ -436,7 +439,7 @@ class Model(nn.Module):
         Returns:
             dict: A dictionary containing the predicted alpha, p_c_given_z, beta, and phi embeddings for the subject.
         """
-        train_time, valid_time, _ = _divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
+        train_time, valid_time, _ = divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
 
         embeddings = {
             'alpha_embedding': None,
@@ -453,11 +456,11 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         for i, graph in enumerate(batch_graphs):
-            status = _get_status(i, train_time, valid_time)
+            status = get_status(i, train_time, valid_time)
 
             h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
 
-            beta_sample, phi_sample = self._sample_embeddings(h_phi, h_beta)
+            (beta_sample, _, _), (phi_sample, _, _) = self._sample_embeddings(h_phi, h_beta)
 
             p_c_given_z = self.decoder(beta_sample)
             p_c_given_z = F.softmax(p_c_given_z, dim=-1).cpu().detach().numpy()

@@ -16,29 +16,37 @@ def train(model, dataset,
           anneal_rate=0.0003,
           batch_size=1,
           weight_decay=0.,
-          train_prop=1.,
           valid_prop=0.1,
           test_prop=0.1,
           device=torch.device("cpu")
           ):
     """
-    Train the given model using the provided dataset and parameters.
+    Trains the provided model using the given dataset and parameters.
 
-    :param model: The model to be trained.
-    :param dataset: The dataset for training.
-    :param save_path: The path to save the model and results.
-    :param learning_rate: Learning rate for the optimizer.
-    :param temp: Initial temperature for Gumbel-softmax.
-    :param temp_min: Minimum temperature for Gumbel-softmax.
-    :param num_epochs: Number of epochs for training.
-    :param anneal_rate: Annealing rate for temperature.
-    :param batch_size: Batch size for training.
-    :param weight_decay: Weight decay for the optimizer.
-    :param train_prop: Proportion of data used for training.
-    :param valid_prop: Proportion of data used for validation.
-    :param test_prop: Proportion of data used for testing.
-    :param device: Device to use for training (e.g., 'cpu' or 'cuda').
+    Args:
+        model (nn.Module): The model instance to be trained.
+        dataset (list): The dataset used for training the model.
+        save_path (Path, optional): The directory where the model and the results will be saved. Default is the current working directory under the 'models' subdirectory.
+        learning_rate (float, optional): The learning rate for the optimizer. Default is 1e-4.
+        temp (float, optional): The initial temperature for Gumbel-softmax. Default is 1.0.
+        temp_min (float, optional): The minimum temperature for Gumbel-softmax. Default is 0.05.
+        num_epochs (int, optional): The number of epochs for training. Default is 1001.
+        anneal_rate (float, optional): The annealing rate for the temperature. Default is 0.0003.
+        batch_size (int, optional): The batch size for training. Default is 1.
+        weight_decay (float, optional): The weight decay for the optimizer. Default is 0.0.
+        valid_prop (float, optional): The proportion of data to be used for validation. Default is 0.1.
+        test_prop (float, optional): The proportion of data to be used for testing. Default is 0.1.
+        device (torch.device, optional): The device to use for training (e.g., 'cpu' or 'cuda'). Default is 'cpu'.
+
+    Returns: None. The function saves the trained model and results to the specified save_path. The model parameters
+        are saved every time the validation negative log-likelihood improves. The final model parameters,
+        optimizer parameters, negative log-likelihoods, AUC-ROC, AP, and embeddings are saved for the best model
+        according to validation negative log-likelihood and the best model according to training negative log-likelihood.
+        The model is saved as 'checkpoint.pt' and the results are saved as 'results.npy'. The model and results for the
+        best model according to training negative log-likelihood are saved as 'checkpoint_best_train.pt' and
+        'results_best_train.npy', respectively.
     """
+
     # Create save path if it doesn't exist
     try:
         save_path.mkdir(parents=True, exist_ok=False)
@@ -75,12 +83,11 @@ def train(model, dataset,
             optimizer.zero_grad()
 
             batch_loss = model(batch_graphs,
-                               train_prop=train_prop,
                                valid_prop=valid_prop,
                                test_prop=test_prop,
                                temp=temp)
 
-            loss = (batch_loss['nll'] + batch_loss['kld_z']) / len(batch_graphs)
+            loss = (batch_loss['nll'] + batch_loss['kld_z'] + 1*batch_loss['kld_alpha'] + 1*batch_loss['kld_beta'] + 1*batch_loss['kld_phi']) / len(batch_graphs)
             loss.backward()
             optimizer.step()
             for loss_name in running_loss.keys():
@@ -92,7 +99,6 @@ def train(model, dataset,
 
         nll, aucroc, ap = model.predict_auc_roc_precision(
             batch_graphs,
-            train_prop=train_prop,
             valid_prop=valid_prop,
             test_prop=test_prop)
 
@@ -102,7 +108,6 @@ def train(model, dataset,
                      f"test nll {nll['test']} aucroc {aucroc['test']} ap {ap['test']} | ")
         if nll['valid'] < best_nll:
             embeddings = model.predict_embeddings(dataset,
-                                                  train_prop=train_prop,
                                                   valid_prop=valid_prop,
                                                   test_prop=test_prop)
             logging.info(f"Saving model.")
@@ -123,7 +128,6 @@ def train(model, dataset,
 
         if nll['train'] < best_nll_train:
             embeddings = model.predict_embeddings(dataset,
-                                                  train_prop=train_prop,
                                                   valid_prop=valid_prop,
                                                   test_prop=test_prop)
             logging.info(f"Saving model (best train).")
