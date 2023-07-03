@@ -32,8 +32,8 @@ def main(args):
     # Hyperparameters
     dataset_args = dict(
         dataset=args.dataset,
-        window_size=165,
-        window_stride=160,
+        window_size=30,
+        window_stride=30,
         measure="correlation",
         top_percent=5
     )
@@ -42,15 +42,15 @@ def main(args):
         sigma=1.0,
         gamma=0.1,
         categorical_dim=args.categorical_dim,
-        embedding_dim=32
+        embedding_dim=128
     )
 
-    # Need batch size = 1 to optimize per subject.
+    # Batch size = 1 converges fastest
     train_args = dict(
         num_epochs=1001,
         save_path=Path.cwd() / f"models_{args.dataset}_{args.trial}",
         batch_size=1,
-        learning_rate=1e-3,
+        learning_rate=1e-4,
         device=device,
         temp_min=0.05,
         anneal_rate=3e-4,

@@ -87,7 +87,12 @@ def train(model, dataset,
                                test_prop=test_prop,
                                temp=temp)
 
-            loss = (batch_loss['nll'] + batch_loss['kld_z'] + 1*batch_loss['kld_alpha'] + 1*batch_loss['kld_beta'] + 1*batch_loss['kld_phi']) / len(batch_graphs)
+            # Optimal kld weight factor can vary depending on dataset
+            kld_alpha_weight = 1
+            kld_beta_weight = 0
+            kld_phi_weight = 0
+
+            loss = (batch_loss['nll'] + batch_loss['kld_z'] + kld_alpha_weight*batch_loss['kld_alpha'] + kld_beta_weight*batch_loss['kld_beta'] + kld_phi_weight*batch_loss['kld_phi']) / len(batch_graphs)
             loss.backward()
             optimizer.step()
             for loss_name in running_loss.keys():

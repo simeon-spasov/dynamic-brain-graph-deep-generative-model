@@ -329,10 +329,9 @@ class Model(nn.Module):
                                                                 test_prop)
 
             for status in ['train', 'valid', 'test']:
-                if len(pred[status]) > 0:
-                    aucroc[status] += roc_auc_score(label[status], pred[status]) / num_subjects
-                    ap[status] += average_precision_score(label[status], pred[status]) / num_subjects
-                    nll[status] += _nll[status].mean() / num_subjects
+                aucroc[status] += roc_auc_score(label[status], pred[status]) / num_subjects
+                ap[status] += average_precision_score(label[status], pred[status]) / num_subjects
+                nll[status] += _nll[status].mean() / num_subjects
 
         return nll, aucroc, ap
 
