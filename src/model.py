@@ -405,7 +405,8 @@ class Model(nn.Module):
             p_c_pos_given_z, p_c_pos_gt, _, c_pos = _get_edge_reconstructions(pos_edges, phi_mean, beta_mean)
             p_c_neg_given_z, p_c_neg_gt, _, _ = _get_edge_reconstructions(neg_edges, phi_mean, beta_mean)
 
-            bce = bce_loss(p_c_pos_given_z, c_pos, reduction='none').detach().cpu().numpy()
+            recon_c_softmax = F.log_softmax(p_c_pos_given_z, dim=-1)
+            bce = bce_loss(recon_c_softmax, c_pos, reduction='none').detach().cpu().numpy()
             print(f'BCE loss at iteration {i} with status {status} is: {bce}')
 
             pred[status] = np.hstack([pred[status], p_c_pos_gt.numpy(), p_c_neg_gt.numpy()])
