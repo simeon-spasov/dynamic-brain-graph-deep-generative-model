@@ -362,14 +362,21 @@ class Model(nn.Module):
             w = torch.cat((batch[:, 0], batch[:, 1]))
             c = torch.cat((batch[:, 1], batch[:, 0]))
             # Posterior over edge probabilities
-            p_c_given_z, _, _ = self._edge_reconstruction(w, c, phi_sample, beta_sample, 1)  # Model not in train
+            # p_c_given_z, _, _ = self._edge_reconstruction(w, c, phi_sample, beta_sample, 1)  # Model not in train
             # mode so temp does not matter
 
-            p_c_gt = (p_c_given_z
-                      .gather(1, c.unsqueeze(dim=1))
-                      .squeeze(dim=-1)
-                      .detach()
-                      .cpu())  # Ground truth (gt) labels for edges
+            q = F.softmax(self.nn_pi(phi_sample[w] * phi_sample[c]), dim=-1)
+            # Weighted beta embedding based on the posterior community distribution
+            beta_mixture_pos = torch.mm(q, beta_sample)
+            # Weighted beta embedding based on the posterior community distribution
+            p_c_given_z = self.decoder(beta_mixture_pos)
+            p_c_gt = p_c_given_z.gather(1, c_pos.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
+
+            # p_c_gt = (p_c_given_z
+            #           .gather(1, c.unsqueeze(dim=1))
+            #           .squeeze(dim=-1)
+            #           .detach()
+            #           .cpu())  # Ground truth (gt) labels for edges
             return p_c_given_z, p_c_gt, w, c
 
         # Initialize the priors over nodes (phi) and communities (beta)
