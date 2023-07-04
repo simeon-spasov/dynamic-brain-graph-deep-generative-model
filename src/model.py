@@ -173,7 +173,9 @@ class Model(nn.Module):
         if self.training:
             z = gumbel_softmax(q, self.device, tau=temp, hard=True)
         else:
-            z = F.softmax(q, dim=-1)
+            tmp = q.argmax(dim=-1).reshape(q.shape[0], 1)
+            src = torch.ones_like(tmp).float()
+            z = torch.zeros(q.shape).to(self.device).scatter_(1, tmp, src)
 
         beta_mixture = torch.mm(z, beta_sample)  # Community mixture embeddings
         p_c_given_z = self.decoder(beta_mixture)  # p(c|z)
