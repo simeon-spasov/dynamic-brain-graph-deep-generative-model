@@ -195,8 +195,8 @@ class Model(nn.Module):
         """
         alpha_mean_n = self.alpha_mean.weight[subject_idx]
         alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx])
-        # alpha_n = alpha_mean_n  # Converges faster than sampling but might overfit
-        alpha_n = reparameterized_sample(alpha_mean_n, alpha_std_n)
+        alpha_n = alpha_mean_n  # Converges faster than sampling but might overfit
+        # alpha_n = reparameterized_sample(alpha_mean_n, alpha_std_n)
         kld_alpha = kld_gauss(alpha_mean_n, alpha_std_n, self.alpha_mean_prior.to(self.device), self.alpha_std_scalar)
         phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
         beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)

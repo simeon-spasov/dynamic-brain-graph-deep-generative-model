@@ -20,7 +20,7 @@ def main(args):
 
     # Setup
     data_dir = "./data"
-    if torch.cuda.is_available():
+    if args.gpu is not None and torch.cuda.is_available():
         device = torch.device(f"cuda:{args.gpu}")
     else:
         device = torch.device('cpu')
