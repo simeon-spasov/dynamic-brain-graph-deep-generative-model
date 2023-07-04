@@ -406,6 +406,7 @@ class Model(nn.Module):
             p_c_neg_given_z, p_c_neg_gt, _, _ = _get_edge_reconstructions(neg_edges, phi_sample, beta_sample)
 
             bce = bce_loss(p_c_pos_given_z, c_pos, reduction='none').detach().cpu().numpy()
+            print(f'BCE loss at iteration {i} with status {status} is: {bce}')
 
             pred[status] = np.hstack([pred[status], p_c_pos_gt.numpy(), p_c_neg_gt.numpy()])
             label[status] = np.hstack([label[status], np.ones(len(p_c_pos_gt)), np.zeros(len(p_c_neg_gt))])
