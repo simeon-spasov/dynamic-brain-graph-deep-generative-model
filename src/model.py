@@ -288,9 +288,12 @@ class Model(nn.Module):
 
         for snapshot_idx in range(train_time):
             graph = batch_graphs[snapshot_idx]
-            edge_counter, phi_prior_mean, beta_prior_mean, snapshot_loss = self._process_snapshot(graph, h_phi, h_beta,
-                                                                                                  phi_prior_mean,
-                                                                                                  beta_prior_mean, temp)
+            snapshot_edge_counter, phi_prior_mean, beta_prior_mean, snapshot_loss = self._process_snapshot(graph, h_phi,
+                                                                                                           h_beta,
+                                                                                                           phi_prior_mean,
+                                                                                                           beta_prior_mean,
+                                                                                                           temp)
+            edge_counter += snapshot_edge_counter
             for loss_name in LOSS_KEYS:
                 if loss_name == 'kld_alpha':
                     continue
