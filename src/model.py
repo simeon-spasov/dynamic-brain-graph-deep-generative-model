@@ -380,7 +380,7 @@ class Model(nn.Module):
             return p_c_given_z, p_c_gt, w, c
 
         # Initialize the priors over nodes (phi) and communities (beta)
-        alpha_n, _, phi_prior_mean, beta_prior_mean = self._initialize_subject(subject_idx)
+        _, _, phi_prior_mean, beta_prior_mean = self._initialize_subject(subject_idx)
 
         # Initialize GRU hidden states
         h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
@@ -397,13 +397,13 @@ class Model(nn.Module):
         for i, graph in enumerate(batch_graphs):
             status = get_status(i, train_time, valid_time)
             h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
-            (beta_sample, _, _), (phi_sample, _, _) = self._sample_embeddings(h_phi, h_beta)
+            (_, beta_mean, _), (_, phi_mean, _) = self._sample_embeddings(h_phi, h_beta)
 
             # Sample edges
             pos_edges, neg_edges = sample_pos_neg_edges(graph)
 
-            p_c_pos_given_z, p_c_pos_gt, _, c_pos = _get_edge_reconstructions(pos_edges, phi_sample, beta_sample)
-            p_c_neg_given_z, p_c_neg_gt, _, _ = _get_edge_reconstructions(neg_edges, phi_sample, beta_sample)
+            p_c_pos_given_z, p_c_pos_gt, _, c_pos = _get_edge_reconstructions(pos_edges, phi_mean, beta_mean)
+            p_c_neg_given_z, p_c_neg_gt, _, _ = _get_edge_reconstructions(neg_edges, phi_mean, beta_mean)
 
             bce = bce_loss(p_c_pos_given_z, c_pos, reduction='none').detach().cpu().numpy()
             print(f'BCE loss at iteration {i} with status {status} is: {bce}')
@@ -412,8 +412,8 @@ class Model(nn.Module):
             label[status] = np.hstack([label[status], np.ones(len(p_c_pos_gt)), np.zeros(len(p_c_neg_gt))])
             nll[status] = np.hstack([nll[status], bce])
 
-            beta_prior_mean = beta_sample
-            phi_prior_mean = phi_sample
+            beta_prior_mean = beta_mean
+            phi_prior_mean = phi_mean
 
         return pred, label, nll
 
