@@ -266,7 +266,6 @@ class Model(nn.Module):
                 loss[loss_name] += subject_loss[loss_name]
         return loss
 
-    '''
     def _forward(self, subject_idx, batch_graphs, valid_prop, test_prop, temp):
 
         loss = {'nll': 0, 'kld_z': 0, 'kld_alpha': 0, 'kld_beta': 0, 'kld_phi': 0}
@@ -364,8 +363,9 @@ class Model(nn.Module):
             loss[loss_name] = loss[loss_name] / edge_counter
 
         return loss
-    '''
 
+
+    '''
     def _forward(self, subject_idx, batch_graphs, valid_prop, test_prop, temp):
         """
         Performs a forward pass on the model for a single subject.
@@ -408,6 +408,7 @@ class Model(nn.Module):
             loss[loss_name] /= edge_counter
 
         return loss
+    '''
 
     def predict_auc_roc_precision(self, subject_graphs, valid_prop=0.1, test_prop=0.1):
         """
