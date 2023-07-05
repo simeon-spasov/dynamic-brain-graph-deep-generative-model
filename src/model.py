@@ -329,7 +329,7 @@ class Model(nn.Module):
             # comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
 
             # _, h_beta = self.rnn_comms(comms_in, h_beta)
-            # h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
+            h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
 
             # Produce node and community mean and std of respective posteriors
             # beta_mean_t = self.beta_mean(h_beta[-1])
@@ -341,9 +341,18 @@ class Model(nn.Module):
             # Sample node and community representations
             # beta_sample = reparameterized_sample(beta_mean_t, beta_std_t)
             # phi_sample = reparameterized_sample(phi_mean_t, phi_std_t)
-            # (beta_sample, beta_mean_t, beta_std_t), (phi_sample, phi_mean_t, phi_std_t) = self._sample_embeddings(h_phi, h_beta)
+            (beta_sample, beta_mean_t, beta_std_t), (phi_sample, phi_mean_t, phi_std_t) = self._sample_embeddings(h_phi, h_beta)
 
-            # recon, posterior_z, prior_z = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
+            recon, posterior_z, prior_z = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
+
+            snapshot_loss = {
+                'kld_z': kld_z_loss(posterior_z, prior_z),
+                'nll': bce_loss(recon, c),
+                'kld_beta': kld_gauss(beta_sample, beta_std_t, beta_prior_mean, self.gamma),
+                'kld_phi': kld_gauss(phi_sample, phi_std_t, phi_prior_mean, self.sigma)
+            }
+
+            snapshot_edge_counter = c.shape[0]
 
             # per subject loss for time t
             # loss['nll'] += bce_loss(recon, c)
@@ -353,14 +362,8 @@ class Model(nn.Module):
             # loss['kld_phi'] += kld_gauss(phi_mean_t, phi_std_t, phi_prior_mean, self.sigma)
             # edge_counter += c.shape[0]
 
-            # beta_prior_mean = beta_sample
-            # phi_prior_mean = phi_sample
-
-            snapshot_edge_counter, phi_prior_mean, beta_prior_mean, snapshot_loss = self._process_snapshot(graph, h_phi,
-                                                                                                           h_beta,
-                                                                                                           phi_prior_mean,
-                                                                                                           beta_prior_mean,
-                                                                                                           temp)
+            beta_prior_mean = beta_sample
+            phi_prior_mean = phi_sample
 
             loss['nll'] += snapshot_loss['nll']
             loss['kld_z'] += snapshot_loss['kld_z']
