@@ -285,7 +285,7 @@ class Model(nn.Module):
         # alpha_n = self._reparameterized_sample(alpha_mean_n, alpha_std_n)
         alpha_n = alpha_mean_n
 
-        kld_alpha = self._kld_gauss(alpha_mean_n, alpha_std_n,
+        kld_alpha = kld_gauss(alpha_mean_n, alpha_std_n,
                                     self.alpha_mean_prior.to(self.device),
                                     self.alpha_std_scalar
                                     )
@@ -337,15 +337,17 @@ class Model(nn.Module):
             phi_std_t = self.phi_std(h_phi[-1])
 
             # Sample node and community representations
-            beta_sample = self._reparameterized_sample(beta_mean_t, beta_std_t)
-            phi_sample = self._reparameterized_sample(phi_mean_t, phi_std_t)
+            beta_sample = reparameterized_sample(beta_mean_t, beta_std_t)
+            phi_sample = reparameterized_sample(phi_mean_t, phi_std_t)
 
             recon, posterior_z, prior_z = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
 
             # per subject loss for time t
-            kld_z, BCE = self._vGraph_loss(recon, posterior_z, prior_z, c)
-            kld_beta = self._kld_gauss(beta_mean_t, beta_std_t, beta_prior_mean, self.gamma)
-            kld_phi = self._kld_gauss(phi_mean_t, phi_std_t, phi_prior_mean, self.sigma)
+            kld_z = kld_z_loss(posterior_z, prior_z)
+            BCE = bce_loss(recon, c)
+            # kld_z, BCE = self._vGraph_loss(recon, posterior_z, prior_z, c)
+            kld_beta = kld_gauss(beta_mean_t, beta_std_t, beta_prior_mean, self.gamma)
+            kld_phi = kld_gauss(phi_mean_t, phi_std_t, phi_prior_mean, self.sigma)
 
             loss['nll'] += BCE
             loss['kld_z'] += kld_z
