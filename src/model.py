@@ -318,17 +318,18 @@ class Model(nn.Module):
             c = torch.cat((batch[:, 1], batch[:, 0]))
 
             # Update node and community hidden states of GRUs
-            nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
+            # nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
 
-            nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
+            # nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
 
-            _, h_phi = self.rnn_nodes(nodes_in, h_phi)
+            # _, h_phi = self.rnn_nodes(nodes_in, h_phi)
 
-            comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
+            # comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
 
-            comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
+            # comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
 
-            _, h_beta = self.rnn_comms(comms_in, h_beta)
+            # _, h_beta = self.rnn_comms(comms_in, h_beta)
+            h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
 
             # Produce node and community mean and std of respective posteriors
             beta_mean_t = self.beta_mean(h_beta[-1])
