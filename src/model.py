@@ -271,33 +271,34 @@ class Model(nn.Module):
         loss = {'nll': 0, 'kld_z': 0, 'kld_alpha': 0, 'kld_beta': 0, 'kld_phi': 0}
         edge_counter = 0
 
-        time_len = len(batch_graphs)
-        valid_time = math.floor(time_len * valid_prop)
-        test_time = math.floor(time_len * test_prop)
-        train_time = time_len - valid_time - test_time
+        # time_len = len(batch_graphs)
+        # valid_time = math.floor(time_len * valid_prop)
+        # test_time = math.floor(time_len * test_prop)
+        train_time, valid_time, test_time = divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
+        alpha_n, kld_alpha, phi_prior_mean, beta_prior_mean = self._initialize_subject(subject_idx)
 
         # train_snapshots = math.floor(train_time * train_prop)
         # train_start_idx = np.random.randint(0, train_time - train_snapshots + 1)
 
         # sample subject embedding from posterior
-        alpha_mean_n = self.alpha_mean.weight[subject_idx]
-        alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx])
+        # alpha_mean_n = self.alpha_mean.weight[subject_idx]
+        # alpha_std_n = F.softplus(self.alpha_std.weight[subject_idx])
         # alpha_n = self._reparameterized_sample(alpha_mean_n, alpha_std_n)
-        alpha_n = alpha_mean_n
+        # alpha_n = alpha_mean_n
 
-        kld_alpha = kld_gauss(alpha_mean_n, alpha_std_n,
-                                    self.alpha_mean_prior.to(self.device),
-                                    self.alpha_std_scalar
-                                    )
+        # kld_alpha = kld_gauss(alpha_mean_n, alpha_std_n,
+        #                             self.alpha_mean_prior.to(self.device),
+        #                             self.alpha_std_scalar
+        #                             )
 
         # inital values of phi and beta at time 0 per subject
         # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
-        phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
-        beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
+        # phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
+        # beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
 
         # Initialize the priors over nodes (phi) and communities (beta)
-        phi_prior_mean = phi_0_mean
-        beta_prior_mean = beta_0_mean
+        # phi_prior_mean = phi_0_mean
+        # beta_prior_mean = beta_0_mean
 
         # GRU hidden states for node and community embeddings
         h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
