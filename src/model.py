@@ -3,6 +3,8 @@ import torch
 import torch.nn.functional as F
 from sklearn.metrics import average_precision_score, roc_auc_score
 from torch import nn
+import math
+
 
 from .utils import sample_pos_neg_edges, gumbel_softmax, bce_loss, kld_z_loss, kld_gauss, reparameterized_sample, \
     get_status, divide_graph_snapshots
@@ -341,6 +343,107 @@ class Model(nn.Module):
         return nll, aucroc, ap
 
     def _predict_auc_roc_precision(self, subject_idx, batch_graphs, valid_prop, test_prop):
+        time_len = len(batch_graphs)
+        valid_time = math.floor(time_len * valid_prop)
+        test_time = math.floor(time_len * test_prop)
+        train_time = time_len - valid_time - test_time
+
+        pred = {'train': [], 'valid': [], 'test': []}
+        label = {'train': [], 'valid': [], 'test': []}
+        nll = {'train': [], 'valid': [], 'test': []}
+
+        alpha_n = self.alpha_mean.weight[subject_idx].to(self.device)
+
+        # inital values of phi and beta at time 0 per subject
+        # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
+
+        phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
+        beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
+
+        # Initialize the priors over nodes (phi) and communities (beta)
+        phi_prior_mean = phi_0_mean
+        beta_prior_mean = beta_0_mean
+
+        # GRU hidden states for node and community embeddings
+        h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
+        h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
+
+        # for i, graph in enumerate(batch_graphs[train_start_idx:]):
+        for i, graph in enumerate(batch_graphs):
+            # if i + train_start_idx < train_time:
+            if i < train_time:
+                status = 'train'
+            # elif train_time <= i + train_start_idx < train_time + valid_time:
+            elif train_time <= i < train_time + valid_time:
+                status = 'valid'
+            # elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
+            else:
+                status = 'test'
+            # Sample edges
+            pos_edges, neg_edges = sample_pos_neg_edges(graph)
+
+            pos_batch = torch.LongTensor(pos_edges).to(self.device)
+            neg_batch = torch.LongTensor(neg_edges).to(self.device)
+
+            assert pos_batch.shape == (len(pos_edges), 2)
+            assert neg_batch.shape == (len(neg_edges), 2)
+
+            # Positive edge tensors
+            w_pos = torch.cat((pos_batch[:, 0], pos_batch[:, 1]))
+            c_pos = torch.cat((pos_batch[:, 1], pos_batch[:, 0]))
+
+            # Negative edge tensors
+            w_neg = torch.cat((neg_batch[:, 0], pos_batch[:, 1]))
+            c_neg = torch.cat((neg_batch[:, 1], neg_batch[:, 0]))
+
+            nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
+
+            nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
+
+            # Update nodes (phi) hidden state
+            _, h_phi = self.rnn_nodes(nodes_in, h_phi)
+
+            comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
+
+            comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
+
+            # Update communities (beta) hidden state
+            _, h_beta = self.rnn_comms(comms_in, h_beta)
+
+            # Sample node and community representations to be the means
+            beta_sample = self.beta_mean(h_beta[-1])
+            phi_sample = self.phi_mean(h_phi[-1])
+
+            # Posterior distribution over the communities for each edge
+            q_pos = F.softmax(self.nn_pi(phi_sample[w_pos] * phi_sample[c_pos]), dim=-1)
+            # Weighted beta embedding based on the posterior community distribution
+            beta_mixture_pos = torch.mm(q_pos, beta_sample)
+            # Weighted beta embedding based on the posterior community distribution
+            recon_c_pos = self.decoder(beta_mixture_pos)
+            pos_c_pred = recon_c_pos.gather(1, c_pos.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
+
+            q_neg = F.softmax(self.nn_pi(phi_sample[w_neg] * phi_sample[c_neg]), dim=-1)
+            # Weighted beta embedding based on the posterior community distribution
+            beta_mixture_neg = torch.mm(q_neg, beta_sample)
+            recon_c_neg = self.decoder(beta_mixture_neg)
+            neg_c_pred = recon_c_neg.gather(1, c_neg.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
+
+            recon_c_softmax = F.log_softmax(recon_c_pos, dim=-1)
+            bce = F.nll_loss(recon_c_softmax, c_pos, reduction='none')
+            bce = bce.detach().cpu().numpy()
+            print(f'BCE loss at iteration {i} with status {status} is: {bce}')
+
+            pred[status] = np.hstack([pred[status], pos_c_pred.numpy(), neg_c_pred.numpy()])
+            label[status] = np.hstack([label[status], np.ones(len(pos_c_pred)), np.zeros(len(neg_c_pred))])
+            nll[status] = np.hstack([nll[status], bce])
+
+            beta_prior_mean = beta_sample
+            phi_prior_mean = phi_sample
+
+        return pred, label, nll
+
+    '''
+    def _predict_auc_roc_precision(self, subject_idx, batch_graphs, valid_prop, test_prop):
         """
         Computes the predictions, labels, and negative log-likelihoods for each snapshot of the graphs for a single subject.
 
@@ -355,7 +458,6 @@ class Model(nn.Module):
             label (dict): A dictionary with keys ['train', 'valid', 'test'] and values being numpy arrays of true labels for each key.
             nll (dict): A dictionary with keys ['train', 'valid', 'test'] and values being numpy arrays of negative log-likelihoods for each key.
         """
-
         def _get_edge_reconstructions(edges, phi_sample, beta_sample):
             batch = torch.LongTensor(edges).to(self.device)
             assert batch.shape == (len(edges), 2)
@@ -417,6 +519,7 @@ class Model(nn.Module):
             phi_prior_mean = phi_mean
 
         return pred, label, nll
+    '''
 
     def predict_embeddings(self, subject_graphs, valid_prop=0.1, test_prop=0.1):
         """
