@@ -80,8 +80,7 @@ def main(args):
     # Dataset
     logging.info('Loading data.')
     dataset = load_dataset(**dataset_args, data_dir=data_dir)
-    experiment_dataset = dataset[:1]
-    num_subjects, num_nodes = len(experiment_dataset), experiment_dataset[0][1][0].number_of_nodes()
+    num_subjects, num_nodes = len(dataset), dataset[0][1][0].number_of_nodes()
     logging.info(f'{num_subjects} subjects with {num_nodes} nodes each.')
 
     # model
@@ -90,12 +89,12 @@ def main(args):
     if args.command != 'inference':
         # Train
         logging.info('Starting training.')
-        train(model, experiment_dataset, **train_args)
+        train(model, dataset, **train_args)
         logging.info('Finished training.')
 
     else:
         logging.info('Starting inference.')
-        inference(model, experiment_dataset, **inference_args)
+        inference(model, dataset, **inference_args)
 
 
 if __name__ == '__main__':

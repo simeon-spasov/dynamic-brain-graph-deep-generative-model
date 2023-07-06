@@ -369,7 +369,6 @@ class Model(nn.Module):
 
             recon_c_softmax = F.log_softmax(p_c_pos_given_z, dim=-1)
             bce = bce_loss(recon_c_softmax, c_pos, reduction='none').detach().cpu().numpy()
-            print(f'BCE loss at iteration {i} with status {status} is: {bce}')
 
             pred[status] = np.hstack([pred[status], p_c_pos_gt.numpy(), p_c_neg_gt.numpy()])
             label[status] = np.hstack([label[status], np.ones(len(p_c_pos_gt)), np.zeros(len(p_c_neg_gt))])
