@@ -206,45 +206,6 @@ class Model(nn.Module):
         beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
         return alpha_n, kld_alpha, phi_0_mean, beta_0_mean
 
-    def _process_snapshot(self, graph, h_phi, h_beta, phi_prior_mean, beta_prior_mean, temp):
-        """
-        Processes a single snapshot of the graph and updates model parameters accordingly.
-
-        Parameters:
-            graph (networkx.classes.graph.Graph): Graph object representing a single snapshot.
-            h_phi (torch.Tensor): Hidden state tensor for nodes with shape (1, num_nodes, embedding_dim).
-            h_beta (torch.Tensor): Hidden state tensor for communities with shape (1, categorical_dim, embedding_dim).
-            phi_prior_mean (torch.Tensor): Tensor representing the prior mean of node embeddings with shape (num_nodes, embedding_dim).
-            beta_prior_mean (torch.Tensor): Tensor representing the prior mean of community embeddings with shape (categorical_dim, embedding_dim).
-            temp (float): Temperature parameter for the Gumbel-Softmax trick.
-
-        Returns:
-            edge_counter (int): Count of edges in the current snapshot.
-            phi_sample (torch.Tensor): Sampled node embeddings for the current snapshot with shape (num_nodes, embedding_dim).
-            beta_sample (torch.Tensor): Sampled community embeddings for the current snapshot with shape (categorical_dim, embedding_dim).
-            snapshot_loss (dict): Dictionary containing the losses for the current snapshot. Keys are 'kld_z', 'nll', 'kld_beta', 'kld_phi' and the values are the corresponding losses.
-        """
-
-        train_edges = [(u, v) for u, v in graph.edges()]
-        if self.training:
-            np.random.shuffle(train_edges)
-        h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
-        (beta_sample, _, beta_std_t), (phi_sample, _, phi_std_t) = self._sample_embeddings(h_phi, h_beta)
-        batch = torch.LongTensor(train_edges).to(self.device)
-        w = torch.cat((batch[:, 0], batch[:, 1]))  # source nodes
-        c = torch.cat((batch[:, 1], batch[:, 0]))  # target nodes
-        p_c_given_z, q, p_prior = self._edge_reconstruction(w, c, phi_sample, beta_sample, temp)
-
-        snapshot_loss = {
-            'kld_z': kld_z_loss(q, p_prior),
-            'nll': bce_loss(p_c_given_z, c),
-            'kld_beta': kld_gauss(beta_sample, beta_std_t, beta_prior_mean, self.gamma),
-            'kld_phi': kld_gauss(phi_sample, phi_std_t, phi_prior_mean, self.sigma)
-        }
-
-        edge_counter = c.shape[0]
-        return edge_counter, phi_sample, beta_sample, snapshot_loss
-
     def forward(self, batch_data, valid_prop=0.1, test_prop=0.1, temp=1.):
         """
         Performs a forward pass on the model for each subject in the batch data.
@@ -267,8 +228,20 @@ class Model(nn.Module):
         return loss
 
     def _forward(self, subject_idx, batch_graphs, valid_prop, test_prop, temp):
+        """
+        Performs a forward pass on the model for a single subject.
 
-        loss = {'nll': 0, 'kld_z': 0, 'kld_alpha': 0, 'kld_beta': 0, 'kld_phi': 0}
+        Parameters:
+            subject_idx (int): Index of the subject.
+            batch_graphs (list): List of networkx graphs for each time snapshot for the subject.
+            valid_prop (float): Proportion of the data to use for validation. Default is 0.1.
+            test_prop (float): Proportion of the data to use for testing. Default is 0.1.
+            temp (float): Temperature parameter for the Gumbel-Softmax trick. Default is 1.0.
+
+        Returns:
+            dict: Dictionary with keys matching LOSS_KEYS, where each value is the accumulated loss for that key for the subject.
+        """
+        loss = {key: 0 for key in LOSS_KEYS}
         edge_counter = 0
 
         train_time, valid_time, test_time = divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
@@ -279,7 +252,6 @@ class Model(nn.Module):
         h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
 
         # iterate all over all edges in a graph at a single time point
-        # for snapshot_idx in range(train_start_idx, train_start_idx + train_snapshots):
         for snapshot_idx in range(0, train_time):
             graph = batch_graphs[snapshot_idx]
             train_edges = [(u, v) for u, v in graph.edges()]
@@ -311,52 +283,6 @@ class Model(nn.Module):
             loss[loss_name] = loss[loss_name] / edge_counter
 
         return loss
-
-
-    '''
-    def _forward(self, subject_idx, batch_graphs, valid_prop, test_prop, temp):
-        """
-        Performs a forward pass on the model for a single subject.
-
-        Parameters:
-            subject_idx (int): Index of the subject.
-            batch_graphs (list): List of networkx graphs for each time snapshot for the subject.
-            valid_prop (float): Proportion of the data to use for validation. Default is 0.1.
-            test_prop (float): Proportion of the data to use for testing. Default is 0.1.
-            temp (float): Temperature parameter for the Gumbel-Softmax trick. Default is 1.0.
-
-        Returns:
-            dict: Dictionary with keys matching LOSS_KEYS, where each value is the accumulated loss for that key for the subject.
-        """
-        loss = {key: 0 for key in LOSS_KEYS}
-        train_time, valid_time, test_time = divide_graph_snapshots(len(batch_graphs), valid_prop, test_prop)
-
-        alpha_n, kld_alpha, phi_prior_mean, beta_prior_mean = self._initialize_subject(subject_idx)
-
-        h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
-        h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
-
-        edge_counter = 0
-
-        for snapshot_idx in range(train_time):
-            graph = batch_graphs[snapshot_idx]
-            snapshot_edge_counter, phi_prior_mean, beta_prior_mean, snapshot_loss = self._process_snapshot(graph, h_phi,
-                                                                                                           h_beta,
-                                                                                                           phi_prior_mean,
-                                                                                                           beta_prior_mean,
-                                                                                                           temp)
-            edge_counter += snapshot_edge_counter
-            for loss_name in LOSS_KEYS:
-                if loss_name == 'kld_alpha':
-                    continue
-                loss[loss_name] += snapshot_loss[loss_name]
-
-        loss['kld_alpha'] = kld_alpha
-        for loss_name in loss:
-            loss[loss_name] /= edge_counter
-
-        return loss
-    '''
 
     def predict_auc_roc_precision(self, subject_graphs, valid_prop=0.1, test_prop=0.1):
         """
@@ -391,6 +317,7 @@ class Model(nn.Module):
 
         return nll, aucroc, ap
 
+    '''
     def _predict_auc_roc_precision(self, subject_idx, batch_graphs, valid_prop, test_prop):
         time_len = len(batch_graphs)
         valid_time = math.floor(time_len * valid_prop)
@@ -490,8 +417,8 @@ class Model(nn.Module):
             phi_prior_mean = phi_sample
 
         return pred, label, nll
-
     '''
+
     def _predict_auc_roc_precision(self, subject_idx, batch_graphs, valid_prop, test_prop):
         """
         Computes the predictions, labels, and negative log-likelihoods for each snapshot of the graphs for a single subject.
@@ -568,7 +495,6 @@ class Model(nn.Module):
             phi_prior_mean = phi_mean
 
         return pred, label, nll
-    '''
 
     def predict_embeddings(self, subject_graphs, valid_prop=0.1, test_prop=0.1):
         """
