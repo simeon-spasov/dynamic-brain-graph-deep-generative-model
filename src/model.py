@@ -175,9 +175,10 @@ class Model(nn.Module):
         if self.training:
             z = gumbel_softmax(q, self.device, tau=temp, hard=True)
         else:
-            tmp = q.argmax(dim=-1).reshape(q.shape[0], 1)
-            src = torch.ones_like(tmp).float()
-            z = torch.zeros(q.shape).to(self.device).scatter_(1, tmp, src)
+            # tmp = q.argmax(dim=-1).reshape(q.shape[0], 1)
+            # src = torch.ones_like(tmp).float()
+            # z = torch.zeros(q.shape).to(self.device).scatter_(1, tmp, src)
+            z = F.softmax(q, dim=-1)
 
         beta_mixture = torch.mm(z, beta_sample)  # Community mixture embeddings
         p_c_given_z = self.decoder(beta_mixture)  # p(c|z)
@@ -440,21 +441,16 @@ class Model(nn.Module):
             w = torch.cat((batch[:, 0], batch[:, 1]))
             c = torch.cat((batch[:, 1], batch[:, 0]))
             # Posterior over edge probabilities
-            # p_c_given_z, _, _ = self._edge_reconstruction(w, c, phi_sample, beta_sample, 1)  # Model not in train
+            p_c_given_z, _, _ = self._edge_reconstruction(w, c, phi_sample, beta_sample, 1)  # Model not in train
             # mode so temp does not matter
 
-            q = F.softmax(self.nn_pi(phi_sample[w] * phi_sample[c]), dim=-1)
+            # q = F.softmax(self.nn_pi(phi_sample[w] * phi_sample[c]), dim=-1)
             # Weighted beta embedding based on the posterior community distribution
-            beta_mixture = torch.mm(q, beta_sample)
+            # beta_mixture = torch.mm(q, beta_sample)
             # Weighted beta embedding based on the posterior community distribution
-            p_c_given_z = self.decoder(beta_mixture)
+            # p_c_given_z = self.decoder(beta_mixture)
             p_c_gt = p_c_given_z.gather(1, c.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
 
-            # p_c_gt = (p_c_given_z
-            #           .gather(1, c.unsqueeze(dim=1))
-            #           .squeeze(dim=-1)
-            #           .detach()
-            #           .cpu())  # Ground truth (gt) labels for edges
             return p_c_given_z, p_c_gt, w, c
 
         # Initialize the priors over nodes (phi) and communities (beta)
