@@ -68,3 +68,26 @@ This command will start the inference process using the model trained on the 'uk
 The script logs various useful information during the training and inference processes. The log file is saved as `fMRI_<dataset>_<trial>.log` in the root directory.
 
 For any issues or queries, please open a Github issue in the repository.
+
+## Model Training and Outputs
+
+Our model training process saves multiple artifacts during and after the training process. These artifacts are saved under a directory specified by `save_path` (default is the current working directory under the 'models' subdirectory).
+
+Here is what you can expect:
+
+- The training process automatically creates the directory defined in `save_path` if it doesn't already exist.
+- The model parameters are saved every time the validation negative log-likelihood improves. These are saved as a tuple of the model and the optimizer state dictionaries in a file named 'checkpoint.pt'.
+- For the best model according to validation negative log-likelihood, the negative log-likelihoods, AUC-ROC, AP, and embeddings are saved in a file named 'results.npy'. This is a NumPy structured array.
+- Additionally, the model parameters and results are saved for the best model according to training negative log-likelihood as 'checkpoint_best_train.pt' and 'results_best_train.npy' respectively.
+- Please note, if there are existing model parameters with the same name in the directory, they will be overwritten.
+
+The contents of 'results.npy' and 'results_best_train.npy' are dictionaries with the following keys:
+
+- 'nll': Negative log-likelihood for train, validation, and test data.
+- 'aucroc': Area Under the Receiver Operating Characteristic Curve (AUC-ROC) for train, validation, and test data.
+- 'ap': Average precision score for train, validation, and test data.
+- 'embeddings': Predicted node and community embeddings for all snapshots (train, val and test) for all the subject graphs.
+
+These results files are in NumPy's `.npy` format and can be loaded using `numpy.load()` function with the parameter `allow_pickle=True`.
+
+
