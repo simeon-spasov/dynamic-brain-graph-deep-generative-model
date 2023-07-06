@@ -175,9 +175,6 @@ class Model(nn.Module):
         if self.training:
             z = gumbel_softmax(q, self.device, tau=temp, hard=True)
         else:
-            # tmp = q.argmax(dim=-1).reshape(q.shape[0], 1)
-            # src = torch.ones_like(tmp).float()
-            # z = torch.zeros(q.shape).to(self.device).scatter_(1, tmp, src)
             z = F.softmax(q, dim=-1)
 
         beta_mixture = torch.mm(z, beta_sample)  # Community mixture embeddings
@@ -318,108 +315,6 @@ class Model(nn.Module):
 
         return nll, aucroc, ap
 
-    '''
-    def _predict_auc_roc_precision(self, subject_idx, batch_graphs, valid_prop, test_prop):
-        time_len = len(batch_graphs)
-        valid_time = math.floor(time_len * valid_prop)
-        test_time = math.floor(time_len * test_prop)
-        train_time = time_len - valid_time - test_time
-
-        pred = {'train': [], 'valid': [], 'test': []}
-        label = {'train': [], 'valid': [], 'test': []}
-        nll = {'train': [], 'valid': [], 'test': []}
-
-        alpha_n = self.alpha_mean.weight[subject_idx].to(self.device)
-
-        # inital values of phi and beta at time 0 per subject
-        # TODO: We can just sample them from any distribution, e.g. N(0, I) as GRU takes subject embedding at each t now.
-
-        phi_0_mean = self.subject_to_phi(alpha_n).view(self.num_nodes, self.embedding_dim)
-        beta_0_mean = self.subject_to_beta(alpha_n).view(self.categorical_dim, self.embedding_dim)
-
-        # Initialize the priors over nodes (phi) and communities (beta)
-        phi_prior_mean = phi_0_mean
-        beta_prior_mean = beta_0_mean
-
-        # GRU hidden states for node and community embeddings
-        h_beta = torch.zeros(1, self.categorical_dim, self.embedding_dim).to(self.device)
-        h_phi = torch.zeros(1, self.num_nodes, self.embedding_dim).to(self.device)
-
-        # for i, graph in enumerate(batch_graphs[train_start_idx:]):
-        for i, graph in enumerate(batch_graphs):
-            # if i + train_start_idx < train_time:
-            if i < train_time:
-                status = 'train'
-            # elif train_time <= i + train_start_idx < train_time + valid_time:
-            elif train_time <= i < train_time + valid_time:
-                status = 'valid'
-            # elif train_time + valid_time <= i + train_start_idx < train_time + valid_time + test_time:
-            else:
-                status = 'test'
-            # Sample edges
-            pos_edges, neg_edges = sample_pos_neg_edges(graph)
-
-            pos_batch = torch.LongTensor(pos_edges).to(self.device)
-            neg_batch = torch.LongTensor(neg_edges).to(self.device)
-
-            assert pos_batch.shape == (len(pos_edges), 2)
-            assert neg_batch.shape == (len(neg_edges), 2)
-
-            # Positive edge tensors
-            w_pos = torch.cat((pos_batch[:, 0], pos_batch[:, 1]))
-            c_pos = torch.cat((pos_batch[:, 1], pos_batch[:, 0]))
-
-            # Negative edge tensors
-            w_neg = torch.cat((neg_batch[:, 0], pos_batch[:, 1]))
-            c_neg = torch.cat((neg_batch[:, 1], neg_batch[:, 0]))
-
-            nodes_in = torch.cat([phi_prior_mean, phi_prior_mean], dim=-1)
-
-            nodes_in = nodes_in.view(1, self.num_nodes, 2 * self.embedding_dim)
-
-            # Update nodes (phi) hidden state
-            _, h_phi = self.rnn_nodes(nodes_in, h_phi)
-
-            comms_in = torch.cat([beta_prior_mean, beta_prior_mean], dim=-1)
-
-            comms_in = comms_in.view(1, self.categorical_dim, 2 * self.embedding_dim)
-
-            # Update communities (beta) hidden state
-            _, h_beta = self.rnn_comms(comms_in, h_beta)
-
-            # Sample node and community representations to be the means
-            beta_sample = self.beta_mean(h_beta[-1])
-            phi_sample = self.phi_mean(h_phi[-1])
-
-            # Posterior distribution over the communities for each edge
-            q_pos = F.softmax(self.nn_pi(phi_sample[w_pos] * phi_sample[c_pos]), dim=-1)
-            # Weighted beta embedding based on the posterior community distribution
-            beta_mixture_pos = torch.mm(q_pos, beta_sample)
-            # Weighted beta embedding based on the posterior community distribution
-            recon_c_pos = self.decoder(beta_mixture_pos)
-            pos_c_pred = recon_c_pos.gather(1, c_pos.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
-
-            q_neg = F.softmax(self.nn_pi(phi_sample[w_neg] * phi_sample[c_neg]), dim=-1)
-            # Weighted beta embedding based on the posterior community distribution
-            beta_mixture_neg = torch.mm(q_neg, beta_sample)
-            recon_c_neg = self.decoder(beta_mixture_neg)
-            neg_c_pred = recon_c_neg.gather(1, c_neg.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
-
-            recon_c_softmax = F.log_softmax(recon_c_pos, dim=-1)
-            bce = F.nll_loss(recon_c_softmax, c_pos, reduction='none')
-            bce = bce.detach().cpu().numpy()
-            print(f'BCE loss at iteration {i} with status {status} is: {bce}')
-
-            pred[status] = np.hstack([pred[status], pos_c_pred.numpy(), neg_c_pred.numpy()])
-            label[status] = np.hstack([label[status], np.ones(len(pos_c_pred)), np.zeros(len(neg_c_pred))])
-            nll[status] = np.hstack([nll[status], bce])
-
-            beta_prior_mean = beta_sample
-            phi_prior_mean = phi_sample
-
-        return pred, label, nll
-    '''
-
     def _predict_auc_roc_precision(self, subject_idx, batch_graphs, valid_prop, test_prop):
         """
         Computes the predictions, labels, and negative log-likelihoods for each snapshot of the graphs for a single subject.
@@ -443,14 +338,7 @@ class Model(nn.Module):
             # Posterior over edge probabilities
             p_c_given_z, _, _ = self._edge_reconstruction(w, c, phi_sample, beta_sample, 1)  # Model not in train
             # mode so temp does not matter
-
-            # q = F.softmax(self.nn_pi(phi_sample[w] * phi_sample[c]), dim=-1)
-            # Weighted beta embedding based on the posterior community distribution
-            # beta_mixture = torch.mm(q, beta_sample)
-            # Weighted beta embedding based on the posterior community distribution
-            # p_c_given_z = self.decoder(beta_mixture)
             p_c_gt = p_c_given_z.gather(1, c.unsqueeze(dim=1)).squeeze(dim=-1).detach().cpu()
-
             return p_c_given_z, p_c_gt, w, c
 
         # Initialize the priors over nodes (phi) and communities (beta)
@@ -547,16 +435,16 @@ class Model(nn.Module):
 
             h_phi, h_beta = self._update_hidden_states(phi_prior_mean, beta_prior_mean, h_phi, h_beta)
 
-            (beta_sample, _, _), (phi_sample, _, _) = self._sample_embeddings(h_phi, h_beta)
+            (_, beta_mean, _), (_, phi_mean, _) = self._sample_embeddings(h_phi, h_beta)
 
-            p_c_given_z = self.decoder(beta_sample)
+            p_c_given_z = self.decoder(beta_mean)  # p(c|z) for all communities. No need to sample.
             p_c_given_z = F.softmax(p_c_given_z, dim=-1).cpu().detach().numpy()
 
             embeddings['p_c_given_z'][status].append(p_c_given_z)
-            embeddings['beta_embeddings'][status].append(beta_sample.cpu().detach().numpy())
-            embeddings['phi_embeddings'][status].append(phi_sample.cpu().detach().numpy())
+            embeddings['beta_embeddings'][status].append(beta_mean.cpu().detach().numpy())
+            embeddings['phi_embeddings'][status].append(phi_mean.cpu().detach().numpy())
 
-            beta_prior_mean = beta_sample
-            phi_prior_mean = phi_sample
+            beta_prior_mean = beta_mean
+            phi_prior_mean = phi_mean
 
         return embeddings
