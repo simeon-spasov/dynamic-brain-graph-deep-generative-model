@@ -63,6 +63,10 @@ python main.py --dataset ukb --categorical-dim 8 --valid-prop 0.1 --test-prop 0.
 
 This command will start the inference process using the model trained on the 'ukb' dataset with the specified parameters, using GPU 0. Naturally, you need to have trained the model with these specified parameters first.
 
+## Gender classification
+See Jupyter notebook in notebooks directory.
+
+
 ## Logging
 
 The script logs various useful information during the training and inference processes. The log file is saved as `fMRI_<dataset>_<trial>.log` in the root directory.
