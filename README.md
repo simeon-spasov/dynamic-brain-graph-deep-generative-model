@@ -8,11 +8,13 @@ The paper related to this project is available at https://openreview.net/forum?i
 
 ## Setup repo
 1. Make sure you have pipenv installed.
-2. Clone this repo: `git clone https://github.com/simeon-spasov/dynamic-brain-graph-deep-generative-model.git`
-3. Install dependencies from Pipfile:
+2. Clone this repo:
 ```shell
-git checkout final 
-cd dynamic-graph-generative-model 
+git clone https://github.com/simeon-spasov/dynamic-brain-graph-deep-generative-model.git
+```
+4. Install dependencies from Pipfile:
+```shell
+cd dynamic-brain-graph-deep-generative-model
 pipenv install
 ```
 
