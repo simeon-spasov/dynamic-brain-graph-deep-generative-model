@@ -12,7 +12,7 @@ The paper related to this project is available at https://openreview.net/forum?i
 ```shell
 git clone https://github.com/simeon-spasov/dynamic-brain-graph-deep-generative-model.git
 ```
-4. Install dependencies from Pipfile:
+3. Install dependencies from Pipfile:
 ```shell
 cd dynamic-brain-graph-deep-generative-model
 pipenv install
